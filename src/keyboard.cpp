@@ -1,8 +1,9 @@
+#include "keyboard.hpp"
 #include "key_button.hpp"
 
 struct key_button key_buttons[20];
 
-void set_alphabet_keys()
+void set_alphabet_keybard()
 {
   int i = 0;
   key_buttons[i++].set_text("→");
@@ -26,7 +27,7 @@ void set_alphabet_keys()
   key_buttons[i++].set_text(".,?!", ".", ",", "?", "!");
 }
 
-void init_key_button_layout()
+void init_keyboard_layout()
 {
   int32_t x = 10, y = 560, w = 96, h = 78, pad = 10;
 
@@ -42,7 +43,7 @@ void init_key_button_layout()
   key_buttons[2 * 5 + 4].init(x + 4 * (w + pad), y + (h + pad) * 2, w, h * 2 + pad, TFT_WHITE, TFT_DARKGRAY);
 }
 
-void draw_key_buttons()
+void draw_keyboard()
 {
   M5.Display.startWrite();
   M5.Display.setTextSize(1);
