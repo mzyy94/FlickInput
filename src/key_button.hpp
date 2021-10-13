@@ -1,6 +1,15 @@
 #pragma once
 #include <M5Unified.h>
 
+enum direction_t
+{
+  center = 0,
+  left = 1,
+  top = 2,
+  right = 3,
+  bottom = 4,
+};
+
 struct key_button
 {
   std::string text;
@@ -59,6 +68,35 @@ struct key_button
     M5.Display.fillRoundRect(x, y, w, h, 8, key_color);
     M5.Display.setTextColor(text_color, key_color);
     M5.Display.drawCenterString(text.c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
+  }
+
+  bool contains(int x, int y)
+  {
+    return this->x <= x && x < (this->x + this->w) && this->y <= y && y < (this->y + this->h);
+  }
+
+  direction_t flick(int sx, int sy, int ex, int ey)
+  {
+    auto x = ex - sx;
+    auto y = ey - sy;
+
+    if (abs(x) == abs(y))
+      return center;
+    if (abs(x) > abs(y))
+      return (x < 0) ? left : right;
+    return (y < 0) ? top : bottom;
+  }
+
+  void draw_input_text(direction_t dir, int x, int y)
+  {
+    char text[3];
+    text[0] = this->chars[dir];
+
+    M5.Display.startWrite();
+    M5.Display.setTextColor(TFT_BLACK, TFT_WHITE);
+    M5.Display.setTextSize(2);
+    M5.Display.drawCenterString(text, x, y, &fonts::lgfxJapanGothicP_40);
+    M5.Display.endWrite();
   }
 };
 
