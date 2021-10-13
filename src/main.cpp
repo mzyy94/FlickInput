@@ -52,6 +52,7 @@ void main_task(void *)
     static m5::touch_state_t prev_state;
     static struct key_button *current_key;
     static int16_t start_x, start_y;
+    static bool need_refresh = false;
     auto t = M5.Touch.getDetail();
     if (prev_state != t.state)
     {
@@ -77,12 +78,26 @@ void main_task(void *)
         }
         break;
       }
+      case m5::hold_begin:
+      {
+        if (current_key != NULL)
+        {
+          current_key->draw_hold();
+          need_refresh = true;
+        }
+        break;
+      }
       case m5::touch_end:
       case m5::none:
       {
         if (current_key != NULL)
         {
           current_key->draw_input_text(center, 270, 150);
+        }
+        if (need_refresh)
+        {
+          draw_key_buttons();
+          need_refresh = false;
         }
         current_key = NULL;
         break;

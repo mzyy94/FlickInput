@@ -6,24 +6,24 @@ void set_alphabet_keys()
 {
   int i = 0;
   key_buttons[i++].set_text("→");
-  key_buttons[i++].set_text("@#/&_", '@', '#', '/', '&', '_');
-  key_buttons[i++].set_text("ABC", 'A', 'B', 'C');
-  key_buttons[i++].set_text("DEF", 'D', 'E', 'F');
+  key_buttons[i++].set_text("@#/&_", "@", "#", "/", "&", "_");
+  key_buttons[i++].set_text("ABC", "A", "B", "C");
+  key_buttons[i++].set_text("DEF", "D", "E", "F");
   key_buttons[i++].set_text("<x");
   key_buttons[i++].set_text("←");
-  key_buttons[i++].set_text("GHI", 'G', 'H', 'I');
-  key_buttons[i++].set_text("JKL", 'J', 'K', 'L');
-  key_buttons[i++].set_text("MNO", 'M', 'N', 'O');
-  key_buttons[i++].set_text("空白", ' ');
+  key_buttons[i++].set_text("GHI", "G", "H", "I");
+  key_buttons[i++].set_text("JKL", "J", "K", "L");
+  key_buttons[i++].set_text("MNO", "M", "N", "O");
+  key_buttons[i++].set_text("空白", " ");
   key_buttons[i++].set_text("123");
-  key_buttons[i++].set_text("PQRS", 'P', 'Q', 'R', 'S');
-  key_buttons[i++].set_text("TUV", 'T', 'U', 'V');
-  key_buttons[i++].set_text("WXYZ", 'W', 'X', 'Y', 'Z');
+  key_buttons[i++].set_text("PQRS", "P", "Q", "R", "S");
+  key_buttons[i++].set_text("TUV", "T", "U", "V");
+  key_buttons[i++].set_text("WXYZ", "W", "X", "Y", "Z");
   key_buttons[i++].set_text("改行");
   key_buttons[i++].set_text("(^_^)");
   key_buttons[i++].set_text("a/A");
-  key_buttons[i++].set_text("'\"()", '\'', '"', '(', ')');
-  key_buttons[i++].set_text(".,?!", '.', ',', '?', '!');
+  key_buttons[i++].set_text("'\"()", "\'", "\"", "(", ")");
+  key_buttons[i++].set_text(".,?!", ".", ",", "?", "!");
 }
 
 void init_key_button_layout()
@@ -45,6 +45,8 @@ void init_key_button_layout()
 void draw_key_buttons()
 {
   M5.Display.startWrite();
+  M5.Display.setTextSize(1);
+  M5.Display.fillRect(0, 460, 540, 500, TFT_WHITE);
   for (size_t i = 0; i < 19; i++)
     key_buttons[i].draw();
 
