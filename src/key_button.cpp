@@ -5,25 +5,25 @@ struct key_button key_buttons[20];
 void set_alphabet_keys()
 {
   int i = 0;
-  snprintf(key_buttons[i++].text, 7, "→");
-  snprintf(key_buttons[i++].text, 7, "@#/&_");
-  snprintf(key_buttons[i++].text, 7, "ABC");
-  snprintf(key_buttons[i++].text, 7, "DEF");
-  snprintf(key_buttons[i++].text, 7, "<x");
-  snprintf(key_buttons[i++].text, 7, "←");
-  snprintf(key_buttons[i++].text, 7, "GHI");
-  snprintf(key_buttons[i++].text, 7, "JKL");
-  snprintf(key_buttons[i++].text, 7, "MNO");
-  snprintf(key_buttons[i++].text, 7, "空白");
-  snprintf(key_buttons[i++].text, 7, "123");
-  snprintf(key_buttons[i++].text, 7, "PQRS");
-  snprintf(key_buttons[i++].text, 7, "TUV");
-  snprintf(key_buttons[i++].text, 7, "WXYZ");
-  snprintf(key_buttons[i++].text, 7, "改行");
-  snprintf(key_buttons[i++].text, 7, "(^_^)");
-  snprintf(key_buttons[i++].text, 7, "a/A");
-  snprintf(key_buttons[i++].text, 7, "'\"()");
-  snprintf(key_buttons[i++].text, 7, ".,?!");
+  key_buttons[i++].set_text("→");
+  key_buttons[i++].set_text("@#/&_", '@', '#', '/', '&', '_');
+  key_buttons[i++].set_text("ABC", 'A', 'B', 'C');
+  key_buttons[i++].set_text("DEF", 'D', 'E', 'F');
+  key_buttons[i++].set_text("<x");
+  key_buttons[i++].set_text("←");
+  key_buttons[i++].set_text("GHI", 'G', 'H', 'I');
+  key_buttons[i++].set_text("JKL", 'J', 'K', 'L');
+  key_buttons[i++].set_text("MNO", 'M', 'N', 'O');
+  key_buttons[i++].set_text("空白", ' ');
+  key_buttons[i++].set_text("123");
+  key_buttons[i++].set_text("PQRS", 'P', 'Q', 'R', 'S');
+  key_buttons[i++].set_text("TUV", 'T', 'U', 'V');
+  key_buttons[i++].set_text("WXYZ", 'W', 'X', 'Y', 'Z');
+  key_buttons[i++].set_text("改行");
+  key_buttons[i++].set_text("(^_^)");
+  key_buttons[i++].set_text("a/A");
+  key_buttons[i++].set_text("'\"()", '\'', '"', '(', ')');
+  key_buttons[i++].set_text(".,?!", '.', ',', '?', '!');
 }
 
 void init_key_button_layout()
