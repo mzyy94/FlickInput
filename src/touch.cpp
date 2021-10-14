@@ -61,7 +61,14 @@ void touch_input()
     {
       if (current_key != nullptr)
       {
-        input_key_button(current_key, center);
+        if (current_key->action != nullptr)
+        {
+          current_key->action();
+        }
+        else
+        {
+          input_key_button(current_key, center);
+        }
       }
       if (need_refresh)
       {

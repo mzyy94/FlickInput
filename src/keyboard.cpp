@@ -6,7 +6,7 @@
 
 std::array<struct key_button, 19> key_buttons;
 
-void set_alphabet_keybard()
+void draw_alphabet_keybard()
 {
   size_t i = 0;
   key_buttons[i++].set_keys("→", KEY_RIGHT_ARROW);
@@ -19,7 +19,7 @@ void set_alphabet_keybard()
   key_buttons[i++].set_keys("JKL", KEY_J, KEY_K, KEY_L);
   key_buttons[i++].set_keys("MNO", KEY_M, KEY_N, KEY_O);
   key_buttons[i++].set_keys("空白", KEY_SPACEBAR);
-  key_buttons[i++].set_keys("123");
+  key_buttons[i++].set_action("123", draw_number_keybard);
   key_buttons[i++].set_keys("PQRS", KEY_P, KEY_Q, KEY_R, KEY_S);
   key_buttons[i++].set_keys("TUV", KEY_T, KEY_U, KEY_V);
   key_buttons[i++].set_keys("WXYZ", KEY_W, KEY_X, KEY_Y, KEY_Z);
@@ -28,9 +28,10 @@ void set_alphabet_keybard()
   key_buttons[i++].set_keys("a/A");
   key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
   key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
+  draw_keyboard();
 }
 
-void set_number_keybard()
+void draw_number_keybard()
 {
   size_t i = 0;
   key_buttons[i++].set_keys("→", KEY_RIGHT_ARROW);
@@ -43,7 +44,7 @@ void set_number_keybard()
   key_buttons[i++].set_keys("5", KEYPAD_5);
   key_buttons[i++].set_keys("6", KEYPAD_6);
   key_buttons[i++].set_keys("空白", KEY_SPACEBAR);
-  key_buttons[i++].set_keys("ABC");
+  key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
   key_buttons[i++].set_keys("7", KEYPAD_7);
   key_buttons[i++].set_keys("8", KEYPAD_8);
   key_buttons[i++].set_keys("9", KEYPAD_9);
@@ -52,6 +53,7 @@ void set_number_keybard()
   key_buttons[i++].set_keys("()[]", KEY_LEFT_PAREN, KEY_RIGHT_PAREN, KEY_LEFT_BRKT, KEY_RIGHT_BRKT);
   key_buttons[i++].set_keys("0", KEYPAD_0);
   key_buttons[i++].set_keys(".,-/", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
+  draw_keyboard();
 }
 
 void init_keyboard_layout()

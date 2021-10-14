@@ -22,6 +22,7 @@ struct key_button
   const int32_t r = 8;
   int text_color;
   int key_color;
+  void (*action)(void);
 
   void init(int32_t x, int32_t y, int32_t w, int32_t h, int text_color, int key_color)
   {
@@ -61,7 +62,13 @@ struct key_button
   void set_keys(std::string text)
   {
     this->text = text;
+    action = nullptr;
     keys.clear();
+  }
+  void set_action(std::string text, void (*p)(void))
+  {
+    set_keys(text);
+    action = p;
   }
 
   void draw(void)
