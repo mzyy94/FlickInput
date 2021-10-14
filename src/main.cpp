@@ -34,6 +34,13 @@ void main_task(void *)
   init_touch();
   init_ble_hid();
 
+  M5.Display.startWrite();
+  M5.Display.setTextColor(TFT_BLACK, TFT_LIGHTGRAY);
+  M5.Display.setTextSize(2);
+  M5.Display.fillRect(0, 50, 540, 200, TFT_LIGHTGRAY);
+  M5.Display.drawCenterString("FlickInput", 270, 150, &fonts::lgfxJapanGothicP_40);
+  M5.Display.endWrite();
+
   uint64_t count = 0;
   for (;;)
   {
