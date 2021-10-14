@@ -8,25 +8,25 @@ std::array<struct key_button, 19> key_buttons;
 void set_alphabet_keybard()
 {
   size_t i = 0;
-  key_buttons[i++].set_text("→");
-  key_buttons[i++].set_text("@#/&_", "@", "#", "/", "&", "_");
-  key_buttons[i++].set_text("ABC", "A", "B", "C");
-  key_buttons[i++].set_text("DEF", "D", "E", "F");
-  key_buttons[i++].set_text("<x");
-  key_buttons[i++].set_text("←");
-  key_buttons[i++].set_text("GHI", "G", "H", "I");
-  key_buttons[i++].set_text("JKL", "J", "K", "L");
-  key_buttons[i++].set_text("MNO", "M", "N", "O");
-  key_buttons[i++].set_text("空白", " ");
-  key_buttons[i++].set_text("123");
-  key_buttons[i++].set_text("PQRS", "P", "Q", "R", "S");
-  key_buttons[i++].set_text("TUV", "T", "U", "V");
-  key_buttons[i++].set_text("WXYZ", "W", "X", "Y", "Z");
-  key_buttons[i++].set_text("改行");
-  key_buttons[i++].set_text("(^_^)");
-  key_buttons[i++].set_text("a/A");
-  key_buttons[i++].set_text("'\"()", "\'", "\"", "(", ")");
-  key_buttons[i++].set_text(".,?!", ".", ",", "?", "!");
+  key_buttons[i++].set_keys("→", KEY_RightArrow);
+  key_buttons[i++].set_keys("@#/&_", KEY_atmark, KEY_number_sign, KEY_slash, KEY_ampersand, KEY_underscore);
+  key_buttons[i++].set_keys("ABC", KEY_A, KEY_B, KEY_C);
+  key_buttons[i++].set_keys("DEF", KEY_D, KEY_E, KEY_F);
+  key_buttons[i++].set_keys("<x", KEY_Backspace);
+  key_buttons[i++].set_keys("←", KEY_LeftArrow);
+  key_buttons[i++].set_keys("GHI", KEY_G, KEY_H, KEY_I);
+  key_buttons[i++].set_keys("JKL", KEY_J, KEY_K, KEY_L);
+  key_buttons[i++].set_keys("MNO", KEY_M, KEY_N, KEY_O);
+  key_buttons[i++].set_keys("空白", KEY_Spacebar);
+  key_buttons[i++].set_keys("123");
+  key_buttons[i++].set_keys("PQRS", KEY_P, KEY_Q, KEY_R, KEY_S);
+  key_buttons[i++].set_keys("TUV", KEY_T, KEY_U, KEY_V);
+  key_buttons[i++].set_keys("WXYZ", KEY_W, KEY_X, KEY_Y, KEY_Z);
+  key_buttons[i++].set_keys("改行", KEY_ENTER);
+  key_buttons[i++].set_keys("(^_^)");
+  key_buttons[i++].set_keys("a/A");
+  key_buttons[i++].set_keys("'\"()", KEY_quote, KEY_double_quote, KEY_left_parenthesis, KEY_right_parenthesis);
+  key_buttons[i++].set_keys(".,?!", KEY_period, KEY_comma, KEY_question, KEY_exclamation_mark);
 }
 
 void init_keyboard_layout()

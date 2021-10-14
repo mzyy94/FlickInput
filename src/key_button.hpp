@@ -1,5 +1,6 @@
 #pragma once
 #include <M5Unified.h>
+#include "key.hpp"
 
 enum direction_t
 {
@@ -13,7 +14,7 @@ enum direction_t
 struct key_button
 {
   std::string text;
-  std::vector<std::string> chars;
+  std::vector<key_input_t> keys;
   int32_t x;
   int32_t y;
   int32_t w;
@@ -21,7 +22,6 @@ struct key_button
   const int32_t r = 8;
   int text_color;
   int key_color;
-  uint8_t keycodes[5];
 
   void init(int32_t x, int32_t y, int32_t w, int32_t h, int text_color, int key_color)
   {
@@ -33,35 +33,35 @@ struct key_button
     this->key_color = key_color;
   }
 
-  void set_text(std::string text, std::string char0, std::string char1, std::string char2, std::string char3, std::string char4)
+  void set_keys(std::string text, key_input_t key0, key_input_t key1, key_input_t key2, key_input_t key3, key_input_t key4)
   {
-    set_text(text, char0, char1, char2, char3);
-    chars.push_back(char4);
+    set_keys(text, key0, key1, key2, key3);
+    keys.push_back(key4);
   }
-  void set_text(std::string text, std::string char0, std::string char1, std::string char2, std::string char3)
+  void set_keys(std::string text, key_input_t key0, key_input_t key1, key_input_t key2, key_input_t key3)
   {
-    set_text(text, char0, char1, char2);
-    chars.push_back(char3);
+    set_keys(text, key0, key1, key2);
+    keys.push_back(key3);
   }
-  void set_text(std::string text, std::string char0, std::string char1, std::string char2)
+  void set_keys(std::string text, key_input_t key0, key_input_t key1, key_input_t key2)
   {
-    set_text(text, char0, char1);
-    chars.push_back(char2);
+    set_keys(text, key0, key1);
+    keys.push_back(key2);
   }
-  void set_text(std::string text, std::string char0, std::string char1)
+  void set_keys(std::string text, key_input_t key0, key_input_t key1)
   {
-    set_text(text, char0);
-    chars.push_back(char1);
+    set_keys(text, key0);
+    keys.push_back(key1);
   }
-  void set_text(std::string text, std::string char0)
+  void set_keys(std::string text, key_input_t key0)
   {
-    set_text(text);
-    chars.push_back(char0);
+    set_keys(text);
+    keys.push_back(key0);
   }
-  void set_text(std::string text)
+  void set_keys(std::string text)
   {
     this->text = text;
-    chars.clear();
+    keys.clear();
   }
 
   void draw(void)
@@ -77,7 +77,7 @@ struct key_button
     const int32_t h = this->h + r;
     uint32_t x, y;
 
-    if (chars.size() < 2)
+    if (keys.size() < 2)
     {
       return;
     }
@@ -89,35 +89,35 @@ struct key_button
     x = this->x - this->w;
     y = this->y - 4;
     M5.Display.fillRoundRect(x, y, w, h, r, key_color);
-    M5.Display.drawCenterString(chars[1].c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
+    M5.Display.drawCenterString(keys[1].text.c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
 
-    if (chars.size() > 2)
+    if (keys.size() > 2)
     {
       x = this->x - 4;
       y = this->y - this->h;
       M5.Display.fillRoundRect(x, y, w, h, r, key_color);
-      M5.Display.drawCenterString(chars[2].c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
+      M5.Display.drawCenterString(keys[2].text.c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
     }
-    if (chars.size() > 3)
+    if (keys.size() > 3)
     {
       x = this->x + this->w - r;
       y = this->y - 4;
       M5.Display.fillRoundRect(x, y, w, h, r, key_color);
-      M5.Display.drawCenterString(chars[3].c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
+      M5.Display.drawCenterString(keys[3].text.c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
     }
-    if (chars.size() > 4)
+    if (keys.size() > 4)
     {
       x = this->x - 4;
       y = this->y + this->h - r;
       M5.Display.fillRoundRect(x, y, w, h, r, key_color);
-      M5.Display.drawCenterString(chars[4].c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
+      M5.Display.drawCenterString(keys[4].text.c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
     }
 
     x = this->x - 4;
     y = this->y - 4;
     M5.Display.setTextColor(TFT_WHITE, TFT_BLACK);
     M5.Display.fillRect(x, y, w, h, TFT_BLACK);
-    M5.Display.drawCenterString(chars[0].c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
+    M5.Display.drawCenterString(keys[0].text.c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
     M5.Display.endWrite();
   }
 
@@ -140,9 +140,9 @@ struct key_button
 
   std::string get_input_char(direction_t dir)
   {
-    if (dir < chars.size())
+    if (dir < keys.size())
     {
-      return chars[dir];
+      return keys[dir].text;
     }
     return "";
   }
