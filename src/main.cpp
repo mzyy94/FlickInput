@@ -44,6 +44,13 @@ void main_task(void *)
     count++;
 
     touch_input();
+
+    if (M5.BtnB.wasHold())
+    {
+      count = 0;
+      M5.Display.clearDisplay(TFT_WHITE);
+      draw_keyboard();
+    }
   }
   vTaskDelete(NULL);
 }

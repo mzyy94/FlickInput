@@ -115,8 +115,8 @@ struct key_button
 
     x = this->x - 4;
     y = this->y - 4;
-    M5.Display.setTextColor(TFT_WHITE, TFT_BLACK);
-    M5.Display.fillRect(x, y, w, h, TFT_BLACK);
+    M5.Display.setTextColor(TFT_WHITE, TFT_DARKGRAY);
+    M5.Display.fillRect(x, y, w, h, TFT_DARKGRAY);
     M5.Display.drawCenterString(keys[0].text.c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
     M5.Display.endWrite();
   }
@@ -155,9 +155,9 @@ struct key_button
       return;
     }
     M5.Display.startWrite();
-    M5.Display.setTextColor(TFT_BLACK, TFT_LIGHTGRAY);
+    M5.Display.setTextColor(TFT_BLACK, TFT_WHITE);
     M5.Display.setTextSize(2);
-    M5.Display.fillRect(x - 100, y - 200, 200, 400, TFT_LIGHTGRAY);
+    M5.Display.fillRect(x - 270, y - 100, 540, 200, TFT_WHITE);
     M5.Display.drawCenterString(character.c_str(), x, y, &fonts::lgfxJapanGothicP_40);
     M5.Display.endWrite();
   }
