@@ -138,13 +138,27 @@ struct key_button
     return (y < 0) ? top : bottom;
   }
 
+  std::string get_input_char(direction_t dir)
+  {
+    if (dir < chars.size())
+    {
+      return chars[dir];
+    }
+    return "";
+  }
+
   void draw_input_text(direction_t dir, int x, int y)
   {
+    auto character = get_input_char(dir);
+    if (character.empty())
+    {
+      return;
+    }
     M5.Display.startWrite();
     M5.Display.setTextColor(TFT_BLACK, TFT_LIGHTGRAY);
     M5.Display.setTextSize(2);
     M5.Display.fillRect(x - 100, y - 200, 200, 400, TFT_LIGHTGRAY);
-    M5.Display.drawCenterString(this->chars[dir].c_str(), x, y, &fonts::lgfxJapanGothicP_40);
+    M5.Display.drawCenterString(character.c_str(), x, y, &fonts::lgfxJapanGothicP_40);
     M5.Display.endWrite();
   }
 };
