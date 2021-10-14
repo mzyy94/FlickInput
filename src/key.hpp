@@ -159,3 +159,85 @@ static const key_input_t KEYPAD_0 = {"0", HID_KEYPAD_0, 0};
 static const key_input_t KEYPAD_DOT = {".", HID_KEYPAD_DOT, 0};
 
 static const key_input_t KEY_CHANGE_INPUT_MAC = {"⇔", HID_KEY_SPACEBAR, 1};
+
+// Kana Input
+static const key_input_t KEYJP_A = {"あ", HID_KEY_3, 0};
+static const key_input_t KEYJP_I = {"い", HID_KEY_E, 0};
+static const key_input_t KEYJP_U = {"う", HID_KEY_4, 0};
+static const key_input_t KEYJP_E = {"え", HID_KEY_5, 0};
+static const key_input_t KEYJP_O = {"お", HID_KEY_6, 0};
+
+static const key_input_t KEYJP_XA = {"ぁ", HID_KEY_3, 2};
+static const key_input_t KEYJP_XI = {"ぃ", HID_KEY_E, 2};
+static const key_input_t KEYJP_XU = {"ぅ", HID_KEY_4, 2};
+static const key_input_t KEYJP_XE = {"ぇ", HID_KEY_5, 2};
+static const key_input_t KEYJP_XO = {"ぉ", HID_KEY_6, 2};
+
+static const key_input_t KEYJP_KA = {"か", HID_KEY_T, 0};
+static const key_input_t KEYJP_KI = {"き", HID_KEY_G, 0};
+static const key_input_t KEYJP_KU = {"く", HID_KEY_H, 0};
+static const key_input_t KEYJP_KE = {"け", HID_KEY_SGL_QUOTE, 0};
+static const key_input_t KEYJP_KO = {"こ", HID_KEY_B, 0};
+
+static const key_input_t KEYJP_SA = {"さ", HID_KEY_X, 0};
+static const key_input_t KEYJP_SI = {"し", HID_KEY_D, 0};
+static const key_input_t KEYJP_SU = {"す", HID_KEY_R, 0};
+static const key_input_t KEYJP_SE = {"せ", HID_KEY_P, 0};
+static const key_input_t KEYJP_SO = {"そ", HID_KEY_C, 0};
+
+static const key_input_t KEYJP_TA = {"た", HID_KEY_Q, 0};
+static const key_input_t KEYJP_TI = {"ち", HID_KEY_A, 0};
+static const key_input_t KEYJP_TU = {"つ", HID_KEY_Z, 0};
+static const key_input_t KEYJP_TE = {"て", HID_KEY_W, 0};
+static const key_input_t KEYJP_TO = {"と", HID_KEY_S, 0};
+
+static const key_input_t KEYJP_XTU = {"っ", HID_KEY_Z, 2};
+
+static const key_input_t KEYJP_NA = {"な", HID_KEY_U, 0};
+static const key_input_t KEYJP_NI = {"に", HID_KEY_I, 0};
+static const key_input_t KEYJP_NU = {"ぬ", HID_KEY_1, 0};
+static const key_input_t KEYJP_NE = {"ね", HID_KEY_COMMA, 0};
+static const key_input_t KEYJP_NO = {"の", HID_KEY_K, 0};
+
+static const key_input_t KEYJP_HA = {"は", HID_KEY_F, 0};
+static const key_input_t KEYJP_HI = {"ひ", HID_KEY_V, 0};
+static const key_input_t KEYJP_HU = {"ふ", HID_KEY_2, 0};
+static const key_input_t KEYJP_HE = {"へ", HID_KEY_BACK_SLASH, 0};
+static const key_input_t KEYJP_HO = {"ほ", HID_KEY_MINUS, 0};
+
+static const key_input_t KEYJP_MA = {"ま", HID_KEY_J, 0};
+static const key_input_t KEYJP_MI = {"み", HID_KEY_N, 0};
+static const key_input_t KEYJP_MU = {"む", HID_KEY_RIGHT_BRKT, 0};
+static const key_input_t KEYJP_ME = {"め", HID_KEY_FWD_SLASH, 0};
+static const key_input_t KEYJP_MO = {"も", HID_KEY_M, 0};
+
+static const key_input_t KEYJP_YA = {"や", HID_KEY_7, 0};
+static const key_input_t KEYJP_YU = {"ゆ", HID_KEY_8, 0};
+static const key_input_t KEYJP_YO = {"よ", HID_KEY_9, 0};
+
+static const key_input_t KEYJP_XYA = {"ゃ", HID_KEY_7, 2};
+static const key_input_t KEYJP_XYU = {"ゅ", HID_KEY_8, 2};
+static const key_input_t KEYJP_XYO = {"ょ", HID_KEY_9, 2};
+
+static const key_input_t KEYJP_RA = {"ら", HID_KEY_O, 0};
+static const key_input_t KEYJP_RI = {"り", HID_KEY_L, 0};
+static const key_input_t KEYJP_RU = {"る", HID_KEY_DOT, 0};
+static const key_input_t KEYJP_RE = {"れ", HID_KEY_SEMI_COLON, 0};
+static const key_input_t KEYJP_RO = {"ろ", HID_KEY_SGL_QUOTE, 2};
+
+static const key_input_t KEYJP_WA = {"わ", HID_KEY_0, 0};
+static const key_input_t KEYJP_WO = {"を", HID_KEY_0, 2};
+static const key_input_t KEYJP_NN = {"ん", HID_KEY_Y, 0};
+
+static const key_input_t KEYJP_DAKUTEN = {"゛", HID_KEY_LEFT_BRKT, 0};
+static const key_input_t KEYJP_HAN_DAKUTEN = {"゜", HID_KEY_EQUAL, 0};
+static const key_input_t KEYJP_KAKKO_TOJI = {"」", HID_KEY_LEFT_BRKT, 2};
+static const key_input_t KEYJP_KAKKO = {"「", HID_KEY_EQUAL, 2};
+static const key_input_t KEYJP_BACKQUOTE = {"｀", HID_KEY_GRV_ACCENT, 0};
+static const key_input_t KEYJP_NAMI_DASH = {"〜", HID_KEY_GRV_ACCENT, 2};
+static const key_input_t KEYJP_DASH = {"ー", HID_KEY_RIGHT_BRKT, 2};
+static const key_input_t KEYJP_TOUTEN = {"、", HID_KEY_COMMA, 2};
+static const key_input_t KEYJP_KUTEN = {"。", HID_KEY_DOT, 2};
+static const key_input_t KEYJP_NAKAGURO = {"・", HID_KEY_FWD_SLASH, 2};
+static const key_input_t KEYJP_QUESTION = {"！", HID_KEY_1, 6};
+static const key_input_t KEYJP_EXCL_MARK = {"？", HID_KEY_FWD_SLASH, 6};

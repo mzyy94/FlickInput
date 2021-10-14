@@ -4,6 +4,7 @@
 
 extern std::array<struct key_button, 19> key_buttons;
 
+void draw_hiragana_keybard();
 void draw_alphabet_keybard();
 void draw_lower_alphabet_keybard();
 void draw_number_keybard();

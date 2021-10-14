@@ -28,7 +28,7 @@ void main_task(void *)
   M5.Display.clearDisplay(TFT_WHITE);
 
   init_keyboard_layout();
-  draw_alphabet_keybard();
+  draw_hiragana_keybard();
 
   init_touch();
   init_ble_hid();
@@ -70,15 +70,11 @@ void main_task(void *)
     }
     if (M5.BtnA.wasClicked())
     {
-      count = 0;
-      M5.Display.clearDisplay(TFT_WHITE);
-      draw_alphabet_keybard();
+      send_key(HID_KEY_UP_ARROW, 0);
     }
     if (M5.BtnC.wasClicked())
     {
-      count = 0;
-      M5.Display.clearDisplay(TFT_WHITE);
-      draw_number_keybard();
+      send_key(HID_KEY_DOWN_ARROW, 0);
     }
   }
   vTaskDelete(NULL);

@@ -6,6 +6,31 @@
 
 std::array<struct key_button, 19> key_buttons;
 
+void draw_hiragana_keybard()
+{
+  size_t i = 0;
+  key_buttons[i++].set_keys("→", KEY_RIGHT_ARROW);
+  key_buttons[i++].set_keys("あ", KEYJP_A, KEYJP_I, KEYJP_U, KEYJP_E, KEYJP_O);
+  key_buttons[i++].set_keys("か", KEYJP_KA, KEYJP_KI, KEYJP_KU, KEYJP_KE, KEYJP_KO);
+  key_buttons[i++].set_keys("さ", KEYJP_SA, KEYJP_SI, KEYJP_SU, KEYJP_SE, KEYJP_SO);
+  key_buttons[i++].set_keys("<x", KEY_DELETE);
+  key_buttons[i++].set_keys("←", KEY_LEFT_ARROW);
+  key_buttons[i++].set_keys("た", KEYJP_TA, KEYJP_TI, KEYJP_TU, KEYJP_TE, KEYJP_TO);
+  key_buttons[i++].set_keys("な", KEYJP_NA, KEYJP_NI, KEYJP_NU, KEYJP_NE, KEYJP_NO);
+  key_buttons[i++].set_keys("は", KEYJP_HA, KEYJP_HI, KEYJP_HU, KEYJP_HE, KEYJP_HO);
+  key_buttons[i++].set_keys("空白", KEY_SPACEBAR);
+  key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
+  key_buttons[i++].set_keys("ま", KEYJP_MA, KEYJP_MI, KEYJP_MU, KEYJP_ME, KEYJP_MO);
+  key_buttons[i++].set_keys("や", KEYJP_YA, KEYJP_KAKKO, KEYJP_YU, KEYJP_KAKKO_TOJI, KEYJP_YO);
+  key_buttons[i++].set_keys("ら", KEYJP_RA, KEYJP_RI, KEYJP_RU, KEYJP_RE, KEYJP_RO);
+  key_buttons[i++].set_keys("改行", KEY_ENTER);
+  key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
+  key_buttons[i++].set_keys("゛゜", KEYJP_DAKUTEN, KEYJP_HAN_DAKUTEN);
+  key_buttons[i++].set_keys("わ", KEYJP_WA, KEYJP_WO, KEYJP_NN, KEYJP_DASH);
+  key_buttons[i++].set_keys("、。?!", KEYJP_TOUTEN, KEYJP_KUTEN, KEYJP_QUESTION, KEYJP_EXCL_MARK);
+  draw_keyboard();
+}
+
 void draw_alphabet_keybard()
 {
   size_t i = 0;
@@ -69,7 +94,7 @@ void draw_number_keybard()
   key_buttons[i++].set_keys("5", KEYPAD_5);
   key_buttons[i++].set_keys("6", KEYPAD_6);
   key_buttons[i++].set_keys("空白", KEY_SPACEBAR);
-  key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
+  key_buttons[i++].set_action("あいう", draw_hiragana_keybard);
   key_buttons[i++].set_keys("7", KEYPAD_7);
   key_buttons[i++].set_keys("8", KEYPAD_8);
   key_buttons[i++].set_keys("9", KEYPAD_9);
