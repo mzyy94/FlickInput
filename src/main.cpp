@@ -1,12 +1,22 @@
 #include <M5Unified.h>
+#include "nvs_flash.h"
 
 #include "keyboard.hpp"
 #include "touch.hpp"
+#include "ble.hpp"
 
 void init_m5paper()
 {
   M5.begin();
   M5.Display.setEpdMode(epd_mode_t::epd_fast);
+
+  esp_err_t ret = nvs_flash_init();
+  if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
+  {
+    ESP_ERROR_CHECK(nvs_flash_erase());
+    ret = nvs_flash_init();
+  }
+  ESP_ERROR_CHECK(ret);
 }
 
 void main_task(void *)
@@ -22,6 +32,7 @@ void main_task(void *)
   draw_keyboard();
 
   init_touch();
+  init_ble_hid();
 
   uint64_t count = 0;
   for (;;)

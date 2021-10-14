@@ -2,6 +2,7 @@
 
 #include "keyboard.hpp"
 #include "key_button.hpp"
+#include "ble.hpp"
 
 std::array<struct key_button, 19> key_buttons;
 
@@ -55,4 +56,25 @@ void draw_keyboard()
   }
 
   M5.Display.endWrite();
+}
+
+void draw_input_text(std::string text, int x, int y)
+{
+  M5.Display.startWrite();
+  M5.Display.setTextColor(TFT_BLACK, TFT_WHITE);
+  M5.Display.setTextSize(2);
+  M5.Display.fillRect(x - 270, y - 100, 540, 200, TFT_WHITE);
+  M5.Display.drawCenterString(text.c_str(), x, y, &fonts::lgfxJapanGothicP_40);
+  M5.Display.endWrite();
+}
+
+void input_key_button(struct key_button *key, direction_t dir)
+{
+  auto input = key->get_key_input(dir);
+  if (input == nullptr)
+  {
+    return;
+  }
+  draw_input_text(input->text, 270, 150);
+  send_key(input->keycode, input->modifier << 1);
 }

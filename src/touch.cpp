@@ -61,7 +61,7 @@ void touch_input()
     {
       if (current_key != nullptr)
       {
-        current_key->draw_input_text(center, 270, 150);
+        input_key_button(current_key, center);
       }
       if (need_refresh)
       {
@@ -77,7 +77,7 @@ void touch_input()
       if (current_key != nullptr)
       {
         auto dir = current_key->flick(start_x, start_y, t.x, t.y);
-        current_key->draw_input_text(dir, 270, 150);
+        input_key_button(current_key, dir);
       }
       current_key = nullptr;
     }
