@@ -2,7 +2,7 @@
 #include <M5Unified.h>
 #include "key_button.hpp"
 
-extern struct key_button key_buttons[20];
+extern std::array<struct key_button, 19> key_buttons;
 
 void set_alphabet_keybard();
 void init_keyboard_layout();

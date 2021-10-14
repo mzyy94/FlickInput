@@ -1,3 +1,4 @@
+#include <algorithm>
 
 #include <M5Unified.h>
 #include "keyboard.hpp"
@@ -30,24 +31,25 @@ void touch_input()
     case m5::touch_begin:
     case m5::flick_begin:
     {
-      if (current_key == NULL)
+      if (current_key == nullptr)
       {
-        for (size_t i = 0; i < 19; i++)
+        current_key = std::find_if(key_buttons.begin(), key_buttons.end(), [t](struct key_button btn)
+                                   { return btn.contains(t.x, t.y); });
+        if (current_key == key_buttons.end())
         {
-          if (key_buttons[i].contains(t.x, t.y))
-          {
-            current_key = &key_buttons[i];
-            start_x = t.x;
-            start_y = t.y;
-            break;
-          }
+          current_key = nullptr;
+        }
+        else
+        {
+          start_x = t.x;
+          start_y = t.y;
         }
       }
       break;
     }
     case m5::hold_begin:
     {
-      if (current_key != NULL)
+      if (current_key != nullptr)
       {
         current_key->draw_hold();
         need_refresh = true;
@@ -57,7 +59,7 @@ void touch_input()
     case m5::touch_end:
     case m5::none:
     {
-      if (current_key != NULL)
+      if (current_key != nullptr)
       {
         current_key->draw_input_text(center, 270, 150);
       }
@@ -66,18 +68,18 @@ void touch_input()
         draw_keyboard();
         need_refresh = false;
       }
-      current_key = NULL;
+      current_key = nullptr;
       break;
     }
     case m5::flick_end:
     case m5::drag_end:
     {
-      if (current_key != NULL)
+      if (current_key != nullptr)
       {
         auto dir = current_key->flick(start_x, start_y, t.x, t.y);
         current_key->draw_input_text(dir, 270, 150);
       }
-      current_key = NULL;
+      current_key = nullptr;
     }
     default:
       break;

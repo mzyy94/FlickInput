@@ -13,11 +13,12 @@ enum direction_t
 struct key_button
 {
   std::string text;
-  std::string chars[5];
+  std::vector<std::string> chars;
   int32_t x;
   int32_t y;
   int32_t w;
   int32_t h;
+  const int32_t r = 8;
   int text_color;
   int key_color;
   uint8_t keycodes[5];
@@ -34,53 +35,49 @@ struct key_button
 
   void set_text(std::string text, std::string char0, std::string char1, std::string char2, std::string char3, std::string char4)
   {
+    set_text(text, char0, char1, char2, char3);
+    chars.push_back(char4);
+  }
+  void set_text(std::string text, std::string char0, std::string char1, std::string char2, std::string char3)
+  {
+    set_text(text, char0, char1, char2);
+    chars.push_back(char3);
+  }
+  void set_text(std::string text, std::string char0, std::string char1, std::string char2)
+  {
+    set_text(text, char0, char1);
+    chars.push_back(char2);
+  }
+  void set_text(std::string text, std::string char0, std::string char1)
+  {
+    set_text(text, char0);
+    chars.push_back(char1);
+  }
+  void set_text(std::string text, std::string char0)
+  {
+    set_text(text);
+    chars.push_back(char0);
+  }
+  void set_text(std::string text)
+  {
     this->text = text;
-    for (size_t i = 0; i < 5; i++)
-    {
-      chars[i].clear();
-    }
-    chars[0] = char0;
-    chars[1] = char1;
-    chars[2] = char2;
-    chars[3] = char3;
-    chars[4] = char4;
-  }
-
-  void set_text(const char *text, std::string char0, std::string char1, std::string char2, std::string char3)
-  {
-    set_text(text, char0, char1, char2, char3, "");
-  }
-  void set_text(const char *text, std::string char0, std::string char1, std::string char2)
-  {
-    set_text(text, char0, char1, char2, "", "");
-  }
-  void set_text(const char *text, std::string char0, std::string char1)
-  {
-    set_text(text, char0, char1, "", "", "");
-  }
-  void set_text(const char *text, std::string char0)
-  {
-    set_text(text, char0, "", "", "", "");
-  }
-  void set_text(const char *text)
-  {
-    set_text(text, "", "", "", "", "");
+    chars.clear();
   }
 
   void draw(void)
   {
-    M5.Display.fillRoundRect(x, y, w, h, 8, key_color);
+    M5.Display.fillRoundRect(x, y, w, h, r, key_color);
     M5.Display.setTextColor(text_color, key_color);
     M5.Display.drawCenterString(text.c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
   }
 
   void draw_hold(void)
   {
-    const int32_t w = this->w + 8;
-    const int32_t h = this->h + 8;
+    const int32_t w = this->w + r;
+    const int32_t h = this->h + r;
     uint32_t x, y;
 
-    if (chars[1].empty())
+    if (chars.size() < 2)
     {
       return;
     }
@@ -91,28 +88,28 @@ struct key_button
 
     x = this->x - this->w;
     y = this->y - 4;
-    M5.Display.fillRoundRect(x, y, w, h, 8, key_color);
+    M5.Display.fillRoundRect(x, y, w, h, r, key_color);
     M5.Display.drawCenterString(chars[1].c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
 
-    if (!chars[2].empty())
+    if (chars.size() > 2)
     {
       x = this->x - 4;
       y = this->y - this->h;
-      M5.Display.fillRoundRect(x, y, w, h, 8, key_color);
+      M5.Display.fillRoundRect(x, y, w, h, r, key_color);
       M5.Display.drawCenterString(chars[2].c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
     }
-    if (!chars[3].empty())
+    if (chars.size() > 3)
     {
-      x = this->x + this->w - 8;
+      x = this->x + this->w - r;
       y = this->y - 4;
-      M5.Display.fillRoundRect(x, y, w, h, 8, key_color);
+      M5.Display.fillRoundRect(x, y, w, h, r, key_color);
       M5.Display.drawCenterString(chars[3].c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
     }
-    if (!chars[4].empty())
+    if (chars.size() > 4)
     {
       x = this->x - 4;
-      y = this->y + this->h - 8;
-      M5.Display.fillRoundRect(x, y, w, h, 8, key_color);
+      y = this->y + this->h - r;
+      M5.Display.fillRoundRect(x, y, w, h, r, key_color);
       M5.Display.drawCenterString(chars[4].c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
     }
 
@@ -151,8 +148,6 @@ struct key_button
     M5.Display.endWrite();
   }
 };
-
-extern struct key_button key_buttons[20];
 
 void set_alphabet_keys();
 void init_key_button_layout();
