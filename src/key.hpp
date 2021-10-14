@@ -157,3 +157,5 @@ static const key_input_t KEYPAD_8 = {"8", HID_KEYPAD_8, 0};
 static const key_input_t KEYPAD_9 = {"9", HID_KEYPAD_9, 0};
 static const key_input_t KEYPAD_0 = {"0", HID_KEYPAD_0, 0};
 static const key_input_t KEYPAD_DOT = {".", HID_KEYPAD_DOT, 0};
+
+static const key_input_t KEY_CHANGE_INPUT_MAC = {"⇔", HID_KEY_SPACEBAR, 1};

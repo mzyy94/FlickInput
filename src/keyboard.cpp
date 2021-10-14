@@ -24,7 +24,7 @@ void set_alphabet_keybard()
   key_buttons[i++].set_keys("TUV", KEY_T, KEY_U, KEY_V);
   key_buttons[i++].set_keys("WXYZ", KEY_W, KEY_X, KEY_Y, KEY_Z);
   key_buttons[i++].set_keys("改行", KEY_ENTER);
-  key_buttons[i++].set_keys("(^_^)");
+  key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
   key_buttons[i++].set_keys("a/A");
   key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
   key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
@@ -48,7 +48,7 @@ void set_number_keybard()
   key_buttons[i++].set_keys("8", KEYPAD_8);
   key_buttons[i++].set_keys("9", KEYPAD_9);
   key_buttons[i++].set_keys("改行", KEY_ENTER);
-  key_buttons[i++].set_keys("(^_^)");
+  key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
   key_buttons[i++].set_keys("()[]", KEY_LEFT_PAREN, KEY_RIGHT_PAREN, KEY_LEFT_BRKT, KEY_RIGHT_BRKT);
   key_buttons[i++].set_keys("0", KEYPAD_0);
   key_buttons[i++].set_keys(".,-/", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
