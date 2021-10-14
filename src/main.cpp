@@ -4,6 +4,7 @@
 #include "keyboard.hpp"
 #include "touch.hpp"
 #include "ble.hpp"
+#include "header.hpp"
 
 void init_m5paper()
 {
@@ -49,14 +50,7 @@ void main_task(void *)
 
     if (count % 30000 == 0)
     {
-      char text[20];
-
-      int32_t bat = M5.Power.getBatteryLevel();
-      M5.Display.startWrite();
-      snprintf(text, 20, "battery: %3d%%", bat);
-      M5.Display.setTextColor(TFT_BLACK, TFT_WHITE);
-      M5.Display.drawRightString(text, 540, 0, &fonts::lgfxJapanGothicP_24);
-      M5.Display.endWrite();
+      draw_header();
     }
     count++;
 
