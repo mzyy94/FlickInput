@@ -69,6 +69,20 @@ void main_task(void *)
       M5.Display.clearDisplay(TFT_WHITE);
       draw_keyboard();
     }
+    if (M5.BtnA.wasClicked())
+    {
+      set_alphabet_keybard();
+      count = 0;
+      M5.Display.clearDisplay(TFT_WHITE);
+      draw_keyboard();
+    }
+    if (M5.BtnC.wasClicked())
+    {
+      set_number_keybard();
+      count = 0;
+      M5.Display.clearDisplay(TFT_WHITE);
+      draw_keyboard();
+    }
   }
   vTaskDelete(NULL);
 }

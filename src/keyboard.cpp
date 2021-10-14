@@ -30,6 +30,30 @@ void set_alphabet_keybard()
   key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
 }
 
+void set_number_keybard()
+{
+  size_t i = 0;
+  key_buttons[i++].set_keys("→", KEY_RIGHT_ARROW);
+  key_buttons[i++].set_keys("1", KEYPAD_1);
+  key_buttons[i++].set_keys("2", KEYPAD_2);
+  key_buttons[i++].set_keys("3", KEYPAD_3);
+  key_buttons[i++].set_keys("<x", KEY_DELETE);
+  key_buttons[i++].set_keys("←", KEY_LEFT_ARROW);
+  key_buttons[i++].set_keys("4", KEYPAD_4);
+  key_buttons[i++].set_keys("5", KEYPAD_5);
+  key_buttons[i++].set_keys("6", KEYPAD_6);
+  key_buttons[i++].set_keys("空白", KEY_SPACEBAR);
+  key_buttons[i++].set_keys("ABC");
+  key_buttons[i++].set_keys("7", KEYPAD_7);
+  key_buttons[i++].set_keys("8", KEYPAD_8);
+  key_buttons[i++].set_keys("9", KEYPAD_9);
+  key_buttons[i++].set_keys("改行", KEY_ENTER);
+  key_buttons[i++].set_keys("(^_^)");
+  key_buttons[i++].set_keys("()[]", KEY_LEFT_PAREN, KEY_RIGHT_PAREN, KEY_LEFT_BRKT, KEY_RIGHT_BRKT);
+  key_buttons[i++].set_keys("0", KEYPAD_0);
+  key_buttons[i++].set_keys(".,-/", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
+}
+
 void init_keyboard_layout()
 {
   const int32_t x = 10, y = 560, w = 96, h = 78, pad = 10;
