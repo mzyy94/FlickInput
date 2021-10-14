@@ -25,7 +25,32 @@ void draw_alphabet_keybard()
   key_buttons[i++].set_keys("WXYZ", KEY_W, KEY_X, KEY_Y, KEY_Z);
   key_buttons[i++].set_keys("改行", KEY_ENTER);
   key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
-  key_buttons[i++].set_keys("a/A");
+  key_buttons[i++].set_action("a/A", draw_lower_alphabet_keybard);
+  key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
+  key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
+  draw_keyboard();
+}
+
+void draw_lower_alphabet_keybard()
+{
+  size_t i = 0;
+  key_buttons[i++].set_keys("→", KEY_RIGHT_ARROW);
+  key_buttons[i++].set_keys("@#/&_", KEY_ATMARK, KEY_NUM_SIGN, KEY_FWD_SLASH, KEY_AMPERSAND, KEY_UNDERSCORE);
+  key_buttons[i++].set_keys("abc", KEY_a, KEY_b, KEY_c);
+  key_buttons[i++].set_keys("def", KEY_d, KEY_e, KEY_f);
+  key_buttons[i++].set_keys("<x", KEY_DELETE);
+  key_buttons[i++].set_keys("←", KEY_LEFT_ARROW);
+  key_buttons[i++].set_keys("ghi", KEY_g, KEY_h, KEY_i);
+  key_buttons[i++].set_keys("jkl", KEY_j, KEY_k, KEY_l);
+  key_buttons[i++].set_keys("mno", KEY_m, KEY_n, KEY_o);
+  key_buttons[i++].set_keys("空白", KEY_SPACEBAR);
+  key_buttons[i++].set_action("123", draw_number_keybard);
+  key_buttons[i++].set_keys("pqrs", KEY_p, KEY_q, KEY_r, KEY_s);
+  key_buttons[i++].set_keys("tuv", KEY_t, KEY_u, KEY_v);
+  key_buttons[i++].set_keys("wxyz", KEY_w, KEY_x, KEY_y, KEY_z);
+  key_buttons[i++].set_keys("改行", KEY_ENTER);
+  key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
+  key_buttons[i++].set_action("a/A", draw_alphabet_keybard);
   key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
   key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
   draw_keyboard();
