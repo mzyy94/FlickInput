@@ -5,6 +5,7 @@
 #include "touch.hpp"
 #include "ble.hpp"
 #include "display.hpp"
+#include "menu.hpp"
 
 void init_m5paper()
 {
@@ -20,6 +21,23 @@ void init_m5paper()
   ESP_ERROR_CHECK(ret);
 }
 
+void init_menu()
+{
+  Menu.addItem("シャットダウン", []
+               {
+                 M5.Display.clearDisplay(TFT_WHITE);
+                 draw_logo(true);
+                 M5.Power.powerOff();
+               });
+  Menu.addItem("閉じる", []
+               {
+                 Menu.closeMenu();
+                 M5.Display.clearDisplay(TFT_WHITE);
+                 draw_header();
+                 draw_hiragana_keybard();
+               });
+}
+
 void main_task(void *)
 {
   init_m5paper();
@@ -33,6 +51,7 @@ void main_task(void *)
 
   init_touch();
   init_ble_hid();
+  init_menu();
 
   draw_logo();
 
@@ -46,8 +65,15 @@ void main_task(void *)
     if (count % 30000 == 0)
     {
       draw_header();
+      count = 0;
     }
     count++;
+
+    Menu.update();
+    if (Menu.opened)
+    {
+      continue;
+    }
 
     touch_input();
 
