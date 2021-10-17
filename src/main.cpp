@@ -6,6 +6,7 @@
 #include "ble.hpp"
 #include "display.hpp"
 #include "menu.hpp"
+#include "event.hpp"
 
 void init_m5paper()
 {
@@ -38,6 +39,12 @@ void init_menu()
                });
 }
 
+void register_events()
+{
+  esp_event_handler_register_with(
+      loop_handle, STATUS_CHANGE_EVENT, ESP_EVENT_ANY_ID, draw_header, NULL);
+}
+
 void main_task(void *)
 {
   init_m5paper();
@@ -49,9 +56,12 @@ void main_task(void *)
   init_keyboard_layout();
   draw_hiragana_keybard();
 
+  init_event();
   init_touch();
   init_ble_hid();
   init_menu();
+
+  register_events();
 
   draw_logo();
 
@@ -64,7 +74,7 @@ void main_task(void *)
 
     if (count % 30000 == 0)
     {
-      draw_header();
+      esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, NULL, 0, 0);
       count = 0;
     }
     count++;

@@ -1,12 +1,13 @@
 #include <M5Unified.h>
 #include "ble.hpp"
 
-void draw_header()
+void draw_header(void *event_arg, const char *event_base, int event_id, void *event_data)
 {
   char text[20];
 
   int32_t bat = M5.Power.getBatteryLevel();
   M5.Display.startWrite();
+  M5.Display.fillRect(0, 0, 540, 48, TFT_WHITE);
   M5.Display.setTextSize(1);
   snprintf(text, 20, "%3d%%", bat);
   M5.Display.setTextColor(TFT_BLACK, TFT_WHITE);
@@ -34,6 +35,11 @@ void draw_header()
   M5.Display.fillRoundRect(534, 10, 3, 8, 1, TFT_BLACK);
   M5.Display.fillRect(486, 4, 46 * bat / 100, 20, TFT_BLACK);
   M5.Display.endWrite();
+}
+
+void draw_header()
+{
+  draw_header(NULL, NULL, -1, NULL);
 }
 
 void draw_logo(bool inverse)
