@@ -125,7 +125,7 @@ void draw_keyboard()
 {
   M5.Display.startWrite();
   M5.Display.setTextSize(1);
-  M5.Display.fillRect(0, 460, 540, 500, TFT_WHITE);
+  M5.Display.fillRect(0, 460, M5.Display.width(), 500, TFT_WHITE);
   for (auto &btn : key_buttons)
   {
     btn.draw();
@@ -139,7 +139,7 @@ void draw_input_text(std::string text, int x, int y)
   M5.Display.startWrite();
   M5.Display.setTextColor(TFT_BLACK, TFT_WHITE);
   M5.Display.setTextSize(2);
-  M5.Display.fillRect(x - 270, y - 100, 540, 200, TFT_WHITE);
+  M5.Display.fillRect(x - 270, y - 100, M5.Display.width(), 200, TFT_WHITE);
   M5.Display.drawCenterString(text.c_str(), x, y, &fonts::lgfxJapanGothicP_40);
   M5.Display.endWrite();
 }

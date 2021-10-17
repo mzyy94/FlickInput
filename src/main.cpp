@@ -34,8 +34,8 @@ void init_menu()
                {
                  Menu.closeMenu();
                  M5.Display.clearDisplay(TFT_WHITE);
-                 draw_header();
                  draw_hiragana_keybard();
+                 esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, NULL, 0, 0);
                });
 }
 
@@ -48,9 +48,6 @@ void register_events()
 void main_task(void *)
 {
   init_m5paper();
-
-  M5.Display.setTextSize(1.0);
-
   M5.Display.clearDisplay(TFT_WHITE);
 
   init_keyboard_layout();
@@ -74,7 +71,8 @@ void main_task(void *)
 
     if (count % 30000 == 0)
     {
-      esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, NULL, 0, 0);
+      int32_t bat = M5.Power.getBatteryLevel();
+      esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BATTERY_LEVEL, &bat, sizeof(int32_t), 0);
       count = 0;
     }
     count++;

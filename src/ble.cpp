@@ -51,7 +51,7 @@
 #define HID_DEMO_TAG "HID_DEMO"
 
 static uint16_t hid_conn_id = 0;
-bool sec_conn = false;
+static bool sec_conn = false;
 #define CHAR_DECLARATION_SIZE (sizeof(uint8_t))
 
 static void hidd_event_callback(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *param);
@@ -136,7 +136,7 @@ static void hidd_event_callback(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *
         sec_conn = false;
         ESP_LOGI(HID_DEMO_TAG, "ESP_HIDD_EVENT_BLE_DISCONNECT");
         esp_ble_gap_start_advertising(&hidd_adv_params);
-        esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BLE_STATE, NULL, 0, 0);
+        esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BLE_STATE, &sec_conn, sizeof(bool), 0);
         break;
     }
     case ESP_HIDD_EVENT_BLE_VENDOR_REPORT_WRITE_EVT:
@@ -177,7 +177,7 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
         {
             ESP_LOGE(HID_DEMO_TAG, "fail reason = 0x%x", param->ble_security.auth_cmpl.fail_reason);
         }
-        esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BLE_STATE, NULL, 0, 0);
+        esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BLE_STATE, &sec_conn, sizeof(bool), 0);
         break;
     default:
         break;
