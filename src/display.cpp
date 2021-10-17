@@ -35,3 +35,18 @@ void draw_header()
   M5.Display.fillRect(486, 4, 46 * bat / 100, 20, TFT_BLACK);
   M5.Display.endWrite();
 }
+
+void draw_logo(bool inverse)
+{
+  M5.Display.startWrite();
+  M5.Display.setTextColor(inverse ? TFT_WHITE : TFT_BLACK, inverse ? TFT_DARKGRAY : TFT_LIGHTGRAY);
+  M5.Display.setTextSize(2);
+  M5.Display.fillRect(0, 50, 540, 200, inverse ? TFT_DARKGRAY : TFT_LIGHTGRAY);
+  M5.Display.drawCenterString("FlickInput", 270, 150, &fonts::lgfxJapanGothicP_40);
+  M5.Display.endWrite();
+}
+
+void draw_logo()
+{
+  draw_logo(false);
+}
