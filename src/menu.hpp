@@ -1,5 +1,6 @@
 #pragma once
 #include <M5Unified.h>
+#include "event.hpp"
 
 namespace menu
 {

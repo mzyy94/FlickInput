@@ -1,6 +1,9 @@
 #include <esp_event.h>
 #include <esp_event_base.h>
+#include <freertos/portmacro.h>
 #include "event.hpp"
+
+portMUX_TYPE mutex = portMUX_INITIALIZER_UNLOCKED;
 
 ESP_EVENT_DEFINE_BASE(STATUS_CHANGE_EVENT);
 

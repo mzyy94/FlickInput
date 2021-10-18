@@ -1,6 +1,9 @@
 #pragma once
 #include <esp_event.h>
 #include <esp_event_base.h>
+#include <freertos/portmacro.h>
+
+extern portMUX_TYPE mutex;
 
 ESP_EVENT_DECLARE_BASE(STATUS_CHANGE_EVENT);
 enum status_event_t

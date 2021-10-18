@@ -15,6 +15,7 @@ namespace menu
     uint32_t left = (M5.Display.width() - width) / 2;
     uint32_t top = (M5.Display.height() - height) / 2;
 
+    portENTER_CRITICAL_ISR(&mutex);
     M5.Display.startWrite();
     M5.Display.setTextColor(TFT_BLACK, TFT_WHITE);
     M5.Display.setTextSize(1);
@@ -29,6 +30,7 @@ namespace menu
           &fonts::lgfxJapanGothicP_40);
     }
     M5.Display.endWrite();
+    portEXIT_CRITICAL_ISR(&mutex);
   }
 
   void Menu::drawCursor()
@@ -47,10 +49,12 @@ namespace menu
     uint32_t y1 = offset + size * 3;
     uint32_t y2 = offset + size * 2;
 
+    portENTER_CRITICAL_ISR(&mutex);
     M5.Display.startWrite();
     M5.Display.fillRect(x, top + size * 1, size * 2, height - size * 2, TFT_WHITE);
     M5.Display.fillTriangle(x, y0, x, y1, x1, y2, TFT_BLACK);
     M5.Display.endWrite();
+    portEXIT_CRITICAL_ISR(&mutex);
   }
 
   void Menu::addItem(const char *text, std::function<void(void)> callback)

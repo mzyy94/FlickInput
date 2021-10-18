@@ -33,7 +33,9 @@ void init_menu()
   Menu.addItem("閉じる", []
                {
                  Menu.closeMenu();
+                 portENTER_CRITICAL_ISR(&mutex);
                  M5.Display.clearDisplay(TFT_WHITE);
+                 portEXIT_CRITICAL_ISR(&mutex);
                  draw_hiragana_keybard();
                  esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, NULL, 0, 0);
                });
