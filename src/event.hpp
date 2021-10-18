@@ -16,3 +16,4 @@ enum status_event_t
 extern esp_event_loop_handle_t loop_handle;
 
 void init_event();
+void dispatch_after(uint32_t msec, void (*callback)(void *), void *arg);
