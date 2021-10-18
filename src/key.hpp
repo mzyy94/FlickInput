@@ -160,7 +160,7 @@ static const key_input_t KEYPAD_DOT = {".", HID_KEYPAD_DOT, 0};
 
 static const key_input_t KEY_CHANGE_INPUT_MAC = {"⇔", HID_KEY_SPACEBAR, 1};
 
-// Kana Input
+// US MAC Kana Input
 static const key_input_t KEYJP_A = {"あ", HID_KEY_3, 0};
 static const key_input_t KEYJP_I = {"い", HID_KEY_E, 0};
 static const key_input_t KEYJP_U = {"う", HID_KEY_4, 0};
@@ -239,5 +239,5 @@ static const key_input_t KEYJP_DASH = {"ー", HID_KEY_RIGHT_BRKT, 2};
 static const key_input_t KEYJP_TOUTEN = {"、", HID_KEY_COMMA, 2};
 static const key_input_t KEYJP_KUTEN = {"。", HID_KEY_DOT, 2};
 static const key_input_t KEYJP_NAKAGURO = {"・", HID_KEY_FWD_SLASH, 2};
-static const key_input_t KEYJP_QUESTION = {"！", HID_KEY_1, 6};
-static const key_input_t KEYJP_EXCL_MARK = {"？", HID_KEY_FWD_SLASH, 6};
+static const key_input_t KEYJP_EXCL_MARK = {"！", HID_KEY_1, 6};
+static const key_input_t KEYJP_QUESTION = {"？", HID_KEY_FWD_SLASH, 6};

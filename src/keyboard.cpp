@@ -85,24 +85,24 @@ void draw_number_keybard()
 {
   size_t i = 0;
   key_buttons[i++].set_keys("→", KEY_RIGHT_ARROW);
-  key_buttons[i++].set_keys("1", KEYPAD_1);
-  key_buttons[i++].set_keys("2", KEYPAD_2);
-  key_buttons[i++].set_keys("3", KEYPAD_3);
+  key_buttons[i++].set_keys("1", KEY_1);
+  key_buttons[i++].set_keys("2", KEY_2);
+  key_buttons[i++].set_keys("3", KEY_3);
   key_buttons[i++].set_keys("<x", KEY_DELETE);
   key_buttons[i++].set_keys("←", KEY_LEFT_ARROW);
-  key_buttons[i++].set_keys("4", KEYPAD_4);
-  key_buttons[i++].set_keys("5", KEYPAD_5);
-  key_buttons[i++].set_keys("6", KEYPAD_6);
+  key_buttons[i++].set_keys("4", KEY_4);
+  key_buttons[i++].set_keys("5", KEY_5);
+  key_buttons[i++].set_keys("6", KEY_6);
   key_buttons[i++].set_keys("空白", KEY_SPACEBAR);
   key_buttons[i++].set_action("あいう", draw_hiragana_keybard);
-  key_buttons[i++].set_keys("7", KEYPAD_7);
-  key_buttons[i++].set_keys("8", KEYPAD_8);
-  key_buttons[i++].set_keys("9", KEYPAD_9);
+  key_buttons[i++].set_keys("7", KEY_7);
+  key_buttons[i++].set_keys("8", KEY_8);
+  key_buttons[i++].set_keys("9", KEY_9);
   key_buttons[i++].set_keys("改行", KEY_ENTER);
   key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
   key_buttons[i++].set_keys("()[]", KEY_LEFT_PAREN, KEY_RIGHT_PAREN, KEY_LEFT_BRKT, KEY_RIGHT_BRKT);
-  key_buttons[i++].set_keys("0", KEYPAD_0);
-  key_buttons[i++].set_keys(".,-/", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
+  key_buttons[i++].set_keys("0", KEY_0);
+  key_buttons[i++].set_keys(".,-/", KEY_DOT, KEY_COMMA, KEY_MINUS, KEY_FWD_SLASH);
   draw_keyboard();
 }
 
