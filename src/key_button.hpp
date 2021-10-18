@@ -22,7 +22,7 @@ struct key_button
   const int32_t r = 8;
   int text_color;
   int key_color;
-  void (*action)(void);
+  std::function<void(void)> action;
 
   void init(int32_t x, int32_t y, int32_t w, int32_t h, int text_color, int key_color)
   {
@@ -71,11 +71,35 @@ struct key_button
     action = p;
   }
 
+  void drawBackspaceIcon()
+  {
+    int32_t c = y + h / 2;
+    M5.Display.drawBezier(x + 26, c + 3, x + 21, c, x + 26, c - 3, text_color);
+    M5.Display.drawLine(x + 26, c - 3, x + 31, c - 8, text_color);
+    M5.Display.drawLine(x + 26, c + 3, x + 31, c + 8, text_color);
+    M5.Display.drawBezier(x + 31, c - 8, x + 33, c - 11, x + 38, c - 14, text_color);
+    M5.Display.drawBezier(x + 31, c + 8, x + 33, c + 11, x + 38, c + 14, text_color);
+    M5.Display.drawLine(x + 38, c - 14, x + 66, c - 14, text_color);
+    M5.Display.drawLine(x + 38, c + 14, x + 66, c + 14, text_color);
+    M5.Display.drawLine(x + 70, c - 10, x + 70, c + 10, text_color);
+    M5.Display.drawBezier(x + 66, c - 14, x + 70, c - 14, x + 70, c - 10, text_color);
+    M5.Display.drawBezier(x + 66, c + 14, x + 70, c + 14, x + 70, c + 10, text_color);
+    M5.Display.drawLine(x + 46, c - 5, x + 56, c + 5, text_color);
+    M5.Display.drawLine(x + 46, c + 5, x + 56, c - 5, text_color);
+  }
+
   void draw(void)
   {
     M5.Display.fillRoundRect(x, y, w, h, r, key_color);
-    M5.Display.setTextColor(text_color, key_color);
-    M5.Display.drawCenterString(text.c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
+    if (text == "<x")
+    {
+      drawBackspaceIcon();
+    }
+    else
+    {
+      M5.Display.setTextColor(text_color, key_color);
+      M5.Display.drawCenterString(text.c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
+    }
   }
 
   void draw_hold(void)
