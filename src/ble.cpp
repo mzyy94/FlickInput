@@ -193,7 +193,7 @@ void send_key(uint8_t keycode, uint8_t modifier)
     vTaskDelay(10 / portTICK_RATE_MS);
 }
 
-void init_ble_hid()
+void start_ble_hid()
 {
     esp_err_t ret;
 

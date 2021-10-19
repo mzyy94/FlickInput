@@ -16,7 +16,10 @@ void init_m5paper()
 {
   M5.begin();
   M5.Display.setEpdMode(epd_mode_t::epd_fast);
+}
 
+void init_nvs()
+{
   auto ret = nvs_flash_init();
   if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
   {
@@ -29,7 +32,7 @@ void init_m5paper()
 void refresh_display();
 void register_side_button_events();
 void unregister_side_button_events();
-void update_battery_status(void *);
+void draw_status_bar(bool);
 
 void open_menu_handler(void *, esp_event_base_t, int32_t, void *)
 {
@@ -87,7 +90,7 @@ void refresh_display()
   }
   M5.Display.clearDisplay(TFT_WHITE);
   draw_keyboard();
-  update_battery_status(nullptr);
+  draw_status_bar(false);
   ESP_LOGI(MAIN_TAG, "Display refreshed");
 }
 
@@ -103,43 +106,57 @@ void register_events()
   register_status_update();
 }
 
-void update_battery_status(void *)
+void draw_status_bar(bool update_battery)
 {
-  auto bat = M5.Power.getBatteryLevel();
-  esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BATTERY_LEVEL, &bat, sizeof(bat), 0);
-  ESP_LOGI(MAIN_TAG, "Battery status updated = %d%%", bat);
+  if (update_battery)
+  {
+    auto bat = M5.Power.getBatteryLevel();
+    esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BATTERY_LEVEL, &bat, sizeof(bat), 0);
+    ESP_LOGI(MAIN_TAG, "Battery status updated = %d%%", bat);
+  }
+  else
+  {
+    esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_ONLY_REFRESH, nullptr, 0, 0);
+  }
 }
 
 void main_task(void *)
 {
+  // 0. Initialize device
   init_m5paper();
-  init_keyboard_layout();
-  init_event();
-  init_touch();
-  init_ble_hid();
-  init_menu();
+  init_nvs();
 
+  // 1. Initialize event loop
+  init_event();
   register_events();
 
+  // 2. Initialize instances
+  init_keyboard_layout();
+  init_touch();
+  init_menu();
+
+  // 3. Draw logo, keyboard and status bar
   draw_logo();
   draw_hiragana_keybard();
-  update_battery_status(nullptr);
+  draw_status_bar(true);
 
-  dispatch_every<void *>(10 * 60 * 1000, update_battery_status, nullptr);
+  // 4. Set battery status update interval loop
+  dispatch_every(3 * 60 * 1000, draw_status_bar, true);
+
+  // 5. Start ble connection
+  start_ble_hid();
 
   for (;;)
   {
     vTaskDelay(20 / portTICK_RATE_MS);
 
     M5.update();
-
     update_button_event();
-    if (Menu.opened)
-    {
-      continue;
-    }
 
-    touch_input();
+    if (!Menu.opened)
+    {
+      touch_input();
+    }
   }
   vTaskDelete(nullptr);
 }
