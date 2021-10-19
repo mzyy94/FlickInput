@@ -7,6 +7,7 @@
 #include "display.hpp"
 #include "menu.hpp"
 #include "event.hpp"
+#include "button.hpp"
 
 void init_m5paper()
 {
@@ -20,6 +21,26 @@ void init_m5paper()
     ret = nvs_flash_init();
   }
   ESP_ERROR_CHECK(ret);
+}
+
+void open_menu(void *event_handler_arg,
+               esp_event_base_t event_base,
+               int32_t event_id,
+               void *event_data)
+{
+  unregister_button_pressed(B, open_menu);
+  Menu.openMenu();
+}
+
+void register_menu_button_event()
+{
+  register_button_pressed(B, open_menu, NULL);
+}
+
+void register_status_update()
+{
+  esp_event_handler_register_with(
+      loop_handle, STATUS_CHANGE_EVENT, ESP_EVENT_ANY_ID, draw_header, NULL);
 }
 
 void init_menu()
@@ -38,13 +59,14 @@ void init_menu()
                  portEXIT_CRITICAL_ISR(&mutex);
                  draw_hiragana_keybard();
                  esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, NULL, 0, 0);
+                 register_menu_button_event();
                });
 }
 
 void register_events()
 {
-  esp_event_handler_register_with(
-      loop_handle, STATUS_CHANGE_EVENT, ESP_EVENT_ANY_ID, draw_header, NULL);
+  register_menu_button_event();
+  register_status_update();
 }
 
 void main_task(void *)
@@ -79,7 +101,7 @@ void main_task(void *)
     }
     count++;
 
-    Menu.update();
+    update_button_event();
     if (Menu.opened)
     {
       continue;

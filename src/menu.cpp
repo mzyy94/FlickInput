@@ -1,10 +1,44 @@
 #include <M5Unified.h>
 #include "menu.hpp"
+#include "event.hpp"
+#include "button.hpp"
 
 namespace menu
 {
+
+  static void set_active(void *arg)
+  {
+    menu::Menu *m = (menu::Menu *)arg;
+    m->active = true;
+  }
+
+  static void move_cursor(void *event_handler_arg,
+                          esp_event_base_t event_base,
+                          int32_t event_id,
+                          void *event_data)
+  {
+    menu::Menu *m = (menu::Menu *)event_handler_arg;
+    if (!m->active)
+      return;
+    m->cursor_index += (event_id == BUTTON_EVENT_PRESSED_A ? m->labels.size() - 1 : 1);
+    m->cursor_index %= m->labels.size();
+    m->drawCursor();
+  }
+
+  static void select_item(void *event_handler_arg,
+                          esp_event_base_t event_base,
+                          int32_t event_id,
+                          void *event_data)
+  {
+    menu::Menu *m = (menu::Menu *)event_handler_arg;
+    if (!m->active)
+      return;
+    auto callback = m->callbacks[m->cursor_index];
+    callback();
+  }
+
   Menu::Menu()
-      : width(360), line_height(48), opened(false)
+      : width(360), line_height(48), opened(false), active(false)
   {
   }
 
@@ -71,52 +105,36 @@ namespace menu
 
   void Menu::openMenu()
   {
+    registerCursorMove();
     opened = true;
     cursor_index = 0;
     drawItems();
     drawCursor();
+
+    // Wait to set active state until rendering completed
+    dispatch_after(100, set_active, this);
   }
 
   void Menu::closeMenu()
   {
+    unregisterCursorMove();
+    active = false;
     opened = false;
     cursor_index = -1;
   }
 
-  void Menu::update()
+  void Menu::registerCursorMove()
   {
-    if (M5.BtnB.wasClicked())
-    {
-      if (!opened)
-      {
-        openMenu();
-      }
-      else
-      {
-        auto callback = callbacks[cursor_index];
-        callback();
-      }
-    }
-    if (M5.BtnA.wasClicked())
-    {
-      if (opened)
-      {
-        cursor_index--;
-        if (cursor_index < 0)
-          cursor_index = labels.size() - 1;
-        drawCursor();
-      }
-    }
-    if (M5.BtnC.wasClicked())
-    {
-      if (opened)
-      {
-        cursor_index++;
-        if (cursor_index >= labels.size())
-          cursor_index = 0;
-        drawCursor();
-      }
-    }
+    register_button_pressed(A, move_cursor, this);
+    register_button_pressed(B, select_item, this);
+    register_button_pressed(C, move_cursor, this);
+  }
+
+  void Menu::unregisterCursorMove()
+  {
+    unregister_button_pressed(A, move_cursor);
+    unregister_button_pressed(B, select_item);
+    unregister_button_pressed(C, move_cursor);
   }
 }
 

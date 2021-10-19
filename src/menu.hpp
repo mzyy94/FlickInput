@@ -7,6 +7,12 @@ namespace menu
   class Menu
   {
   protected:
+    void registerCursorMove();
+    void unregisterCursorMove();
+
+  public:
+    Menu();
+
     int cursor_index = -1;
     std::vector<std::string> labels;
     std::vector<std::function<void(void)>> callbacks;
@@ -14,14 +20,11 @@ namespace menu
     void drawItems();
     void drawCursor();
 
-  public:
-    Menu();
-
     uint32_t width;
     uint32_t line_height;
     bool opened;
+    bool active;
 
-    void update();
     void openMenu();
     void closeMenu();
 
