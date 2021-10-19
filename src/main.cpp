@@ -23,18 +23,40 @@ void init_m5paper()
   ESP_ERROR_CHECK(ret);
 }
 
-void open_menu(void *event_handler_arg,
-               esp_event_base_t event_base,
-               int32_t event_id,
-               void *event_data)
+void refresh_display();
+void register_side_button_events();
+void unregister_side_button_events();
+
+void open_menu_handler(void *, esp_event_base_t, int32_t, void *)
 {
-  unregister_button_pressed(B, open_menu);
+  unregister_side_button_events();
   Menu.openMenu();
 }
 
-void register_menu_button_event()
+void send_cursor_key_handler(void *, esp_event_base_t, int32_t event_id, void *)
 {
-  register_button_pressed(B, open_menu, nullptr);
+  send_key(event_id == BUTTON_EVENT_PRESSED_A ? HID_KEY_UP_ARROW : HID_KEY_DOWN_ARROW, 0);
+}
+
+void display_refresh_handler(void *, esp_event_base_t, int32_t, void *)
+{
+  refresh_display();
+}
+
+void register_side_button_events()
+{
+  register_button_pressed(B, open_menu_handler, nullptr);
+  register_button_pressed(A, send_cursor_key_handler, nullptr);
+  register_button_pressed(C, send_cursor_key_handler, nullptr);
+  register_button_hold(B, display_refresh_handler, nullptr);
+}
+
+void unregister_side_button_events()
+{
+  unregister_button_pressed(B, open_menu_handler);
+  unregister_button_pressed(A, send_cursor_key_handler);
+  unregister_button_pressed(C, send_cursor_key_handler);
+  unregister_button_hold(B, display_refresh_handler);
 }
 
 void register_status_update()
@@ -57,7 +79,7 @@ void refresh_display()
   if (Menu.opened)
   {
     Menu.closeMenu();
-    register_menu_button_event();
+    register_side_button_events();
   }
   M5.Display.clearDisplay(TFT_WHITE);
   draw_keyboard();
@@ -72,7 +94,7 @@ void init_menu()
 
 void register_events()
 {
-  register_menu_button_event();
+  register_side_button_events();
   register_status_update();
 }
 
@@ -115,19 +137,6 @@ void main_task(void *)
     }
 
     touch_input();
-
-    if (M5.BtnB.wasHold())
-    {
-      refresh_display();
-    }
-    if (M5.BtnA.wasClicked())
-    {
-      send_key(HID_KEY_UP_ARROW, 0);
-    }
-    if (M5.BtnC.wasClicked())
-    {
-      send_key(HID_KEY_DOWN_ARROW, 0);
-    }
   }
   vTaskDelete(nullptr);
 }
