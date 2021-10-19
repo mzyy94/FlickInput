@@ -188,8 +188,9 @@ void send_key(uint8_t keycode, uint8_t modifier)
 {
     ESP_LOGI(BLE_TAG, "Send key: 0x%02x/0x%02x", keycode, modifier);
     esp_hidd_send_keyboard_value(hid_conn_id, modifier, &keycode, 1);
-    vTaskDelay(30 / portTICK_RATE_MS);
+    vTaskDelay(10 / portTICK_RATE_MS);
     esp_hidd_send_keyboard_value(hid_conn_id, 0, nullptr, 0);
+    vTaskDelay(10 / portTICK_RATE_MS);
 }
 
 void init_ble_hid()
