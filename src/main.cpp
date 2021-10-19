@@ -43,26 +43,33 @@ void register_status_update()
       loop_handle, STATUS_CHANGE_EVENT, ESP_EVENT_ANY_ID, draw_header, nullptr);
 }
 
+void shutdown()
+{
+  portENTER_CRITICAL_ISR(&mutex);
+  M5.Display.clearDisplay(TFT_WHITE);
+  draw_logo(true);
+  portEXIT_CRITICAL_ISR(&mutex);
+  M5.Power.powerOff();
+}
+
+void refresh_display()
+{
+  if (Menu.opened)
+  {
+    Menu.closeMenu();
+    register_menu_button_event();
+  }
+  portENTER_CRITICAL_ISR(&mutex);
+  M5.Display.clearDisplay(TFT_WHITE);
+  draw_keyboard();
+  portEXIT_CRITICAL_ISR(&mutex);
+  esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, nullptr, 0, 0);
+}
+
 void init_menu()
 {
-  Menu.addItem("シャットダウン", []
-               {
-                 portENTER_CRITICAL_ISR(&mutex);
-                 M5.Display.clearDisplay(TFT_WHITE);
-                 draw_logo(true);
-                 portEXIT_CRITICAL_ISR(&mutex);
-                 M5.Power.powerOff();
-               });
-  Menu.addItem("閉じる", []
-               {
-                 Menu.closeMenu();
-                 portENTER_CRITICAL_ISR(&mutex);
-                 M5.Display.clearDisplay(TFT_WHITE);
-                 draw_hiragana_keybard();
-                 portEXIT_CRITICAL_ISR(&mutex);
-                 esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, nullptr, 0, 0);
-                 register_menu_button_event();
-               });
+  Menu.addItem("シャットダウン", shutdown);
+  Menu.addItem("閉じる", refresh_display);
 }
 
 void register_events()
@@ -113,9 +120,7 @@ void main_task(void *)
 
     if (M5.BtnB.wasHold())
     {
-      M5.Display.clearDisplay(TFT_WHITE);
-      esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, nullptr, 0, 0);
-      draw_keyboard();
+      refresh_display();
     }
     if (M5.BtnA.wasClicked())
     {
