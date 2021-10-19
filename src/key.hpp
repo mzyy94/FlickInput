@@ -241,3 +241,6 @@ static const key_input_t KEYJP_KUTEN = {"。", HID_KEY_DOT, 2};
 static const key_input_t KEYJP_NAKAGURO = {"・", HID_KEY_FWD_SLASH, 2};
 static const key_input_t KEYJP_EXCL_MARK = {"！", HID_KEY_1, 6};
 static const key_input_t KEYJP_QUESTION = {"？", HID_KEY_FWD_SLASH, 6};
+
+#define HID_KEY_LANG1 0x90 // Kana
+#define HID_KEY_LANG2 0x91 // Eisu

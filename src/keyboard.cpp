@@ -8,6 +8,8 @@ std::array<struct key_button, 19> key_buttons;
 
 void draw_hiragana_keybard()
 {
+  send_key(HID_KEY_LANG1, 0);
+
   size_t i = 0;
   key_buttons[i++].set_keys("→", KEY_RIGHT_ARROW);
   key_buttons[i++].set_keys("あ", KEYJP_A, KEYJP_I, KEYJP_U, KEYJP_E, KEYJP_O);
@@ -33,6 +35,8 @@ void draw_hiragana_keybard()
 
 void draw_alphabet_keybard()
 {
+  send_key(HID_KEY_LANG2, 0);
+
   size_t i = 0;
   key_buttons[i++].set_keys("→", KEY_RIGHT_ARROW);
   key_buttons[i++].set_keys("@#/&_", KEY_ATMARK, KEY_NUM_SIGN, KEY_FWD_SLASH, KEY_AMPERSAND, KEY_UNDERSCORE);
