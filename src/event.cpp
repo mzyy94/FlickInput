@@ -3,8 +3,6 @@
 #include <freertos/portmacro.h>
 #include "event.hpp"
 
-portMUX_TYPE mutex = portMUX_INITIALIZER_UNLOCKED;
-
 ESP_EVENT_DEFINE_BASE(STATUS_CHANGE_EVENT);
 ESP_EVENT_DEFINE_BASE(BUTTON_PRESS_EVENT);
 
@@ -17,7 +15,7 @@ void init_event()
       .task_name = "event_task",
       .task_priority = 1,
       .task_stack_size = 4096,
-      .task_core_id = 0,
+      .task_core_id = 1,
   };
   esp_event_loop_create(&loop_args, &loop_handle);
 }

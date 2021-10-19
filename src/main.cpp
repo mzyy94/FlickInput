@@ -45,10 +45,10 @@ void register_status_update()
 
 void shutdown()
 {
-  portENTER_CRITICAL_ISR(&mutex);
+  M5.Display.startWrite();
   M5.Display.clearDisplay(TFT_WHITE);
+  M5.Display.endWrite();
   draw_logo(true);
-  portEXIT_CRITICAL_ISR(&mutex);
   M5.Power.powerOff();
 }
 
@@ -59,10 +59,8 @@ void refresh_display()
     Menu.closeMenu();
     register_menu_button_event();
   }
-  portENTER_CRITICAL_ISR(&mutex);
   M5.Display.clearDisplay(TFT_WHITE);
   draw_keyboard();
-  portEXIT_CRITICAL_ISR(&mutex);
   esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, nullptr, 0, 0);
 }
 

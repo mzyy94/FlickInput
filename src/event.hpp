@@ -2,9 +2,6 @@
 #include <esp_event.h>
 #include <esp_event_base.h>
 #include <esp_timer.h>
-#include <freertos/portmacro.h>
-
-extern portMUX_TYPE mutex;
 
 ESP_EVENT_DECLARE_BASE(STATUS_CHANGE_EVENT);
 ESP_EVENT_DECLARE_BASE(BUTTON_PRESS_EVENT);
