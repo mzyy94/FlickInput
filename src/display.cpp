@@ -60,6 +60,7 @@ void draw_logo(bool inverse)
 {
   ESP_LOGD(DISPLAY_TAG, "Drawing logo inverse=%d", inverse);
   M5.Display.startWrite();
+  M5.Display.clearDisplay(TFT_WHITE);
   M5.Display.setTextColor(inverse ? TFT_WHITE : TFT_BLACK, inverse ? TFT_DARKGRAY : TFT_LIGHTGRAY);
   M5.Display.setTextSize(2);
   M5.Display.fillRect(0, 50, M5.Display.width(), 200, inverse ? TFT_DARKGRAY : TFT_LIGHTGRAY);

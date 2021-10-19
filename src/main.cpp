@@ -29,6 +29,7 @@ void init_m5paper()
 void refresh_display();
 void register_side_button_events();
 void unregister_side_button_events();
+void update_battery_status(void *);
 
 void open_menu_handler(void *, esp_event_base_t, int32_t, void *)
 {
@@ -72,9 +73,6 @@ void register_status_update()
 
 void shutdown()
 {
-  M5.Display.startWrite();
-  M5.Display.clearDisplay(TFT_WHITE);
-  M5.Display.endWrite();
   draw_logo(true);
   ESP_LOGI(MAIN_TAG, "Shutting down...");
   M5.Power.powerOff();
@@ -89,7 +87,7 @@ void refresh_display()
   }
   M5.Display.clearDisplay(TFT_WHITE);
   draw_keyboard();
-  esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, nullptr, 0, 0);
+  update_battery_status(nullptr);
   ESP_LOGI(MAIN_TAG, "Display refreshed");
 }
 
@@ -115,11 +113,7 @@ void update_battery_status(void *)
 void main_task(void *)
 {
   init_m5paper();
-  M5.Display.clearDisplay(TFT_WHITE);
-
   init_keyboard_layout();
-  draw_hiragana_keybard();
-
   init_event();
   init_touch();
   init_ble_hid();
@@ -128,6 +122,7 @@ void main_task(void *)
   register_events();
 
   draw_logo();
+  draw_hiragana_keybard();
   update_battery_status(nullptr);
 
   dispatch_every<void *>(10 * 60 * 1000, update_battery_status, nullptr);
