@@ -37,18 +37,18 @@ void draw_hiragana_modified_keybard()
 {
   size_t i = 0;
   key_buttons[i++].set_keys("→", KEY_RIGHT_ARROW);
-  key_buttons[i++].set_keys("ぁ", KEYJP_XA, KEYJP_XI, KEYJP_XU, KEYJP_XE, KEYJP_XO);
-  key_buttons[i++].set_keys("が", KEYJP_GA, KEYJP_GI, KEYJP_GU, KEYJP_GE, KEYJP_GO);
-  key_buttons[i++].set_keys("ざ", KEYJP_ZA, KEYJP_ZI, KEYJP_ZU, KEYJP_ZE, KEYJP_ZO);
+  key_buttons[i++].set_action("ぁ", draw_hiragana_keybard, KEYJP_XA, KEYJP_XI, KEYJP_XU, KEYJP_XE, KEYJP_XO);
+  key_buttons[i++].set_action("が", draw_hiragana_keybard, KEYJP_GA, KEYJP_GI, KEYJP_GU, KEYJP_GE, KEYJP_GO);
+  key_buttons[i++].set_action("ざ", draw_hiragana_keybard, KEYJP_ZA, KEYJP_ZI, KEYJP_ZU, KEYJP_ZE, KEYJP_ZO);
   key_buttons[i++].set_keys("<x", KEY_DELETE);
   key_buttons[i++].set_keys("←", KEY_LEFT_ARROW);
-  key_buttons[i++].set_keys("だ", KEYJP_DA, KEYJP_DI, KEYJP_DU, KEYJP_DE, KEYJP_DO);
-  key_buttons[i++].set_keys("っ", KEYJP_XTU);
-  key_buttons[i++].set_keys("ば", KEYJP_BA, KEYJP_BI, KEYJP_BU, KEYJP_BE, KEYJP_BO);
+  key_buttons[i++].set_action("だ", draw_hiragana_keybard, KEYJP_DA, KEYJP_DI, KEYJP_DU, KEYJP_DE, KEYJP_DO);
+  key_buttons[i++].set_action("っ", draw_hiragana_keybard, KEYJP_XTU);
+  key_buttons[i++].set_action("ば", draw_hiragana_keybard, KEYJP_BA, KEYJP_BI, KEYJP_BU, KEYJP_BE, KEYJP_BO);
   key_buttons[i++].set_keys("空白", KEY_SPACEBAR);
   key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
-  key_buttons[i++].set_keys("ぱ", KEYJP_PA, KEYJP_PI, KEYJP_PU, KEYJP_PE, KEYJP_PO);
-  key_buttons[i++].set_keys("ゃ", KEYJP_XYA, KEYJP_LEFT_PAREN, KEYJP_XYU, KEYJP_RIGHT_PAREN, KEYJP_XYO);
+  key_buttons[i++].set_action("ぱ", draw_hiragana_keybard, KEYJP_PA, KEYJP_PI, KEYJP_PU, KEYJP_PE, KEYJP_PO);
+  key_buttons[i++].set_action("ゃ", draw_hiragana_keybard, KEYJP_XYA, KEYJP_LEFT_PAREN, KEYJP_XYU, KEYJP_RIGHT_PAREN, KEYJP_XYO);
   key_buttons[i++].set_keys("");
   key_buttons[i++].set_keys("改行", KEY_ENTER);
   key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);

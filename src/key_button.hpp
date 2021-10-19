@@ -34,41 +34,32 @@ struct key_button
     this->key_color = key_color;
   }
 
-  void set_keys(std::string text, key_input_t key0, key_input_t key1, key_input_t key2, key_input_t key3, key_input_t key4)
+  void append_keys()
   {
-    set_keys(text, key0, key1, key2, key3);
-    keys.push_back(key4);
   }
-  void set_keys(std::string text, key_input_t key0, key_input_t key1, key_input_t key2, key_input_t key3)
+
+  template <class Key, class... Keys>
+  void append_keys(Key &&key, Keys &&...keys)
   {
-    set_keys(text, key0, key1, key2);
-    keys.push_back(key3);
+    this->keys.push_back(key);
+    append_keys(std::forward<Keys>(keys)...);
   }
-  void set_keys(std::string text, key_input_t key0, key_input_t key1, key_input_t key2)
-  {
-    set_keys(text, key0, key1);
-    keys.push_back(key2);
-  }
-  void set_keys(std::string text, key_input_t key0, key_input_t key1)
-  {
-    set_keys(text, key0);
-    keys.push_back(key1);
-  }
-  void set_keys(std::string text, key_input_t key0)
-  {
-    set_keys(text);
-    keys.push_back(key0);
-  }
-  void set_keys(std::string text)
+
+  template <class... Keys>
+  void set_keys(std::string text, Keys &&...keys)
   {
     this->text = text;
     action = nullptr;
-    keys.clear();
+    this->keys.clear();
+    append_keys(std::forward<Keys>(keys)...);
   }
-  void set_action(std::string text, std::function<void(void)> p)
+
+  template <class... Keys>
+  void set_action(std::string text, std::function<void(void)> p, Keys &&...keys)
   {
     set_keys(text);
     action = p;
+    append_keys(std::forward<Keys>(keys)...);
   }
 
   void drawBackspaceIcon()
@@ -178,7 +169,3 @@ struct key_button
     return nullptr;
   }
 };
-
-void set_alphabet_keys();
-void init_key_button_layout();
-void draw_key_buttons();

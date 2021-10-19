@@ -70,13 +70,10 @@ void touch_input()
 
       if (current_key != nullptr)
       {
+        input_key_button(current_key, center);
         if (current_key->action != nullptr)
         {
           current_key->action();
-        }
-        else
-        {
-          input_key_button(current_key, center);
         }
       }
       if (need_refresh)
@@ -96,6 +93,10 @@ void touch_input()
       {
         const auto dir = current_key->flick(start_x, start_y, t.x, t.y);
         input_key_button(current_key, dir);
+        if (current_key->action != nullptr)
+        {
+          current_key->action();
+        }
       }
       current_key = nullptr;
       break;
