@@ -48,7 +48,7 @@
  * if you got `GATT_INSUF_ENCRYPTION` error, please ignore.
  */
 
-#define HID_DEMO_TAG "HID_DEMO"
+#define BLE_TAG "BLE"
 
 static uint16_t hid_conn_id = 0;
 static bool sec_conn = false;
@@ -127,22 +127,22 @@ static void hidd_event_callback(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *
         break;
     case ESP_HIDD_EVENT_BLE_CONNECT:
     {
-        ESP_LOGI(HID_DEMO_TAG, "ESP_HIDD_EVENT_BLE_CONNECT");
+        ESP_LOGI(BLE_TAG, "ESP_HIDD_EVENT_BLE_CONNECT");
         hid_conn_id = param->connect.conn_id;
         break;
     }
     case ESP_HIDD_EVENT_BLE_DISCONNECT:
     {
         sec_conn = false;
-        ESP_LOGI(HID_DEMO_TAG, "ESP_HIDD_EVENT_BLE_DISCONNECT");
+        ESP_LOGI(BLE_TAG, "ESP_HIDD_EVENT_BLE_DISCONNECT");
         esp_ble_gap_start_advertising(&hidd_adv_params);
         esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BLE_STATE, &sec_conn, sizeof(bool), 0);
         break;
     }
     case ESP_HIDD_EVENT_BLE_VENDOR_REPORT_WRITE_EVT:
     {
-        ESP_LOGI(HID_DEMO_TAG, "%s, ESP_HIDD_EVENT_BLE_VENDOR_REPORT_WRITE_EVT", __func__);
-        ESP_LOG_BUFFER_HEX(HID_DEMO_TAG, param->vendor_write.data, param->vendor_write.length);
+        ESP_LOGI(BLE_TAG, "%s, ESP_HIDD_EVENT_BLE_VENDOR_REPORT_WRITE_EVT", __func__);
+        ESP_LOG_BUFFER_HEX(BLE_TAG, param->vendor_write.data, param->vendor_write.length);
     }
     default:
         break;
@@ -160,7 +160,7 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
     case ESP_GAP_BLE_SEC_REQ_EVT:
         for (size_t i = 0; i < ESP_BD_ADDR_LEN; i++)
         {
-            ESP_LOGD(HID_DEMO_TAG, "%x:", param->ble_security.ble_req.bd_addr[i]);
+            ESP_LOGD(BLE_TAG, "%x:", param->ble_security.ble_req.bd_addr[i]);
         }
         esp_ble_gap_security_rsp(param->ble_security.ble_req.bd_addr, true);
         break;
@@ -168,14 +168,14 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
         sec_conn = true;
         esp_bd_addr_t bd_addr;
         memcpy(bd_addr, param->ble_security.auth_cmpl.bd_addr, sizeof(esp_bd_addr_t));
-        ESP_LOGI(HID_DEMO_TAG, "remote BD_ADDR: %08x%04x",
+        ESP_LOGI(BLE_TAG, "remote BD_ADDR: %08x%04x",
                  (bd_addr[0] << 24) + (bd_addr[1] << 16) + (bd_addr[2] << 8) + bd_addr[3],
                  (bd_addr[4] << 8) + bd_addr[5]);
-        ESP_LOGI(HID_DEMO_TAG, "address type = %d", param->ble_security.auth_cmpl.addr_type);
-        ESP_LOGI(HID_DEMO_TAG, "pair status = %s", param->ble_security.auth_cmpl.success ? "success" : "fail");
+        ESP_LOGI(BLE_TAG, "address type = %d", param->ble_security.auth_cmpl.addr_type);
+        ESP_LOGI(BLE_TAG, "pair status = %s", param->ble_security.auth_cmpl.success ? "success" : "fail");
         if (!param->ble_security.auth_cmpl.success)
         {
-            ESP_LOGE(HID_DEMO_TAG, "fail reason = 0x%x", param->ble_security.auth_cmpl.fail_reason);
+            ESP_LOGE(BLE_TAG, "fail reason = 0x%x", param->ble_security.auth_cmpl.fail_reason);
         }
         esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BLE_STATE, &sec_conn, sizeof(bool), 0);
         break;
@@ -186,7 +186,7 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
 
 void send_key(uint8_t keycode, uint8_t modifier)
 {
-    ESP_LOGI(HID_DEMO_TAG, "Send key: 0x%02x/0x%02x", keycode, modifier);
+    ESP_LOGI(BLE_TAG, "Send key: 0x%02x/0x%02x", keycode, modifier);
     esp_hidd_send_keyboard_value(hid_conn_id, modifier, &keycode, 1);
     vTaskDelay(30 / portTICK_RATE_MS);
     esp_hidd_send_keyboard_value(hid_conn_id, 0, nullptr, 0);
@@ -202,34 +202,34 @@ void init_ble_hid()
     ret = esp_bt_controller_init(&bt_cfg);
     if (ret)
     {
-        ESP_LOGE(HID_DEMO_TAG, "%s initialize controller failed\n", __func__);
+        ESP_LOGE(BLE_TAG, "%s initialize controller failed\n", __func__);
         return;
     }
 
     ret = esp_bt_controller_enable(ESP_BT_MODE_BLE);
     if (ret)
     {
-        ESP_LOGE(HID_DEMO_TAG, "%s enable controller failed\n", __func__);
+        ESP_LOGE(BLE_TAG, "%s enable controller failed\n", __func__);
         return;
     }
 
     ret = esp_bluedroid_init();
     if (ret)
     {
-        ESP_LOGE(HID_DEMO_TAG, "%s init bluedroid failed\n", __func__);
+        ESP_LOGE(BLE_TAG, "%s init bluedroid failed\n", __func__);
         return;
     }
 
     ret = esp_bluedroid_enable();
     if (ret)
     {
-        ESP_LOGE(HID_DEMO_TAG, "%s init bluedroid failed\n", __func__);
+        ESP_LOGE(BLE_TAG, "%s init bluedroid failed\n", __func__);
         return;
     }
 
     if ((ret = esp_hidd_profile_init()) != ESP_OK)
     {
-        ESP_LOGE(HID_DEMO_TAG, "%s init bluedroid failed\n", __func__);
+        ESP_LOGE(BLE_TAG, "%s init bluedroid failed\n", __func__);
     }
 
     ///register the callback function to the gap module

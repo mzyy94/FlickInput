@@ -1,5 +1,6 @@
 #include <M5Unified.h>
-#include "nvs_flash.h"
+#include <esp_log.h>
+#include <nvs_flash.h>
 
 #include "keyboard.hpp"
 #include "touch.hpp"
@@ -8,6 +9,8 @@
 #include "menu.hpp"
 #include "event.hpp"
 #include "button.hpp"
+
+#define MAIN_TAG "MAIN"
 
 void init_m5paper()
 {
@@ -49,6 +52,7 @@ void register_side_button_events()
   register_button_pressed(A, send_cursor_key_handler, nullptr);
   register_button_pressed(C, send_cursor_key_handler, nullptr);
   register_button_hold(B, display_refresh_handler, nullptr);
+  ESP_LOGI(MAIN_TAG, "Side button events registered");
 }
 
 void unregister_side_button_events()
@@ -57,6 +61,7 @@ void unregister_side_button_events()
   unregister_button_pressed(A, send_cursor_key_handler);
   unregister_button_pressed(C, send_cursor_key_handler);
   unregister_button_hold(B, display_refresh_handler);
+  ESP_LOGI(MAIN_TAG, "Side button events unregistered");
 }
 
 void register_status_update()
@@ -71,6 +76,7 @@ void shutdown()
   M5.Display.clearDisplay(TFT_WHITE);
   M5.Display.endWrite();
   draw_logo(true);
+  ESP_LOGI(MAIN_TAG, "Shutting down...");
   M5.Power.powerOff();
 }
 
@@ -84,6 +90,7 @@ void refresh_display()
   M5.Display.clearDisplay(TFT_WHITE);
   draw_keyboard();
   esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, nullptr, 0, 0);
+  ESP_LOGI(MAIN_TAG, "Display refreshed");
 }
 
 void init_menu()
@@ -102,6 +109,7 @@ void update_battery_status(void *)
 {
   auto bat = M5.Power.getBatteryLevel();
   esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BATTERY_LEVEL, &bat, sizeof(bat), 0);
+  ESP_LOGI(MAIN_TAG, "Battery status updated = %d%%", bat);
 }
 
 void main_task(void *)

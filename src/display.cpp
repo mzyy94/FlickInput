@@ -1,8 +1,12 @@
 #include <M5Unified.h>
+#include <esp_log.h>
 #include "event.hpp"
+
+#define DISPLAY_TAG "DISPLAY"
 
 void draw_ble_icon(bool connected)
 {
+  ESP_LOGD(DISPLAY_TAG, "Drawing BLE icon connected=%d", connected);
   int color;
   if (connected)
   {
@@ -21,8 +25,9 @@ void draw_ble_icon(bool connected)
   M5.Display.drawLine(16, 18, 8, 10, color);
 }
 
-void draw_header(void *event_arg, const char *event_base, int event_id, void *event_data)
+void draw_header(void *, const char *, int event_id, void *event_data)
 {
+  ESP_LOGD(DISPLAY_TAG, "Drawing header event_id=%d", event_id);
   char text[20];
   static bool ble_connected = false;
   static int32_t bat = 0;
@@ -53,6 +58,7 @@ void draw_header(void *event_arg, const char *event_base, int event_id, void *ev
 
 void draw_logo(bool inverse)
 {
+  ESP_LOGD(DISPLAY_TAG, "Drawing logo inverse=%d", inverse);
   M5.Display.startWrite();
   M5.Display.setTextColor(inverse ? TFT_WHITE : TFT_BLACK, inverse ? TFT_DARKGRAY : TFT_LIGHTGRAY);
   M5.Display.setTextSize(2);

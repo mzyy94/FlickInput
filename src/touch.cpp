@@ -1,7 +1,10 @@
 #include <algorithm>
 
 #include <M5Unified.h>
+#include <esp_log.h>
 #include "keyboard.hpp"
+
+#define TOUCH_TAG "TOUCH"
 
 void init_touch()
 {
@@ -31,6 +34,8 @@ void touch_input()
     case m5::touch_begin:
     case m5::flick_begin:
     {
+      ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::touch_begin ? "touch_begin" : "flick_begin", t.state, t.x, t.y);
+
       if (current_key == nullptr)
       {
         current_key = std::find_if(key_buttons.begin(), key_buttons.end(), [t](struct key_button btn)
@@ -49,6 +54,8 @@ void touch_input()
     }
     case m5::hold_begin:
     {
+      ESP_LOGD(TOUCH_TAG, "event hold_begin: %d (%d,%d)", t.state, t.x, t.y);
+
       if (current_key != nullptr)
       {
         current_key->draw_hold();
@@ -59,6 +66,8 @@ void touch_input()
     case m5::touch_end:
     case m5::none:
     {
+      ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::touch_end ? "touch_end" : "none", t.state, t.x, t.y);
+
       if (current_key != nullptr)
       {
         if (current_key->action != nullptr)
@@ -81,14 +90,18 @@ void touch_input()
     case m5::flick_end:
     case m5::drag_end:
     {
+      ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::flick_end ? "flick_end" : "drag_end", t.state, t.x, t.y);
+
       if (current_key != nullptr)
       {
         const auto dir = current_key->flick(start_x, start_y, t.x, t.y);
         input_key_button(current_key, dir);
       }
       current_key = nullptr;
+      break;
     }
     default:
+      ESP_LOGD(TOUCH_TAG, "event other: %d (%d,%d)", t.state, t.x, t.y);
       break;
     }
   }
