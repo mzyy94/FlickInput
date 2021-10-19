@@ -18,6 +18,9 @@ enum button_event_t
   BUTTON_EVENT_PRESSED_A,
   BUTTON_EVENT_PRESSED_B,
   BUTTON_EVENT_PRESSED_C,
+  BUTTON_EVENT_HOLD_A,
+  BUTTON_EVENT_HOLD_B,
+  BUTTON_EVENT_HOLD_C,
 };
 
 extern esp_event_loop_handle_t loop_handle;
