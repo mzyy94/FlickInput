@@ -6,9 +6,8 @@
 namespace menu
 {
 
-  static void set_active(void *arg)
+  static void set_active(menu::Menu *m)
   {
-    menu::Menu *m = (menu::Menu *)arg;
     m->active = true;
   }
 
@@ -17,7 +16,7 @@ namespace menu
                           int32_t event_id,
                           void *event_data)
   {
-    menu::Menu *m = (menu::Menu *)event_handler_arg;
+    auto *m = (menu::Menu *)event_handler_arg;
     if (!m->active)
       return;
     m->cursor_index += (event_id == BUTTON_EVENT_PRESSED_A ? m->labels.size() - 1 : 1);
@@ -30,7 +29,7 @@ namespace menu
                           int32_t event_id,
                           void *event_data)
   {
-    menu::Menu *m = (menu::Menu *)event_handler_arg;
+    const auto *m = (menu::Menu *)event_handler_arg;
     if (!m->active)
       return;
     auto callback = m->callbacks[m->cursor_index];
@@ -45,9 +44,9 @@ namespace menu
   void Menu::drawItems()
   {
     const uint32_t padding = line_height / 2;
-    uint32_t height = 2 * padding + labels.size() * line_height;
-    uint32_t left = (M5.Display.width() - width) / 2;
-    uint32_t top = (M5.Display.height() - height) / 2;
+    const uint32_t height = 2 * padding + labels.size() * line_height;
+    const uint32_t left = (M5.Display.width() - width) / 2;
+    const uint32_t top = (M5.Display.height() - height) / 2;
 
     portENTER_CRITICAL_ISR(&mutex);
     M5.Display.startWrite();
@@ -71,17 +70,17 @@ namespace menu
   {
     const uint32_t padding = line_height / 2;
 
-    uint32_t height = padding + labels.size() * line_height;
-    uint32_t left = (M5.Display.width() - width) / 2;
-    uint32_t top = (M5.Display.height() - height) / 2;
-    uint32_t offset = top + cursor_index * line_height + line_height / 4;
+    const uint32_t height = padding + labels.size() * line_height;
+    const uint32_t left = (M5.Display.width() - width) / 2;
+    const uint32_t top = (M5.Display.height() - height) / 2;
+    const uint32_t offset = top + cursor_index * line_height + line_height / 4;
 
-    uint32_t size = (line_height / 4);
-    uint32_t x = left + size * 1;
-    uint32_t x1 = left + size * 3;
-    uint32_t y0 = offset + size * 1;
-    uint32_t y1 = offset + size * 3;
-    uint32_t y2 = offset + size * 2;
+    const auto size = line_height / 4,
+               x = left + size * 1,
+               x1 = left + size * 3,
+               y0 = offset + size * 1,
+               y1 = offset + size * 3,
+               y2 = offset + size * 2;
 
     portENTER_CRITICAL_ISR(&mutex);
     M5.Display.startWrite();

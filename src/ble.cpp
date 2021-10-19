@@ -86,9 +86,9 @@ static esp_ble_adv_data_t hidd_adv_data = {
     .max_interval = 0x0010, //slave connection max interval, Time = max_interval * 1.25 msec
     .appearance = 0x03c1,   //HID Keyboard,
     .manufacturer_len = 0,
-    .p_manufacturer_data = NULL,
+    .p_manufacturer_data = nullptr,
     .service_data_len = 0,
-    .p_service_data = NULL,
+    .p_service_data = nullptr,
     .service_uuid_len = sizeof(hidd_service_uuid128),
     .p_service_uuid = hidd_service_uuid128,
     .flag = 0x6,
@@ -158,7 +158,7 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
         esp_ble_gap_start_advertising(&hidd_adv_params);
         break;
     case ESP_GAP_BLE_SEC_REQ_EVT:
-        for (int i = 0; i < ESP_BD_ADDR_LEN; i++)
+        for (size_t i = 0; i < ESP_BD_ADDR_LEN; i++)
         {
             ESP_LOGD(HID_DEMO_TAG, "%x:", param->ble_security.ble_req.bd_addr[i]);
         }
@@ -189,7 +189,7 @@ void send_key(uint8_t keycode, uint8_t modifier)
     ESP_LOGI(HID_DEMO_TAG, "Send key: 0x%02x/0x%02x", keycode, modifier);
     esp_hidd_send_keyboard_value(hid_conn_id, modifier, &keycode, 1);
     vTaskDelay(30 / portTICK_RATE_MS);
-    esp_hidd_send_keyboard_value(hid_conn_id, 0, NULL, 0);
+    esp_hidd_send_keyboard_value(hid_conn_id, 0, nullptr, 0);
 }
 
 void init_ble_hid()

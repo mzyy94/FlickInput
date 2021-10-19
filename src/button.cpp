@@ -1,18 +1,15 @@
 #include <M5Unified.h>
 #include "event.hpp"
 
+#define check_button_pressed(BTN)                                                                  \
+  if (M5.Btn##BTN.wasClicked())                                                                    \
+  {                                                                                                \
+    esp_event_post_to(loop_handle, BUTTON_PRESS_EVENT, BUTTON_EVENT_PRESSED_##BTN, nullptr, 0, 0); \
+  }
+
 void update_button_event()
 {
-  if (M5.BtnA.wasClicked())
-  {
-    esp_event_post_to(loop_handle, BUTTON_PRESS_EVENT, BUTTON_EVENT_PRESSED_A, NULL, 0, portTICK_RATE_MS);
-  }
-  if (M5.BtnB.wasClicked())
-  {
-    esp_event_post_to(loop_handle, BUTTON_PRESS_EVENT, BUTTON_EVENT_PRESSED_B, NULL, 0, portTICK_RATE_MS);
-  }
-  if (M5.BtnC.wasClicked())
-  {
-    esp_event_post_to(loop_handle, BUTTON_PRESS_EVENT, BUTTON_EVENT_PRESSED_C, NULL, 0, portTICK_RATE_MS);
-  }
+  check_button_pressed(A);
+  check_button_pressed(B);
+  check_button_pressed(C);
 }

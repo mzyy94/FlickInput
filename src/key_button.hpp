@@ -65,7 +65,7 @@ struct key_button
     action = nullptr;
     keys.clear();
   }
-  void set_action(std::string text, void (*p)(void))
+  void set_action(std::string text, std::function<void(void)> p)
   {
     set_keys(text);
     action = p;
@@ -104,8 +104,8 @@ struct key_button
 
   void draw_hold(void)
   {
-    const int32_t w = this->w + r;
-    const int32_t h = this->h + r;
+    const auto w = this->w + r;
+    const auto h = this->h + r;
     uint32_t x, y;
 
     if (keys.size() < 2)

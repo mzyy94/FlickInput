@@ -83,7 +83,7 @@ void touch_input()
     {
       if (current_key != nullptr)
       {
-        auto dir = current_key->flick(start_x, start_y, t.x, t.y);
+        const auto dir = current_key->flick(start_x, start_y, t.x, t.y);
         input_key_button(current_key, dir);
       }
       current_key = nullptr;

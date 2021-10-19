@@ -120,7 +120,7 @@ void init_keyboard_layout()
     {
       key_buttons[i * 5 + j].init(x + (w + pad) * j, y + (h + pad) * i, w, (i == 2 && j == 4) ? h * 2 + pad : h, (j == 0 || j == 4) ? TFT_WHITE : TFT_BLACK, (j == 0 || j == 4) ? TFT_DARKGRAY : TFT_LIGHTGRAY);
       if (i == 2 && j == 4)
-        break;
+        return;
     }
   }
 }

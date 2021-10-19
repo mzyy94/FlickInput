@@ -14,7 +14,7 @@ void init_m5paper()
   M5.begin();
   M5.Display.setEpdMode(epd_mode_t::epd_fast);
 
-  esp_err_t ret = nvs_flash_init();
+  auto ret = nvs_flash_init();
   if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
   {
     ESP_ERROR_CHECK(nvs_flash_erase());
@@ -34,21 +34,23 @@ void open_menu(void *event_handler_arg,
 
 void register_menu_button_event()
 {
-  register_button_pressed(B, open_menu, NULL);
+  register_button_pressed(B, open_menu, nullptr);
 }
 
 void register_status_update()
 {
   esp_event_handler_register_with(
-      loop_handle, STATUS_CHANGE_EVENT, ESP_EVENT_ANY_ID, draw_header, NULL);
+      loop_handle, STATUS_CHANGE_EVENT, ESP_EVENT_ANY_ID, draw_header, nullptr);
 }
 
 void init_menu()
 {
   Menu.addItem("シャットダウン", []
                {
+                 portENTER_CRITICAL_ISR(&mutex);
                  M5.Display.clearDisplay(TFT_WHITE);
                  draw_logo(true);
+                 portEXIT_CRITICAL_ISR(&mutex);
                  M5.Power.powerOff();
                });
   Menu.addItem("閉じる", []
@@ -56,9 +58,9 @@ void init_menu()
                  Menu.closeMenu();
                  portENTER_CRITICAL_ISR(&mutex);
                  M5.Display.clearDisplay(TFT_WHITE);
-                 portEXIT_CRITICAL_ISR(&mutex);
                  draw_hiragana_keybard();
-                 esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, NULL, 0, 0);
+                 portEXIT_CRITICAL_ISR(&mutex);
+                 esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, nullptr, 0, 0);
                  register_menu_button_event();
                });
 }
@@ -95,8 +97,8 @@ void main_task(void *)
 
     if (count % 30000 == 0)
     {
-      int32_t bat = M5.Power.getBatteryLevel();
-      esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BATTERY_LEVEL, &bat, sizeof(int32_t), 0);
+      auto bat = M5.Power.getBatteryLevel();
+      esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BATTERY_LEVEL, &bat, sizeof(bat), 0);
       count = 0;
     }
     count++;
@@ -124,13 +126,13 @@ void main_task(void *)
       send_key(HID_KEY_DOWN_ARROW, 0);
     }
   }
-  vTaskDelete(NULL);
+  vTaskDelete(nullptr);
 }
 
 extern "C"
 {
   void app_main()
   {
-    xTaskCreatePinnedToCore(main_task, "main_task", 8192, NULL, 1, NULL, 1);
+    xTaskCreatePinnedToCore(main_task, "main_task", 8192, nullptr, 1, nullptr, 1);
   }
 }
