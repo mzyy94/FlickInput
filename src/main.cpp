@@ -71,6 +71,12 @@ void register_events()
   register_status_update();
 }
 
+void update_battery_status(void *)
+{
+  auto bat = M5.Power.getBatteryLevel();
+  esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BATTERY_LEVEL, &bat, sizeof(bat), 0);
+}
+
 void main_task(void *)
 {
   init_m5paper();
@@ -87,21 +93,15 @@ void main_task(void *)
   register_events();
 
   draw_logo();
+  update_battery_status(nullptr);
 
-  uint64_t count = 0;
+  dispatch_every<void *>(10 * 60 * 1000, update_battery_status, nullptr);
+
   for (;;)
   {
     vTaskDelay(20 / portTICK_RATE_MS);
 
     M5.update();
-
-    if (count % 30000 == 0)
-    {
-      auto bat = M5.Power.getBatteryLevel();
-      esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BATTERY_LEVEL, &bat, sizeof(bat), 0);
-      count = 0;
-    }
-    count++;
 
     update_button_event();
     if (Menu.opened)
@@ -113,8 +113,8 @@ void main_task(void *)
 
     if (M5.BtnB.wasHold())
     {
-      count = 0;
       M5.Display.clearDisplay(TFT_WHITE);
+      esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_NO_REASON, nullptr, 0, 0);
       draw_keyboard();
     }
     if (M5.BtnA.wasClicked())

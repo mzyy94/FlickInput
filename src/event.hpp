@@ -40,3 +40,18 @@ void dispatch_after(uint32_t msec, void (*callback)(TArg), TArg arg)
   esp_timer_create(&timer_config, &timer);
   esp_timer_start_once(timer, msec * 1000ULL);
 }
+
+template <typename TArg>
+void dispatch_every(uint32_t msec, void (*callback)(TArg), TArg arg)
+{
+  esp_timer_handle_t timer;
+  esp_timer_create_args_t timer_config = {
+      .callback = reinterpret_cast<esp_timer_cb_t>(callback),
+      .arg = reinterpret_cast<void *>(arg),
+      .dispatch_method = ESP_TIMER_TASK,
+      .name = "run_task",
+      .skip_unhandled_events = false,
+  };
+  esp_timer_create(&timer_config, &timer);
+  esp_timer_start_periodic(timer, msec * 1000ULL);
+}
