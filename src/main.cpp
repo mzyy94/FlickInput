@@ -137,7 +137,7 @@ void main_task(void *)
 
   // 3. Draw logo, keyboard and status bar
   draw_logo();
-  draw_hiragana_keybard();
+  draw_next_keyboard();
   draw_status_bar(true);
 
   // 4. Set battery status update interval loop

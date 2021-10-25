@@ -6,6 +6,40 @@
 
 std::array<struct key_button, 19> key_buttons;
 
+struct Layout
+{
+  std::string icon;
+  std::function<void(void)> draw_function;
+
+  Layout(std::string icon, std::function<void(void)> draw_function)
+  {
+    this->icon = icon;
+    this->draw_function = draw_function;
+  }
+};
+
+std::vector<Layout *> layouts;
+size_t next_layout = 0;
+
+void draw_next_keyboard()
+{
+  const auto draw_func = layouts[next_layout]->draw_function;
+  next_layout++;
+  if (next_layout >= layouts.size())
+  {
+    next_layout = 0;
+  }
+  draw_func();
+}
+
+void draw_hiragana_keybard();
+void draw_hiragana_modified_keybard();
+void draw_roman_kana_keybard();
+void draw_roman_modified_keybard();
+void draw_alphabet_keybard();
+void draw_lower_alphabet_keybard();
+void draw_number_keybard();
+
 void draw_hiragana_keybard()
 {
   send_key(HID_KEY_LANG1, 0);
@@ -21,7 +55,7 @@ void draw_hiragana_keybard()
   key_buttons[i++].set_keys("な", KEYKANA_NA, KEYKANA_NI, KEYKANA_NU, KEYKANA_NE, KEYKANA_NO);
   key_buttons[i++].set_keys("は", KEYKANA_HA, KEYKANA_HI, KEYKANA_HU, KEYKANA_HE, KEYKANA_HO);
   key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
-  key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
+  key_buttons[i++].set_action(layouts[next_layout]->icon, draw_next_keyboard);
   key_buttons[i++].set_keys("ま", KEYKANA_MA, KEYKANA_MI, KEYKANA_MU, KEYKANA_ME, KEYKANA_MO);
   key_buttons[i++].set_keys("や", KEYKANA_YA, KEYKANA_KAKKO, KEYKANA_YU, KEYKANA_KAKKO_TOJI, KEYKANA_YO);
   key_buttons[i++].set_keys("ら", KEYKANA_RA, KEYKANA_RI, KEYKANA_RU, KEYKANA_RE, KEYKANA_RO);
@@ -46,7 +80,7 @@ void draw_hiragana_modified_keybard()
   key_buttons[i++].set_action("っ", draw_hiragana_keybard, KEYKANA_XTU);
   key_buttons[i++].set_action("ば", draw_hiragana_keybard, KEYKANA_BA, KEYKANA_BI, KEYKANA_BU, KEYKANA_BE, KEYKANA_BO);
   key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
-  key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
+  key_buttons[i++].set_action(layouts[next_layout]->icon, draw_next_keyboard);
   key_buttons[i++].set_action("ぱ", draw_hiragana_keybard, KEYKANA_PA, KEYKANA_PI, KEYKANA_PU, KEYKANA_PE, KEYKANA_PO);
   key_buttons[i++].set_action("ゃ", draw_hiragana_keybard, KEYKANA_XYA, KEYKANA_LEFT_PAREN, KEYKANA_XYU, KEYKANA_RIGHT_PAREN, KEYKANA_XYO);
   key_buttons[i++].set_keys("");
@@ -73,7 +107,7 @@ void draw_roman_kana_keybard()
   key_buttons[i++].set_keys("な", KEYROMAN_NA, KEYROMAN_NI, KEYROMAN_NU, KEYROMAN_NE, KEYROMAN_NO);
   key_buttons[i++].set_keys("は", KEYROMAN_HA, KEYROMAN_HI, KEYROMAN_HU, KEYROMAN_HE, KEYROMAN_HO);
   key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
-  key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
+  key_buttons[i++].set_action(layouts[next_layout]->icon, draw_next_keyboard);
   key_buttons[i++].set_keys("ま", KEYROMAN_MA, KEYROMAN_MI, KEYROMAN_MU, KEYROMAN_ME, KEYROMAN_MO);
   key_buttons[i++].set_keys("や", KEYROMAN_YA, KEYROMAN_KAKKO, KEYROMAN_YU, KEYROMAN_KAKKO_TOJI, KEYROMAN_YO);
   key_buttons[i++].set_keys("ら", KEYROMAN_RA, KEYROMAN_RI, KEYROMAN_RU, KEYROMAN_RE, KEYROMAN_RO);
@@ -98,7 +132,7 @@ void draw_roman_modified_keybard()
   key_buttons[i++].set_action("っ", draw_roman_kana_keybard, KEYROMAN_XTU);
   key_buttons[i++].set_action("ば", draw_roman_kana_keybard, KEYROMAN_BA, KEYROMAN_BI, KEYROMAN_BU, KEYROMAN_BE, KEYROMAN_BO);
   key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
-  key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
+  key_buttons[i++].set_action(layouts[next_layout]->icon, draw_next_keyboard);
   key_buttons[i++].set_action("ぱ", draw_roman_kana_keybard, KEYROMAN_PA, KEYROMAN_PI, KEYROMAN_PU, KEYROMAN_PE, KEYROMAN_PO);
   key_buttons[i++].set_action("ゃ", draw_roman_kana_keybard, KEYROMAN_XYA, KEYROMAN_LEFT_PAREN, KEYROMAN_XYU, KEYROMAN_RIGHT_PAREN, KEYROMAN_XYO);
   key_buttons[i++].set_keys("");
@@ -125,7 +159,7 @@ void draw_alphabet_keybard()
   key_buttons[i++].set_keys("JKL", KEY_J, KEY_K, KEY_L);
   key_buttons[i++].set_keys("MNO", KEY_M, KEY_N, KEY_O);
   key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
-  key_buttons[i++].set_action("123", draw_number_keybard);
+  key_buttons[i++].set_action(layouts[next_layout]->icon, draw_next_keyboard);
   key_buttons[i++].set_keys("PQRS", KEY_P, KEY_Q, KEY_R, KEY_S);
   key_buttons[i++].set_keys("TUV", KEY_T, KEY_U, KEY_V);
   key_buttons[i++].set_keys("WXYZ", KEY_W, KEY_X, KEY_Y, KEY_Z);
@@ -150,7 +184,7 @@ void draw_lower_alphabet_keybard()
   key_buttons[i++].set_keys("jkl", KEY_j, KEY_k, KEY_l);
   key_buttons[i++].set_keys("mno", KEY_m, KEY_n, KEY_o);
   key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
-  key_buttons[i++].set_action("123", draw_number_keybard);
+  key_buttons[i++].set_action(layouts[next_layout]->icon, draw_next_keyboard);
   key_buttons[i++].set_keys("pqrs", KEY_p, KEY_q, KEY_r, KEY_s);
   key_buttons[i++].set_keys("tuv", KEY_t, KEY_u, KEY_v);
   key_buttons[i++].set_keys("wxyz", KEY_w, KEY_x, KEY_y, KEY_z);
@@ -175,7 +209,7 @@ void draw_number_keybard()
   key_buttons[i++].set_keys("5", KEY_5);
   key_buttons[i++].set_keys("6", KEY_6);
   key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
-  key_buttons[i++].set_action("あいう", draw_roman_kana_keybard);
+  key_buttons[i++].set_action(layouts[next_layout]->icon, draw_next_keyboard);
   key_buttons[i++].set_keys("7", KEY_7);
   key_buttons[i++].set_keys("8", KEY_8);
   key_buttons[i++].set_keys("9", KEY_9);
@@ -189,6 +223,12 @@ void draw_number_keybard()
 
 void init_keyboard_layout()
 {
+  layouts.clear();
+  layouts.push_back(new Layout("あいう", draw_hiragana_keybard));
+  layouts.push_back(new Layout("ABC", draw_alphabet_keybard));
+  layouts.push_back(new Layout("123", draw_number_keybard));
+  next_layout = 0;
+
   const int32_t x = 10, y = 560, w = 96, h = 78, pad = 10;
 
   for (size_t j = 0; j < 5; j++)
