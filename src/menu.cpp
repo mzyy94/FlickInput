@@ -102,6 +102,14 @@ namespace menu
     callbacks.push_back(callback);
   }
 
+  void Menu::editItemLabel(uint32_t index, const char *text)
+  {
+    if (index < labels.size())
+    {
+      labels[index] = std::string(text);
+    }
+  }
+
   void Menu::clearItems()
   {
     labels.clear();

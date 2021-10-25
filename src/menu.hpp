@@ -33,6 +33,7 @@ namespace menu
 
     void addItem(const char *text, std::function<void(void)> callback);
     void clearItems();
+    void editItemLabel(uint32_t index, const char *text);
   };
 }
 
