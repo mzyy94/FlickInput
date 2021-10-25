@@ -81,6 +81,27 @@ void shutdown()
   M5.Power.powerOff();
 }
 
+void change_input_method()
+{
+  Menu.close();
+  input_method_t input_method = load_input_method_setting();
+
+  switch (input_method)
+  {
+  case keyboard_input_method_not_available:
+  case keyboard_input_method_us_kana:
+    save_input_method_setting(keyboard_input_method_us_roman);
+    Menu.editItemLabel(0, "入力方法: USローマ字");
+    break;
+  case keyboard_input_method_us_roman:
+    save_input_method_setting(keyboard_input_method_us_kana);
+    Menu.editItemLabel(0, "入力方法: USかな");
+    break;
+  }
+  set_input_method();
+  Menu.open();
+}
+
 void refresh_display()
 {
   if (Menu.opened)
@@ -96,6 +117,19 @@ void refresh_display()
 
 void init_menu()
 {
+  input_method_t input_method = load_input_method_setting();
+
+  switch (input_method)
+  {
+  case keyboard_input_method_not_available:
+  case keyboard_input_method_us_kana:
+    Menu.addItem("入力方法: USかな", change_input_method);
+    break;
+  case keyboard_input_method_us_roman:
+    Menu.addItem("入力方法: USローマ字", change_input_method);
+    break;
+  }
+
   Menu.addItem("シャットダウン", shutdown);
   Menu.addItem("閉じる", refresh_display);
 }

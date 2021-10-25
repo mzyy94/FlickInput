@@ -34,7 +34,7 @@ namespace menu
   }
 
   Menu::Menu()
-      : width(360), line_height(48), opened(false), active(false)
+      : width(480), line_height(48), opened(false), active(false)
   {
   }
 
