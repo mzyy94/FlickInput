@@ -12,24 +12,24 @@ void draw_hiragana_keybard()
 
   size_t i = 0;
   key_buttons[i++].set_repeatable_keys("→", KEY_RIGHT_ARROW);
-  key_buttons[i++].set_keys("あ", KEYJP_A, KEYJP_I, KEYJP_U, KEYJP_E, KEYJP_O);
-  key_buttons[i++].set_keys("か", KEYJP_KA, KEYJP_KI, KEYJP_KU, KEYJP_KE, KEYJP_KO);
-  key_buttons[i++].set_keys("さ", KEYJP_SA, KEYJP_SI, KEYJP_SU, KEYJP_SE, KEYJP_SO);
+  key_buttons[i++].set_keys("あ", KEYKANA_A, KEYKANA_I, KEYKANA_U, KEYKANA_E, KEYKANA_O);
+  key_buttons[i++].set_keys("か", KEYKANA_KA, KEYKANA_KI, KEYKANA_KU, KEYKANA_KE, KEYKANA_KO);
+  key_buttons[i++].set_keys("さ", KEYKANA_SA, KEYKANA_SI, KEYKANA_SU, KEYKANA_SE, KEYKANA_SO);
   key_buttons[i++].set_repeatable_keys("<x", KEY_DELETE);
   key_buttons[i++].set_repeatable_keys("←", KEY_LEFT_ARROW);
-  key_buttons[i++].set_keys("た", KEYJP_TA, KEYJP_TI, KEYJP_TU, KEYJP_TE, KEYJP_TO);
-  key_buttons[i++].set_keys("な", KEYJP_NA, KEYJP_NI, KEYJP_NU, KEYJP_NE, KEYJP_NO);
-  key_buttons[i++].set_keys("は", KEYJP_HA, KEYJP_HI, KEYJP_HU, KEYJP_HE, KEYJP_HO);
+  key_buttons[i++].set_keys("た", KEYKANA_TA, KEYKANA_TI, KEYKANA_TU, KEYKANA_TE, KEYKANA_TO);
+  key_buttons[i++].set_keys("な", KEYKANA_NA, KEYKANA_NI, KEYKANA_NU, KEYKANA_NE, KEYKANA_NO);
+  key_buttons[i++].set_keys("は", KEYKANA_HA, KEYKANA_HI, KEYKANA_HU, KEYKANA_HE, KEYKANA_HO);
   key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
   key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
-  key_buttons[i++].set_keys("ま", KEYJP_MA, KEYJP_MI, KEYJP_MU, KEYJP_ME, KEYJP_MO);
-  key_buttons[i++].set_keys("や", KEYJP_YA, KEYJP_KAKKO, KEYJP_YU, KEYJP_KAKKO_TOJI, KEYJP_YO);
-  key_buttons[i++].set_keys("ら", KEYJP_RA, KEYJP_RI, KEYJP_RU, KEYJP_RE, KEYJP_RO);
+  key_buttons[i++].set_keys("ま", KEYKANA_MA, KEYKANA_MI, KEYKANA_MU, KEYKANA_ME, KEYKANA_MO);
+  key_buttons[i++].set_keys("や", KEYKANA_YA, KEYKANA_KAKKO, KEYKANA_YU, KEYKANA_KAKKO_TOJI, KEYKANA_YO);
+  key_buttons[i++].set_keys("ら", KEYKANA_RA, KEYKANA_RI, KEYKANA_RU, KEYKANA_RE, KEYKANA_RO);
   key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
   key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
   key_buttons[i++].set_action("小゛゜", draw_hiragana_modified_keybard);
-  key_buttons[i++].set_keys("わ", KEYJP_WA, KEYJP_WO, KEYJP_NN, KEYJP_DASH);
-  key_buttons[i++].set_keys("、。?!", KEYJP_TOUTEN, KEYJP_KUTEN, KEYJP_QUESTION, KEYJP_EXCL_MARK);
+  key_buttons[i++].set_keys("わ", KEYKANA_WA, KEYKANA_WO, KEYKANA_NN, KEYKANA_DASH);
+  key_buttons[i++].set_keys("、。?!", KEYKANA_TOUTEN, KEYKANA_KUTEN, KEYKANA_QUESTION, KEYKANA_EXCL_MARK);
   draw_keyboard();
 }
 
@@ -37,24 +37,76 @@ void draw_hiragana_modified_keybard()
 {
   size_t i = 0;
   key_buttons[i++].set_repeatable_keys("→", KEY_RIGHT_ARROW);
-  key_buttons[i++].set_action("ぁ", draw_hiragana_keybard, KEYJP_XA, KEYJP_XI, KEYJP_XU, KEYJP_XE, KEYJP_XO);
-  key_buttons[i++].set_action("が", draw_hiragana_keybard, KEYJP_GA, KEYJP_GI, KEYJP_GU, KEYJP_GE, KEYJP_GO);
-  key_buttons[i++].set_action("ざ", draw_hiragana_keybard, KEYJP_ZA, KEYJP_ZI, KEYJP_ZU, KEYJP_ZE, KEYJP_ZO);
+  key_buttons[i++].set_action("ぁ", draw_hiragana_keybard, KEYKANA_XA, KEYKANA_XI, KEYKANA_XU, KEYKANA_XE, KEYKANA_XO);
+  key_buttons[i++].set_action("が", draw_hiragana_keybard, KEYKANA_GA, KEYKANA_GI, KEYKANA_GU, KEYKANA_GE, KEYKANA_GO);
+  key_buttons[i++].set_action("ざ", draw_hiragana_keybard, KEYKANA_ZA, KEYKANA_ZI, KEYKANA_ZU, KEYKANA_ZE, KEYKANA_ZO);
   key_buttons[i++].set_repeatable_keys("<x", KEY_DELETE);
   key_buttons[i++].set_repeatable_keys("←", KEY_LEFT_ARROW);
-  key_buttons[i++].set_action("だ", draw_hiragana_keybard, KEYJP_DA, KEYJP_DI, KEYJP_DU, KEYJP_DE, KEYJP_DO);
-  key_buttons[i++].set_action("っ", draw_hiragana_keybard, KEYJP_XTU);
-  key_buttons[i++].set_action("ば", draw_hiragana_keybard, KEYJP_BA, KEYJP_BI, KEYJP_BU, KEYJP_BE, KEYJP_BO);
+  key_buttons[i++].set_action("だ", draw_hiragana_keybard, KEYKANA_DA, KEYKANA_DI, KEYKANA_DU, KEYKANA_DE, KEYKANA_DO);
+  key_buttons[i++].set_action("っ", draw_hiragana_keybard, KEYKANA_XTU);
+  key_buttons[i++].set_action("ば", draw_hiragana_keybard, KEYKANA_BA, KEYKANA_BI, KEYKANA_BU, KEYKANA_BE, KEYKANA_BO);
   key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
   key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
-  key_buttons[i++].set_action("ぱ", draw_hiragana_keybard, KEYJP_PA, KEYJP_PI, KEYJP_PU, KEYJP_PE, KEYJP_PO);
-  key_buttons[i++].set_action("ゃ", draw_hiragana_keybard, KEYJP_XYA, KEYJP_LEFT_PAREN, KEYJP_XYU, KEYJP_RIGHT_PAREN, KEYJP_XYO);
+  key_buttons[i++].set_action("ぱ", draw_hiragana_keybard, KEYKANA_PA, KEYKANA_PI, KEYKANA_PU, KEYKANA_PE, KEYKANA_PO);
+  key_buttons[i++].set_action("ゃ", draw_hiragana_keybard, KEYKANA_XYA, KEYKANA_LEFT_PAREN, KEYKANA_XYU, KEYKANA_RIGHT_PAREN, KEYKANA_XYO);
   key_buttons[i++].set_keys("");
   key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
   key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
   key_buttons[i++].set_action("あいう", draw_hiragana_keybard);
   key_buttons[i++].set_keys("");
-  key_buttons[i++].set_keys("@#$%", KEYJP_ATMARK, KEYJP_NUM_SIGN, KEYJP_DOLLAR, KEYJP_PERCENT);
+  key_buttons[i++].set_keys("@#$%", KEYKANA_ATMARK, KEYKANA_NUM_SIGN, KEYKANA_DOLLAR, KEYKANA_PERCENT);
+  draw_keyboard();
+}
+
+void draw_roman_kana_keybard()
+{
+  send_key(HID_KEY_LANG1, 0);
+
+  size_t i = 0;
+  key_buttons[i++].set_repeatable_keys("→", KEY_RIGHT_ARROW);
+  key_buttons[i++].set_keys("あ", KEYROMAN_A, KEYROMAN_I, KEYROMAN_U, KEYROMAN_E, KEYROMAN_O);
+  key_buttons[i++].set_keys("か", KEYROMAN_KA, KEYROMAN_KI, KEYROMAN_KU, KEYROMAN_KE, KEYROMAN_KO);
+  key_buttons[i++].set_keys("さ", KEYROMAN_SA, KEYROMAN_SI, KEYROMAN_SU, KEYROMAN_SE, KEYROMAN_SO);
+  key_buttons[i++].set_repeatable_keys("<x", KEY_DELETE);
+  key_buttons[i++].set_repeatable_keys("←", KEY_LEFT_ARROW);
+  key_buttons[i++].set_keys("た", KEYROMAN_TA, KEYROMAN_TI, KEYROMAN_TU, KEYROMAN_TE, KEYROMAN_TO);
+  key_buttons[i++].set_keys("な", KEYROMAN_NA, KEYROMAN_NI, KEYROMAN_NU, KEYROMAN_NE, KEYROMAN_NO);
+  key_buttons[i++].set_keys("は", KEYROMAN_HA, KEYROMAN_HI, KEYROMAN_HU, KEYROMAN_HE, KEYROMAN_HO);
+  key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
+  key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
+  key_buttons[i++].set_keys("ま", KEYROMAN_MA, KEYROMAN_MI, KEYROMAN_MU, KEYROMAN_ME, KEYROMAN_MO);
+  key_buttons[i++].set_keys("や", KEYROMAN_YA, KEYROMAN_KAKKO, KEYROMAN_YU, KEYROMAN_KAKKO_TOJI, KEYROMAN_YO);
+  key_buttons[i++].set_keys("ら", KEYROMAN_RA, KEYROMAN_RI, KEYROMAN_RU, KEYROMAN_RE, KEYROMAN_RO);
+  key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
+  key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
+  key_buttons[i++].set_action("小゛゜", draw_roman_modified_keybard);
+  key_buttons[i++].set_keys("わ", KEYROMAN_WA, KEYROMAN_WO, KEYROMAN_NN, KEYROMAN_DASH);
+  key_buttons[i++].set_keys("、。?!", KEYROMAN_TOUTEN, KEYROMAN_KUTEN, KEYROMAN_QUESTION, KEYROMAN_EXCL_MARK);
+  draw_keyboard();
+}
+
+void draw_roman_modified_keybard()
+{
+  size_t i = 0;
+  key_buttons[i++].set_repeatable_keys("→", KEY_RIGHT_ARROW);
+  key_buttons[i++].set_action("ぁ", draw_roman_kana_keybard, KEYROMAN_XA, KEYROMAN_XI, KEYROMAN_XU, KEYROMAN_XE, KEYROMAN_XO);
+  key_buttons[i++].set_action("が", draw_roman_kana_keybard, KEYROMAN_GA, KEYROMAN_GI, KEYROMAN_GU, KEYROMAN_GE, KEYROMAN_GO);
+  key_buttons[i++].set_action("ざ", draw_roman_kana_keybard, KEYROMAN_ZA, KEYROMAN_ZI, KEYROMAN_ZU, KEYROMAN_ZE, KEYROMAN_ZO);
+  key_buttons[i++].set_repeatable_keys("<x", KEY_DELETE);
+  key_buttons[i++].set_repeatable_keys("←", KEY_LEFT_ARROW);
+  key_buttons[i++].set_action("だ", draw_roman_kana_keybard, KEYROMAN_DA, KEYROMAN_DI, KEYROMAN_DU, KEYROMAN_DE, KEYROMAN_DO);
+  key_buttons[i++].set_action("っ", draw_roman_kana_keybard, KEYROMAN_XTU);
+  key_buttons[i++].set_action("ば", draw_roman_kana_keybard, KEYROMAN_BA, KEYROMAN_BI, KEYROMAN_BU, KEYROMAN_BE, KEYROMAN_BO);
+  key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
+  key_buttons[i++].set_action("ABC", draw_alphabet_keybard);
+  key_buttons[i++].set_action("ぱ", draw_roman_kana_keybard, KEYROMAN_PA, KEYROMAN_PI, KEYROMAN_PU, KEYROMAN_PE, KEYROMAN_PO);
+  key_buttons[i++].set_action("ゃ", draw_roman_kana_keybard, KEYROMAN_XYA, KEYROMAN_LEFT_PAREN, KEYROMAN_XYU, KEYROMAN_RIGHT_PAREN, KEYROMAN_XYO);
+  key_buttons[i++].set_keys("");
+  key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
+  key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
+  key_buttons[i++].set_action("あいう", draw_roman_kana_keybard);
+  key_buttons[i++].set_keys("");
+  key_buttons[i++].set_keys("@#$%", KEYROMAN_ATMARK, KEYROMAN_NUM_SIGN, KEYROMAN_DOLLAR, KEYROMAN_PERCENT);
   draw_keyboard();
 }
 
@@ -123,7 +175,7 @@ void draw_number_keybard()
   key_buttons[i++].set_keys("5", KEY_5);
   key_buttons[i++].set_keys("6", KEY_6);
   key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
-  key_buttons[i++].set_action("あいう", draw_hiragana_keybard);
+  key_buttons[i++].set_action("あいう", draw_roman_kana_keybard);
   key_buttons[i++].set_keys("7", KEY_7);
   key_buttons[i++].set_keys("8", KEY_8);
   key_buttons[i++].set_keys("9", KEY_9);
