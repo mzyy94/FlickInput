@@ -6,11 +6,13 @@ struct Layout
 {
   std::string icon;
   std::function<void(void)> layout_function;
+  key_input_t key;
 
-  Layout(std::string icon, std::function<void(void)> layout_function)
+  Layout(std::string icon, std::function<void(void)> layout_function, key_input_t key)
   {
     this->icon = icon;
     this->layout_function = layout_function;
+    this->key = key;
   }
 };
 

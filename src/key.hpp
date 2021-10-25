@@ -299,8 +299,11 @@ static const key_input_t KEYKANA_ASTERISK = SINGLE_KEY("＊", HID_KEY_8, 6);
 static const key_input_t KEYKANA_LEFT_PAREN = SINGLE_KEY("（", HID_KEY_9, 6);
 static const key_input_t KEYKANA_RIGHT_PAREN = SINGLE_KEY("）", HID_KEY_0, 6);
 
+// Input method keys
 #define HID_KEY_LANG1 0x90 // Kana
 #define HID_KEY_LANG2 0x91 // Eisu
+static const key_input_t KEY_KANA_INPUT = SINGLE_KEY("かな", HID_KEY_LANG1, 0);
+static const key_input_t KEY_EISU_INPUT = SINGLE_KEY("英数", HID_KEY_LANG2, 0);
 
 // US Roma-ji input
 static const key_input_t KEYROMAN_A = SINGLE_KEY("あ", HID_KEY_A, 0);

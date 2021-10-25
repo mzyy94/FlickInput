@@ -22,9 +22,9 @@ void draw_next_keyboard()
 void init_keyboard_layout()
 {
   layouts.clear();
-  layouts.push_back(new Layout("あいう", layout_hiragana_keybard));
-  layouts.push_back(new Layout("ABC", layout_alphabet_keybard));
-  layouts.push_back(new Layout("123", layout_number_keybard));
+  layouts.push_back(new Layout("あいう", layout_hiragana_keybard, KEY_KANA_INPUT));
+  layouts.push_back(new Layout("ABC", layout_alphabet_keybard, KEY_EISU_INPUT));
+  layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
   next_layout = 0;
 
   const int32_t x = 10, y = 560, w = 96, h = 78, pad = 10;
