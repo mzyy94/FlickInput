@@ -1,9 +1,13 @@
 #include <algorithm>
+#include <esp_log.h>
+#include <nvs.h>
 
 #include "keyboard.hpp"
 #include "key_button.hpp"
 #include "ble.hpp"
 #include "layout.hpp"
+
+#define KEYBOARD_TAG "KEYBOARD"
 
 std::array<struct key_button, 19> key_buttons;
 
@@ -19,13 +23,57 @@ void draw_next_keyboard()
   draw_keyboard();
 }
 
+input_method_t load_input_method_setting()
+{
+  nvs_handle_t handle;
+  int32_t input_method = keyboard_input_method_not_available;
+  nvs_open("settings", NVS_READONLY, &handle);
+  esp_err_t err = nvs_get_i32(handle, "input_method", &input_method);
+  if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND)
+  {
+    ESP_LOGE(KEYBOARD_TAG, "%s unexpected error: %d", __func__, err);
+  }
+  nvs_close(handle);
+  return static_cast<input_method_t>(input_method);
+}
+
+void save_input_method_setting(input_method_t input_method)
+{
+  nvs_handle_t handle;
+  nvs_open("settings", NVS_READWRITE, &handle);
+  esp_err_t err = nvs_set_i32(handle, "input_method", input_method);
+  if (err != ESP_OK)
+  {
+    ESP_LOGE(KEYBOARD_TAG, "%s unexpected error: %d", __func__, err);
+  }
+  nvs_close(handle);
+}
+
+void set_input_method()
+{
+  input_method_t input_method = load_input_method_setting();
+  layouts.clear();
+  next_layout = 0;
+
+  switch (input_method)
+  {
+  case keyboard_input_method_not_available:
+  case keyboard_input_method_us_kana:
+    layouts.push_back(new Layout("ABC", layout_lower_alphabet_keybard, KEY_EISU_INPUT));
+    layouts.push_back(new Layout("あいう", layout_hiragana_keybard, KEY_KANA_INPUT));
+    layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
+    break;
+  case keyboard_input_method_us_roman:
+    layouts.push_back(new Layout("ABC", layout_lower_alphabet_keybard, KEY_EISU_INPUT));
+    layouts.push_back(new Layout("あいう", layout_roman_kana_keybard, KEY_KANA_INPUT));
+    layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
+    break;
+  }
+}
+
 void init_keyboard_layout()
 {
-  layouts.clear();
-  layouts.push_back(new Layout("あいう", layout_hiragana_keybard, KEY_KANA_INPUT));
-  layouts.push_back(new Layout("ABC", layout_alphabet_keybard, KEY_EISU_INPUT));
-  layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
-  next_layout = 0;
+  set_input_method();
 
   const int32_t x = 10, y = 560, w = 96, h = 78, pad = 10;
 
