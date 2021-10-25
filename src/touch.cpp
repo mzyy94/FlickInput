@@ -22,7 +22,6 @@ void touch_input()
   }
 
   static m5::touch_state_t prev_state;
-  static struct key_button *current_key;
   static int16_t start_x, start_y;
   static bool need_refresh = false;
   static esp_timer_handle_t hold_input = nullptr;
@@ -38,13 +37,13 @@ void touch_input()
     {
       ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::touch_begin ? "touch_begin" : "flick_begin", t.state, t.x, t.y);
 
-      if (current_key == nullptr)
+      if (Keyboard.current_key == nullptr)
       {
-        current_key = std::find_if(key_buttons.begin(), key_buttons.end(), [t](struct key_button btn)
-                                   { return btn.contains(t.x, t.y); });
-        if (current_key == key_buttons.end())
+        Keyboard.current_key = std::find_if(Keyboard.key_buttons.begin(), Keyboard.key_buttons.end(), [t](struct key_button btn)
+                                            { return btn.contains(t.x, t.y); });
+        if (Keyboard.current_key == Keyboard.key_buttons.end())
         {
-          current_key = nullptr;
+          Keyboard.current_key = nullptr;
         }
         else
         {
@@ -58,15 +57,15 @@ void touch_input()
     {
       ESP_LOGD(TOUCH_TAG, "event hold_begin: %d (%d,%d)", t.state, t.x, t.y);
 
-      if (current_key != nullptr)
+      if (Keyboard.current_key != nullptr)
       {
-        if (current_key->repeat)
+        if (Keyboard.current_key->repeat)
         {
-          input_key_button(current_key, center, true);
+          Keyboard.input_key_button(center, true);
           ESP_LOGD(TOUCH_TAG, "start repeat key input");
-          hold_input = dispatch_every(100, input_key_button, current_key);
+          hold_input = Keyboard.repeat_key_button();
         }
-        current_key->draw_hold();
+        Keyboard.current_key->draw_hold();
         need_refresh = true;
       }
       break;
@@ -82,20 +81,20 @@ void touch_input()
         hold_input = nullptr;
         ESP_LOGD(TOUCH_TAG, "stop repeat key input");
       }
-      else if (current_key != nullptr)
+      else if (Keyboard.current_key != nullptr)
       {
-        input_key_button(current_key, center, true);
-        if (current_key->action != nullptr)
+        Keyboard.input_key_button(center, true);
+        if (Keyboard.current_key->action != nullptr)
         {
-          current_key->action();
+          Keyboard.current_key->action();
         }
       }
       if (need_refresh)
       {
-        draw_keyboard();
+        Keyboard.draw();
         need_refresh = false;
       }
-      current_key = nullptr;
+      Keyboard.current_key = nullptr;
       break;
     }
     case m5::flick_end:
@@ -103,16 +102,16 @@ void touch_input()
     {
       ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::flick_end ? "flick_end" : "drag_end", t.state, t.x, t.y);
 
-      if (current_key != nullptr)
+      if (Keyboard.current_key != nullptr)
       {
-        const auto dir = current_key->flick(start_x, start_y, t.x, t.y);
-        input_key_button(current_key, dir, true);
-        if (current_key->action != nullptr)
+        const auto dir = Keyboard.current_key->flick(start_x, start_y, t.x, t.y);
+        Keyboard.input_key_button(dir, true);
+        if (Keyboard.current_key->action != nullptr)
         {
-          current_key->action();
+          Keyboard.current_key->action();
         }
       }
-      current_key = nullptr;
+      Keyboard.current_key = nullptr;
       break;
     }
     default:

@@ -1,6 +1,7 @@
 #pragma once
 #include <M5Unified.h>
 #include "key_button.hpp"
+#include "event.hpp"
 
 enum input_method_t
 {
@@ -9,13 +10,25 @@ enum input_method_t
   keyboard_input_method_us_roman,
 };
 
-extern std::array<struct key_button, 19> key_buttons;
+namespace kbd
+{
+  struct Keyboard
+  {
+    std::array<struct key_button, 19> key_buttons;
+    struct key_button *current_key;
 
-input_method_t load_input_method_setting();
-void save_input_method_setting(input_method_t input_method);
-void set_input_method();
-void draw_next_keyboard();
-void init_keyboard_layout();
-void draw_keyboard();
-void input_key_button(struct key_button *key, direction_t dir, bool draw_text);
-void input_key_button(struct key_button *key);
+    input_method_t load_input_method_setting();
+    void save_input_method_setting(input_method_t input_method);
+    void set_input_method();
+    void draw_next_layout();
+    void init();
+    void draw();
+    void input_key_button(direction_t dir, bool draw_text);
+    esp_timer_handle_t repeat_key_button();
+
+  private:
+    void draw_input_text(std::string text);
+  };
+}
+
+extern kbd::Keyboard Keyboard;

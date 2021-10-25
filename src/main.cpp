@@ -88,21 +88,21 @@ void shutdown()
 void change_input_method()
 {
   Menu.close();
-  input_method_t input_method = load_input_method_setting();
+  input_method_t input_method = Keyboard.load_input_method_setting();
 
   switch (input_method)
   {
   case keyboard_input_method_not_available:
   case keyboard_input_method_us_kana:
-    save_input_method_setting(keyboard_input_method_us_roman);
+    Keyboard.save_input_method_setting(keyboard_input_method_us_roman);
     Menu.editItemLabel(0, "入力方法: USローマ字");
     break;
   case keyboard_input_method_us_roman:
-    save_input_method_setting(keyboard_input_method_us_kana);
+    Keyboard.save_input_method_setting(keyboard_input_method_us_kana);
     Menu.editItemLabel(0, "入力方法: USかな");
     break;
   }
-  set_input_method();
+  Keyboard.set_input_method();
   Menu.open();
 }
 
@@ -114,14 +114,14 @@ void refresh_display()
     register_side_button_events();
   }
   M5.Display.clearDisplay(TFT_WHITE);
-  draw_keyboard();
+  Keyboard.draw();
   draw_status_bar(false);
   ESP_LOGI(MAIN_TAG, "Display refreshed");
 }
 
 void init_menu()
 {
-  input_method_t input_method = load_input_method_setting();
+  input_method_t input_method = Keyboard.load_input_method_setting();
 
   switch (input_method)
   {
@@ -169,13 +169,13 @@ void main_task(void *)
   register_events();
 
   // 2. Initialize instances
-  init_keyboard_layout();
+  Keyboard.init();
   init_touch();
   init_menu();
 
   // 3. Draw logo, keyboard and status bar
   draw_logo();
-  draw_next_keyboard();
+  Keyboard.draw_next_layout();
   draw_status_bar(true);
 
   // 4. Set battery status update interval loop
