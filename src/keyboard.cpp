@@ -187,7 +187,11 @@ void input_key_button(struct key_button *key, direction_t dir, bool draw_text)
   send_key(input->keycode, input->modifier);
   if (input->second_keycode != 0)
   {
-    send_key(input->second_keycode, input->second_modifier);
+    send_key(input->second_keycode, input->modifier);
+  }
+  if (input->third_keycode != 0)
+  {
+    send_key(input->third_keycode, input->modifier);
   }
 }
 

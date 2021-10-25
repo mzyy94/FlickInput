@@ -5,20 +5,25 @@
 typedef struct key_input
 {
   std::string text;
-  uint8_t keycode;
   uint8_t modifier;
+  uint8_t keycode;
   uint8_t second_keycode;
-  uint8_t second_modifier;
+  uint8_t third_keycode;
 } key_input_t;
 
 #define SINGLE_KEY(label, keycode, modifier) \
   {                                          \
-    label, keycode, modifier, 0, 0           \
+    label, modifier, keycode, 0, 0           \
   }
 
-#define MULTI_KEY(label, keycode1, modifier1, keycode2, modifier2) \
-  {                                                                \
-    label, keycode1, modifier1, keycode2, modifier2                \
+#define MULTI_KEY2(label, keycode1, keycode2, modifier) \
+  {                                                     \
+    label, modifier, keycode1, keycode2, 0              \
+  }
+
+#define MULTI_KEY3(label, keycode1, keycode2, keycode3, modifier) \
+  {                                                               \
+    label, modifier, keycode1, keycode2, keycode3                 \
   }
 
 static const key_input_t KEY_a = SINGLE_KEY("a", HID_KEY_A, 0);
@@ -191,11 +196,11 @@ static const key_input_t KEYJP_KU = SINGLE_KEY("く", HID_KEY_H, 0);
 static const key_input_t KEYJP_KE = SINGLE_KEY("け", HID_KEY_SGL_QUOTE, 0);
 static const key_input_t KEYJP_KO = SINGLE_KEY("こ", HID_KEY_B, 0);
 
-static const key_input_t KEYJP_GA = MULTI_KEY("が", HID_KEY_T, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_GI = MULTI_KEY("ぎ", HID_KEY_G, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_GU = MULTI_KEY("ぐ", HID_KEY_H, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_GE = MULTI_KEY("げ", HID_KEY_SGL_QUOTE, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_GO = MULTI_KEY("ご", HID_KEY_B, 0, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_GA = MULTI_KEY2("が", HID_KEY_T, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_GI = MULTI_KEY2("ぎ", HID_KEY_G, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_GU = MULTI_KEY2("ぐ", HID_KEY_H, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_GE = MULTI_KEY2("げ", HID_KEY_SGL_QUOTE, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_GO = MULTI_KEY2("ご", HID_KEY_B, HID_KEY_LEFT_BRKT, 0);
 
 static const key_input_t KEYJP_SA = SINGLE_KEY("さ", HID_KEY_X, 0);
 static const key_input_t KEYJP_SI = SINGLE_KEY("し", HID_KEY_D, 0);
@@ -203,11 +208,11 @@ static const key_input_t KEYJP_SU = SINGLE_KEY("す", HID_KEY_R, 0);
 static const key_input_t KEYJP_SE = SINGLE_KEY("せ", HID_KEY_P, 0);
 static const key_input_t KEYJP_SO = SINGLE_KEY("そ", HID_KEY_C, 0);
 
-static const key_input_t KEYJP_ZA = MULTI_KEY("ざ", HID_KEY_X, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_ZI = MULTI_KEY("じ", HID_KEY_D, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_ZU = MULTI_KEY("ず", HID_KEY_R, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_ZE = MULTI_KEY("ぜ", HID_KEY_P, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_ZO = MULTI_KEY("ぞ", HID_KEY_C, 0, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_ZA = MULTI_KEY2("ざ", HID_KEY_X, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_ZI = MULTI_KEY2("じ", HID_KEY_D, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_ZU = MULTI_KEY2("ず", HID_KEY_R, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_ZE = MULTI_KEY2("ぜ", HID_KEY_P, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_ZO = MULTI_KEY2("ぞ", HID_KEY_C, HID_KEY_LEFT_BRKT, 0);
 
 static const key_input_t KEYJP_TA = SINGLE_KEY("た", HID_KEY_Q, 0);
 static const key_input_t KEYJP_TI = SINGLE_KEY("ち", HID_KEY_A, 0);
@@ -215,11 +220,11 @@ static const key_input_t KEYJP_TU = SINGLE_KEY("つ", HID_KEY_Z, 0);
 static const key_input_t KEYJP_TE = SINGLE_KEY("て", HID_KEY_W, 0);
 static const key_input_t KEYJP_TO = SINGLE_KEY("と", HID_KEY_S, 0);
 
-static const key_input_t KEYJP_DA = MULTI_KEY("だ", HID_KEY_Q, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_DI = MULTI_KEY("ぢ", HID_KEY_A, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_DU = MULTI_KEY("づ", HID_KEY_Z, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_DE = MULTI_KEY("で", HID_KEY_W, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_DO = MULTI_KEY("ど", HID_KEY_S, 0, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_DA = MULTI_KEY2("だ", HID_KEY_Q, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_DI = MULTI_KEY2("ぢ", HID_KEY_A, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_DU = MULTI_KEY2("づ", HID_KEY_Z, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_DE = MULTI_KEY2("で", HID_KEY_W, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_DO = MULTI_KEY2("ど", HID_KEY_S, HID_KEY_LEFT_BRKT, 0);
 
 static const key_input_t KEYJP_XTU = SINGLE_KEY("っ", HID_KEY_Z, 2);
 
@@ -235,17 +240,17 @@ static const key_input_t KEYJP_HU = SINGLE_KEY("ふ", HID_KEY_2, 0);
 static const key_input_t KEYJP_HE = SINGLE_KEY("へ", HID_KEY_BACK_SLASH, 0);
 static const key_input_t KEYJP_HO = SINGLE_KEY("ほ", HID_KEY_MINUS, 0);
 
-static const key_input_t KEYJP_BA = MULTI_KEY("ば", HID_KEY_F, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_BI = MULTI_KEY("び", HID_KEY_V, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_BU = MULTI_KEY("ぶ", HID_KEY_2, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_BE = MULTI_KEY("べ", HID_KEY_BACK_SLASH, 0, HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEYJP_BO = MULTI_KEY("ぼ", HID_KEY_MINUS, 0, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_BA = MULTI_KEY2("ば", HID_KEY_F, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_BI = MULTI_KEY2("び", HID_KEY_V, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_BU = MULTI_KEY2("ぶ", HID_KEY_2, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_BE = MULTI_KEY2("べ", HID_KEY_BACK_SLASH, HID_KEY_LEFT_BRKT, 0);
+static const key_input_t KEYJP_BO = MULTI_KEY2("ぼ", HID_KEY_MINUS, HID_KEY_LEFT_BRKT, 0);
 
-static const key_input_t KEYJP_PA = MULTI_KEY("ぱ", HID_KEY_F, 0, HID_KEY_EQUAL, 0);
-static const key_input_t KEYJP_PI = MULTI_KEY("ぴ", HID_KEY_V, 0, HID_KEY_EQUAL, 0);
-static const key_input_t KEYJP_PU = MULTI_KEY("ぷ", HID_KEY_2, 0, HID_KEY_EQUAL, 0);
-static const key_input_t KEYJP_PE = MULTI_KEY("ぺ", HID_KEY_BACK_SLASH, 0, HID_KEY_EQUAL, 0);
-static const key_input_t KEYJP_PO = MULTI_KEY("ぽ", HID_KEY_MINUS, 0, HID_KEY_EQUAL, 0);
+static const key_input_t KEYJP_PA = MULTI_KEY2("ぱ", HID_KEY_F, HID_KEY_EQUAL, 0);
+static const key_input_t KEYJP_PI = MULTI_KEY2("ぴ", HID_KEY_V, HID_KEY_EQUAL, 0);
+static const key_input_t KEYJP_PU = MULTI_KEY2("ぷ", HID_KEY_2, HID_KEY_EQUAL, 0);
+static const key_input_t KEYJP_PE = MULTI_KEY2("ぺ", HID_KEY_BACK_SLASH, HID_KEY_EQUAL, 0);
+static const key_input_t KEYJP_PO = MULTI_KEY2("ぽ", HID_KEY_MINUS, HID_KEY_EQUAL, 0);
 
 static const key_input_t KEYJP_MA = SINGLE_KEY("ま", HID_KEY_J, 0);
 static const key_input_t KEYJP_MI = SINGLE_KEY("み", HID_KEY_N, 0);
