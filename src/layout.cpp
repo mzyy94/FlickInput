@@ -2,7 +2,6 @@
 
 #include "keyboard.hpp"
 #include "key_button.hpp"
-#include "ble.hpp"
 #include "layout.hpp"
 
 std::vector<Layout *> layouts;
@@ -10,8 +9,6 @@ size_t next_layout = 0;
 
 void layout_hiragana_keybard()
 {
-  send_key(HID_KEY_LANG1, 0);
-
   size_t i = 0;
   key_buttons[i++].set_repeatable_keys("→", KEY_RIGHT_ARROW);
   key_buttons[i++].set_keys("あ", KEYKANA_A, KEYKANA_I, KEYKANA_U, KEYKANA_E, KEYKANA_O);
@@ -32,6 +29,8 @@ void layout_hiragana_keybard()
   key_buttons[i++].set_action("小゛゜", layout_hiragana_modified_keybard);
   key_buttons[i++].set_keys("わ", KEYKANA_WA, KEYKANA_WO, KEYKANA_NN, KEYKANA_DASH);
   key_buttons[i++].set_keys("、。?!", KEYKANA_TOUTEN, KEYKANA_KUTEN, KEYKANA_QUESTION, KEYKANA_EXCL_MARK);
+
+  draw_keyboard();
 }
 
 void layout_hiragana_modified_keybard()
@@ -56,12 +55,12 @@ void layout_hiragana_modified_keybard()
   key_buttons[i++].set_action("あいう", layout_hiragana_keybard);
   key_buttons[i++].set_keys("");
   key_buttons[i++].set_keys("@#$%", KEYKANA_ATMARK, KEYKANA_NUM_SIGN, KEYKANA_DOLLAR, KEYKANA_PERCENT);
+
+  draw_keyboard();
 }
 
 void layout_roman_kana_keybard()
 {
-  send_key(HID_KEY_LANG1, 0);
-
   size_t i = 0;
   key_buttons[i++].set_repeatable_keys("→", KEY_RIGHT_ARROW);
   key_buttons[i++].set_keys("あ", KEYROMAN_A, KEYROMAN_I, KEYROMAN_U, KEYROMAN_E, KEYROMAN_O);
@@ -82,6 +81,8 @@ void layout_roman_kana_keybard()
   key_buttons[i++].set_action("小゛゜", layout_roman_modified_keybard);
   key_buttons[i++].set_keys("わ", KEYROMAN_WA, KEYROMAN_WO, KEYROMAN_NN, KEYROMAN_DASH);
   key_buttons[i++].set_keys("、。?!", KEYROMAN_TOUTEN, KEYROMAN_KUTEN, KEYROMAN_QUESTION, KEYROMAN_EXCL_MARK);
+
+  draw_keyboard();
 }
 
 void layout_roman_modified_keybard()
@@ -106,12 +107,12 @@ void layout_roman_modified_keybard()
   key_buttons[i++].set_action("あいう", layout_roman_kana_keybard);
   key_buttons[i++].set_keys("");
   key_buttons[i++].set_keys("@#$%", KEYROMAN_ATMARK, KEYROMAN_NUM_SIGN, KEYROMAN_DOLLAR, KEYROMAN_PERCENT);
+
+  draw_keyboard();
 }
 
 void layout_alphabet_keybard()
 {
-  send_key(HID_KEY_LANG2, 0);
-
   size_t i = 0;
   key_buttons[i++].set_repeatable_keys("→", KEY_RIGHT_ARROW);
   key_buttons[i++].set_keys("@#/&_", KEY_ATMARK, KEY_NUM_SIGN, KEY_FWD_SLASH, KEY_AMPERSAND, KEY_UNDERSCORE);
@@ -132,6 +133,8 @@ void layout_alphabet_keybard()
   key_buttons[i++].set_action("a/A", layout_lower_alphabet_keybard);
   key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
   key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
+
+  draw_keyboard();
 }
 
 void layout_lower_alphabet_keybard()
@@ -156,6 +159,8 @@ void layout_lower_alphabet_keybard()
   key_buttons[i++].set_action("a/A", layout_alphabet_keybard);
   key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
   key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
+
+  draw_keyboard();
 }
 
 void layout_number_keybard()
@@ -180,4 +185,6 @@ void layout_number_keybard()
   key_buttons[i++].set_keys("()[]", KEY_LEFT_PAREN, KEY_RIGHT_PAREN, KEY_LEFT_BRKT, KEY_RIGHT_BRKT);
   key_buttons[i++].set_keys("0", KEY_0);
   key_buttons[i++].set_keys(".,-/", KEY_DOT, KEY_COMMA, KEY_MINUS, KEY_FWD_SLASH);
+
+  draw_keyboard();
 }

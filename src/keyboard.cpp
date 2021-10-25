@@ -20,7 +20,6 @@ void draw_next_keyboard()
     next_layout = 0;
   }
   layout_func();
-  draw_keyboard();
 }
 
 input_method_t load_input_method_setting()
