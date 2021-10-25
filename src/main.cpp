@@ -37,7 +37,7 @@ void draw_status_bar(bool);
 void open_menu_handler(void *, esp_event_base_t, int32_t, void *)
 {
   unregister_side_button_events();
-  Menu.openMenu();
+  Menu.open();
 }
 
 void send_cursor_key_handler(void *, esp_event_base_t, int32_t event_id, void *)
@@ -85,7 +85,7 @@ void refresh_display()
 {
   if (Menu.opened)
   {
-    Menu.closeMenu();
+    Menu.close();
     register_side_button_events();
   }
   M5.Display.clearDisplay(TFT_WHITE);

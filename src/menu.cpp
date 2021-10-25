@@ -19,9 +19,7 @@ namespace menu
     auto *m = (menu::Menu *)event_handler_arg;
     if (!m->active)
       return;
-    m->cursor_index += (event_id == BUTTON_EVENT_PRESSED_A ? m->labels.size() - 1 : 1);
-    m->cursor_index %= m->labels.size();
-    m->drawCursor();
+    m->updateCursor(event_id == BUTTON_EVENT_PRESSED_A ? -1 : 1);
   }
 
   static void select_item(void *event_handler_arg,
@@ -32,8 +30,7 @@ namespace menu
     const auto *m = (menu::Menu *)event_handler_arg;
     if (!m->active)
       return;
-    auto callback = m->callbacks[m->cursor_index];
-    callback();
+    m->execute();
   }
 
   Menu::Menu()
@@ -86,6 +83,19 @@ namespace menu
     M5.Display.endWrite();
   }
 
+  void Menu::updateCursor(int32_t diff)
+  {
+    cursor_index += diff;
+    cursor_index %= labels.size();
+    drawCursor();
+  }
+
+  void Menu::execute() const
+  {
+    auto callback = callbacks[cursor_index];
+    callback();
+  }
+
   void Menu::addItem(const char *text, std::function<void(void)> callback)
   {
     labels.push_back(std::string(text));
@@ -98,7 +108,7 @@ namespace menu
     callbacks.clear();
   }
 
-  void Menu::openMenu()
+  void Menu::open()
   {
     registerCursorMove();
     opened = true;
@@ -110,7 +120,7 @@ namespace menu
     dispatch_after(100, set_active, this);
   }
 
-  void Menu::closeMenu()
+  void Menu::close()
   {
     unregisterCursorMove();
     active = false;
