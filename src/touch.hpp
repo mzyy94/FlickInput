@@ -13,6 +13,12 @@ namespace touch
 
     void init();
     void input();
+
+  private:
+    void touch_begin(int16_t x, int16_t y);
+    void hold_begin(int16_t x, int16_t y);
+    void touch_end(int16_t x, int16_t y);
+    void flick_end(int16_t x, int16_t y);
   };
 }
 
