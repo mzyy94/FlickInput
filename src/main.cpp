@@ -170,7 +170,7 @@ void main_task(void *)
 
   // 2. Initialize instances
   Keyboard.init();
-  init_touch();
+  Touch.init();
   init_menu();
 
   // 3. Draw logo, keyboard and status bar
@@ -193,7 +193,7 @@ void main_task(void *)
 
     if (!Menu.opened)
     {
-      touch_input();
+      Touch.input();
     }
   }
   vTaskDelete(nullptr);
