@@ -4,7 +4,7 @@
 
 namespace menu
 {
-  class Menu
+  struct Menu
   {
   protected:
     void registerCursorMove();
