@@ -22,6 +22,7 @@ struct key_button
   const int32_t r = 8;
   int text_color;
   int key_color;
+  bool repeat = false;
   std::function<void(void)> action;
 
   void init(int32_t x, int32_t y, int32_t w, int32_t h, int text_color, int key_color)
@@ -50,8 +51,16 @@ struct key_button
   {
     this->text = text;
     action = nullptr;
+    repeat = false;
     this->keys.clear();
     append_keys(std::forward<Keys>(keys)...);
+  }
+
+  template <class... Keys>
+  void set_repeatable_keys(std::string text, Keys &&...keys)
+  {
+    set_keys(text, std::forward<Keys>(keys)...);
+    repeat = true;
   }
 
   template <class... Keys>

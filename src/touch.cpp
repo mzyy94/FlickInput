@@ -3,6 +3,7 @@
 #include <M5Unified.h>
 #include <esp_log.h>
 #include "keyboard.hpp"
+#include "event.hpp"
 
 #define TOUCH_TAG "TOUCH"
 
@@ -24,6 +25,7 @@ void touch_input()
   static struct key_button *current_key;
   static int16_t start_x, start_y;
   static bool need_refresh = false;
+  static esp_timer_handle_t hold_input = nullptr;
   auto t = M5.Touch.getDetail();
   if (prev_state != t.state)
   {
@@ -58,6 +60,12 @@ void touch_input()
 
       if (current_key != nullptr)
       {
+        if (current_key->repeat)
+        {
+          input_key_button(current_key, center, true);
+          ESP_LOGD(TOUCH_TAG, "start repeat key input");
+          hold_input = dispatch_every(100, input_key_button, current_key);
+        }
         current_key->draw_hold();
         need_refresh = true;
       }
@@ -68,9 +76,15 @@ void touch_input()
     {
       ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::touch_end ? "touch_end" : "none", t.state, t.x, t.y);
 
-      if (current_key != nullptr)
+      if (hold_input != nullptr)
       {
-        input_key_button(current_key, center);
+        stop_timer(hold_input);
+        hold_input = nullptr;
+        ESP_LOGD(TOUCH_TAG, "stop repeat key input");
+      }
+      else if (current_key != nullptr)
+      {
+        input_key_button(current_key, center, true);
         if (current_key->action != nullptr)
         {
           current_key->action();
@@ -92,7 +106,7 @@ void touch_input()
       if (current_key != nullptr)
       {
         const auto dir = current_key->flick(start_x, start_y, t.x, t.y);
-        input_key_button(current_key, dir);
+        input_key_button(current_key, dir, true);
         if (current_key->action != nullptr)
         {
           current_key->action();

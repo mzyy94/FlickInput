@@ -11,4 +11,5 @@ void draw_lower_alphabet_keybard();
 void draw_number_keybard();
 void init_keyboard_layout();
 void draw_keyboard();
-void input_key_button(struct key_button *key, direction_t dir);
+void input_key_button(struct key_button *key, direction_t dir, bool draw_text);
+void input_key_button(struct key_button *key);
