@@ -42,29 +42,32 @@ void open_menu_handler(void *, esp_event_base_t, int32_t, void *)
 
 void send_cursor_key_handler(void *, esp_event_base_t, int32_t event_id, void *)
 {
-  send_key(event_id == BUTTON_EVENT_PRESSED_A ? HID_KEY_UP_ARROW : HID_KEY_DOWN_ARROW, 0);
-}
-
-void display_refresh_handler(void *, esp_event_base_t, int32_t, void *)
-{
-  refresh_display();
+  switch (event_id)
+  {
+  case BUTTON_EVENT_PRESSED_A:
+    return send_key(HID_KEY_UP_ARROW, 0);
+  case BUTTON_EVENT_PRESSED_B:
+    return send_key(HID_KEY_RETURN, 0);
+  case BUTTON_EVENT_PRESSED_C:
+    return send_key(HID_KEY_DOWN_ARROW, 0);
+  }
 }
 
 void register_side_button_events()
 {
-  register_button_pressed(B, open_menu_handler, nullptr);
   register_button_pressed(A, send_cursor_key_handler, nullptr);
+  register_button_pressed(B, send_cursor_key_handler, nullptr);
   register_button_pressed(C, send_cursor_key_handler, nullptr);
-  register_button_hold(B, display_refresh_handler, nullptr);
+  register_button_hold(B, open_menu_handler, nullptr);
   ESP_LOGI(MAIN_TAG, "Side button events registered");
 }
 
 void unregister_side_button_events()
 {
-  unregister_button_pressed(B, open_menu_handler);
   unregister_button_pressed(A, send_cursor_key_handler);
+  unregister_button_pressed(B, send_cursor_key_handler);
   unregister_button_pressed(C, send_cursor_key_handler);
-  unregister_button_hold(B, display_refresh_handler);
+  unregister_button_hold(B, open_menu_handler);
   ESP_LOGI(MAIN_TAG, "Side button events unregistered");
 }
 
