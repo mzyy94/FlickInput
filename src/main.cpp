@@ -81,6 +81,7 @@ void shutdown()
 {
   draw_logo(true);
   ESP_LOGI(MAIN_TAG, "Shutting down...");
+  vTaskDelay(500 / portTICK_RATE_MS);
   M5.Power.powerOff();
 }
 
