@@ -15,24 +15,22 @@ namespace touch
     M5.Touch.setHoldThresh(300);
   }
 
-  void Touch::touch_begin(int16_t x, int16_t y)
+  void Touch::touch_begin(m5::touch_detail_t t)
   {
     if (Keyboard.current_key != nullptr)
     {
       return;
     }
-    Keyboard.current_key = std::find_if(Keyboard.key_buttons.begin(), Keyboard.key_buttons.end(), [x, y](struct key_button btn)
-                                        { return btn.contains(x, y); });
+    Keyboard.current_key = std::find_if(Keyboard.key_buttons.begin(), Keyboard.key_buttons.end(), [t](struct key_button btn)
+                                        { return btn.contains(t.x, t.y); });
     if (Keyboard.current_key == Keyboard.key_buttons.end())
     {
       Keyboard.current_key = nullptr;
       return;
     }
-    start_x = x;
-    start_y = y;
   }
 
-  void Touch::hold_begin(int16_t x, int16_t y)
+  void Touch::hold_begin(m5::touch_detail_t t)
   {
     if (Keyboard.current_key == nullptr)
     {
@@ -48,7 +46,7 @@ namespace touch
     need_refresh = true;
   }
 
-  void Touch::touch_end(int16_t x, int16_t y)
+  void Touch::touch_end(m5::touch_detail_t t)
   {
     if (hold_input != nullptr)
     {
@@ -72,13 +70,13 @@ namespace touch
     Keyboard.current_key = nullptr;
   }
 
-  void Touch::flick_end(int16_t x, int16_t y)
+  void Touch::flick_end(m5::touch_detail_t t)
   {
     if (Keyboard.current_key == nullptr)
     {
       return;
     }
-    const auto dir = Keyboard.current_key->flick(start_x, start_y, x, y);
+    const auto dir = Keyboard.current_key->flick(t.base.x, t.base.y, t.x, t.y);
     Keyboard.input_key_button(dir, true);
     if (Keyboard.current_key->action != nullptr)
     {
@@ -106,27 +104,27 @@ namespace touch
       case m5::flick_begin:
       {
         ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::touch_begin ? "touch_begin" : "flick_begin", t.state, t.x, t.y);
-        touch_begin(t.x, t.y);
+        touch_begin(t);
         break;
       }
       case m5::hold_begin:
       {
         ESP_LOGD(TOUCH_TAG, "event hold_begin: %d (%d,%d)", t.state, t.x, t.y);
-        hold_begin(t.x, t.y);
+        hold_begin(t);
         break;
       }
       case m5::touch_end:
       case m5::none:
       {
         ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::touch_end ? "touch_end" : "none", t.state, t.x, t.y);
-        touch_end(t.x, t.y);
+        touch_end(t);
         break;
       }
       case m5::flick_end:
       case m5::drag_end:
       {
         ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::flick_end ? "flick_end" : "drag_end", t.state, t.x, t.y);
-        flick_end(t.x, t.y);
+        flick_end(t);
         break;
       }
       default:
