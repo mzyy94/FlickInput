@@ -142,6 +142,75 @@ namespace kbd
   {
     return dispatch_every(100, repeat_input, this);
   }
+
+  void Keyboard::touch_begin(m5::touch_detail_t *t)
+  {
+    if (current_key != nullptr)
+    {
+      return;
+    }
+    current_key = std::find_if(key_buttons.begin(), key_buttons.end(), [t](struct key_button btn)
+                               { return btn.contains(t->x, t->y); });
+    if (current_key == key_buttons.end())
+    {
+      current_key = nullptr;
+    }
+  }
+
+  void Keyboard::hold_begin(m5::touch_detail_t *t)
+  {
+    if (current_key == nullptr)
+    {
+      return;
+    }
+    if (current_key->repeat)
+    {
+      input_key_button(center, true);
+      ESP_LOGD(KEYBOARD_TAG, "start repeat key input");
+      hold_input = repeat_key_button();
+    }
+    current_key->draw_hold();
+    need_refresh = true;
+  }
+
+  void Keyboard::touch_end(m5::touch_detail_t *t)
+  {
+    if (hold_input != nullptr)
+    {
+      stop_timer(hold_input);
+      hold_input = nullptr;
+      ESP_LOGD(KEYBOARD_TAG, "stop repeat key input");
+    }
+    else if (current_key != nullptr)
+    {
+      input_key_button(center, true);
+      if (current_key->action != nullptr)
+      {
+        current_key->action();
+      }
+    }
+    if (need_refresh)
+    {
+      draw();
+      need_refresh = false;
+    }
+    current_key = nullptr;
+  }
+
+  void Keyboard::flick_end(m5::touch_detail_t *t)
+  {
+    if (current_key == nullptr)
+    {
+      return;
+    }
+    const auto dir = current_key->flick(t->base.x, t->base.y, t->x, t->y);
+    input_key_button(dir, true);
+    if (current_key->action != nullptr)
+    {
+      current_key->action();
+    }
+    current_key = nullptr;
+  }
 }
 
 kbd::Keyboard Keyboard;

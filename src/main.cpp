@@ -3,7 +3,6 @@
 #include <nvs_flash.h>
 
 #include "keyboard.hpp"
-#include "touch.hpp"
 #include "ble.hpp"
 #include "display.hpp"
 #include "menu.hpp"
@@ -64,13 +63,13 @@ void touch_event_handler(void *, esp_event_base_t, int32_t event_id, void *event
   switch (event_id)
   {
   case TOUCH_EVENT_TOUCH_BEGIN:
-    return Touch.touch_begin(*t);
+    return Keyboard.touch_begin(t);
   case TOUCH_EVENT_TOUCH_END:
-    return Touch.touch_end(*t);
+    return Keyboard.touch_end(t);
   case TOUCH_EVENT_HOLD_BEGIN:
-    return Touch.hold_begin(*t);
+    return Keyboard.hold_begin(t);
   case TOUCH_EVENT_FLICK_END:
-    return Touch.flick_end(*t);
+    return Keyboard.flick_end(t);
   }
 }
 
