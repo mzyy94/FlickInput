@@ -1,6 +1,9 @@
 #include <M5Unified.h>
+#include <esp_log.h>
 #include "menu.hpp"
 #include "event.hpp"
+
+#define MENU_TAG "MENU"
 
 namespace menu
 {
@@ -140,6 +143,7 @@ namespace menu
     register_button_pressed(A, move_cursor, this);
     register_button_pressed(B, select_item, this);
     register_button_pressed(C, move_cursor, this);
+    ESP_LOGI(MENU_TAG, "Cursor button events registered");
   }
 
   void Menu::unregisterCursorMove()
@@ -147,6 +151,7 @@ namespace menu
     unregister_button_pressed(A, move_cursor);
     unregister_button_pressed(B, select_item);
     unregister_button_pressed(C, move_cursor);
+    ESP_LOGI(MENU_TAG, "Cursor button events unregistered");
   }
 }
 
