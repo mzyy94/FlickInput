@@ -188,7 +188,7 @@ void main_task(void *)
     vTaskDelay(20 / portTICK_RATE_MS);
 
     M5.update();
-    update_button_event();
+    update_device_event();
 
     if (!Menu.opened)
     {

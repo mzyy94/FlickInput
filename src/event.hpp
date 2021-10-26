@@ -7,6 +7,7 @@
 
 ESP_EVENT_DECLARE_BASE(STATUS_CHANGE_EVENT);
 ESP_EVENT_DECLARE_BASE(BUTTON_PRESS_EVENT);
+ESP_EVENT_DECLARE_BASE(TOUCH_EVENT);
 
 enum status_event_t
 {
@@ -23,6 +24,14 @@ enum button_event_t
   BUTTON_EVENT_HOLD_A,
   BUTTON_EVENT_HOLD_B,
   BUTTON_EVENT_HOLD_C,
+};
+
+enum touch_event_t
+{
+  TOUCH_EVENT_TOUCH_BEGIN,
+  TOUCH_EVENT_HOLD_BEGIN,
+  TOUCH_EVENT_TOUCH_END,
+  TOUCH_EVENT_FLICK_END,
 };
 
 extern esp_event_loop_handle_t loop_handle;
@@ -87,12 +96,74 @@ inline void stop_timer(esp_timer_handle_t timer)
     esp_event_post_to(loop_handle, BUTTON_PRESS_EVENT, BUTTON_EVENT_HOLD_##BTN, nullptr, 0, 0); \
   }
 
-inline void update_button_event()
+#define register_touch_begin(callback, arg) esp_event_handler_register_with(loop_handle, TOUCH_EVENT, TOUCH_EVENT_TOUCH_BEGIN, callback, arg)
+#define unregister_touch_begin(callback) esp_event_handler_unregister_with(loop_handle, TOUCH_EVENT, TOUCH_EVENT_TOUCH_BEGIN, callback)
+#define register_hold_begin(callback, arg) esp_event_handler_register_with(loop_handle, TOUCH_EVENT, TOUCH_EVENT_HOLD_BEGIN, callback, arg)
+#define unregister_hold_begin(callback) esp_event_handler_unregister_with(loop_handle, TOUCH_EVENT, TOUCH_EVENT_HOLD_BEGIN, callback)
+#define register_touch_end(callback, arg) esp_event_handler_register_with(loop_handle, TOUCH_EVENT, TOUCH_EVENT_TOUCH_END, callback, arg)
+#define unregister_touch_end(callback) esp_event_handler_unregister_with(loop_handle, TOUCH_EVENT, TOUCH_EVENT_TOUCH_END, callback)
+#define register_flick_end(callback, arg) esp_event_handler_register_with(loop_handle, TOUCH_EVENT, TOUCH_EVENT_FLICK_END, callback, arg)
+#define unregister_flick_end(callback) esp_event_handler_unregister_with(loop_handle, TOUCH_EVENT, TOUCH_EVENT_FLICK_END, callback)
+#define register_touch_all(callback, arg) esp_event_handler_register_with(loop_handle, TOUCH_EVENT, ESP_EVENT_ANY_ID, callback, arg)
+#define unregister_touch_all(callback) esp_event_handler_unregister_with(loop_handle, TOUCH_EVENT, ESP_EVENT_ANY_ID, callback)
+
+#define TOUCH_TAG "TOUCH"
+
+#define check_touch_begin(t, st)                                                            \
+  if (t.state == st)                                                                        \
+  {                                                                                         \
+    ESP_LOGI(TOUCH_TAG, "Touch event " #st ": %d (%d,%d)", t.state, t.x, t.y);              \
+    esp_event_post_to(loop_handle, TOUCH_EVENT, TOUCH_EVENT_TOUCH_BEGIN, &t, sizeof(t), 0); \
+  }
+
+#define check_hold_begin(t, st)                                                            \
+  if (t.state == st)                                                                       \
+  {                                                                                        \
+    ESP_LOGI(TOUCH_TAG, "Touch event " #st ": %d (%d,%d)", t.state, t.x, t.y);             \
+    esp_event_post_to(loop_handle, TOUCH_EVENT, TOUCH_EVENT_HOLD_BEGIN, &t, sizeof(t), 0); \
+  }
+
+#define check_touch_end(t, st)                                                            \
+  if (t.state == st)                                                                      \
+  {                                                                                       \
+    ESP_LOGI(TOUCH_TAG, "Touch event " #st ": %d (%d,%d)", t.state, t.x, t.y);            \
+    esp_event_post_to(loop_handle, TOUCH_EVENT, TOUCH_EVENT_TOUCH_END, &t, sizeof(t), 0); \
+  }
+
+#define check_flick_end(t, st)                                                            \
+  if (t.state == st)                                                                      \
+  {                                                                                       \
+    ESP_LOGI(TOUCH_TAG, "Touch event " #st ": %d (%d,%d)", t.state, t.x, t.y);            \
+    esp_event_post_to(loop_handle, TOUCH_EVENT, TOUCH_EVENT_FLICK_END, &t, sizeof(t), 0); \
+  }
+
+inline void update_device_event()
 {
+  static m5::touch_state_t prev_state = m5::none;
+
   check_button_pressed(A);
   check_button_pressed(B);
   check_button_pressed(C);
   check_button_hold(A);
   check_button_hold(B);
   check_button_hold(C);
+
+  const auto touches = M5.Touch.getCount();
+  if (!touches)
+  {
+    return;
+  }
+
+  auto t = M5.Touch.getDetail();
+  if (prev_state != t.state)
+  {
+    prev_state = t.state;
+    check_touch_begin(t, m5::touch_begin);
+    check_touch_begin(t, m5::flick_begin);
+    check_hold_begin(t, m5::hold_begin);
+    check_touch_end(t, m5::touch_end);
+    check_touch_end(t, m5::none);
+    check_flick_end(t, m5::flick_end);
+    check_flick_end(t, m5::drag_end);
+  }
 }
