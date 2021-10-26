@@ -31,16 +31,21 @@ void init_nvs()
 void refresh_display();
 void register_side_button_events();
 void unregister_side_button_events();
+void register_touch_void_events();
+void unregister_touch_events();
 void draw_status_bar(bool);
 
 void open_menu_handler(void *, esp_event_base_t, int32_t, void *)
 {
   unregister_side_button_events();
+  unregister_touch_events();
+  register_touch_void_events();
   Menu.open();
 }
 
 void send_cursor_key_handler(void *, esp_event_base_t, int32_t event_id, void *)
 {
+  ESP_LOGD(MAIN_TAG, "send_cursor_key_handler called: %d", event_id);
   switch (event_id)
   {
   case BUTTON_EVENT_PRESSED_A:
@@ -49,6 +54,23 @@ void send_cursor_key_handler(void *, esp_event_base_t, int32_t event_id, void *)
     return send_key(HID_KEY_RETURN, 0);
   case BUTTON_EVENT_PRESSED_C:
     return send_key(HID_KEY_DOWN_ARROW, 0);
+  }
+}
+
+void touch_event_handler(void *, esp_event_base_t, int32_t event_id, void *event_data)
+{
+  ESP_LOGD(MAIN_TAG, "touch_event_handler called: %d", event_id);
+  auto t = reinterpret_cast<m5::touch_detail_t *>(event_data);
+  switch (event_id)
+  {
+  case TOUCH_EVENT_TOUCH_BEGIN:
+    return Touch.touch_begin(*t);
+  case TOUCH_EVENT_TOUCH_END:
+    return Touch.touch_end(*t);
+  case TOUCH_EVENT_HOLD_BEGIN:
+    return Touch.hold_begin(*t);
+  case TOUCH_EVENT_FLICK_END:
+    return Touch.flick_end(*t);
   }
 }
 
@@ -68,6 +90,38 @@ void unregister_side_button_events()
   unregister_button_pressed(C, send_cursor_key_handler);
   unregister_button_hold(B, open_menu_handler);
   ESP_LOGI(MAIN_TAG, "Side button events unregistered");
+}
+
+void register_touch_events()
+{
+  register_touch_begin(touch_event_handler, nullptr);
+  register_touch_end(touch_event_handler, nullptr);
+  register_hold_begin(touch_event_handler, nullptr);
+  register_flick_end(touch_event_handler, nullptr);
+  ESP_LOGI(MAIN_TAG, "Touch events registered");
+}
+
+void unregister_touch_events()
+{
+  unregister_touch_begin(touch_event_handler);
+  unregister_touch_end(touch_event_handler);
+  unregister_hold_begin(touch_event_handler);
+  unregister_flick_end(touch_event_handler);
+  ESP_LOGI(MAIN_TAG, "Touch events unregistered");
+}
+
+void void_event_callback(void *, esp_event_base_t, int32_t, void *) {}
+
+void register_touch_void_events()
+{
+  register_touch_all(void_event_callback, nullptr);
+  ESP_LOGI(MAIN_TAG, "Touch void events registered");
+}
+
+void unregister_touch_void_events()
+{
+  unregister_touch_all(void_event_callback);
+  ESP_LOGI(MAIN_TAG, "Touch void events unregistered");
 }
 
 void register_status_update()
@@ -111,6 +165,8 @@ void refresh_display()
   {
     Menu.close();
     register_side_button_events();
+    unregister_touch_void_events();
+    register_touch_events();
   }
   M5.Display.clearDisplay(TFT_WHITE);
   Keyboard.draw();
@@ -141,6 +197,7 @@ void register_events()
 {
   register_side_button_events();
   register_status_update();
+  register_touch_events();
 }
 
 void draw_status_bar(bool update_battery)
@@ -169,7 +226,6 @@ void main_task(void *)
 
   // 2. Initialize instances
   Keyboard.init();
-  Touch.init();
   init_menu();
 
   // 3. Draw logo, keyboard and status bar
@@ -189,11 +245,6 @@ void main_task(void *)
 
     M5.update();
     update_device_event();
-
-    if (!Menu.opened)
-    {
-      Touch.input();
-    }
   }
   vTaskDelete(nullptr);
 }

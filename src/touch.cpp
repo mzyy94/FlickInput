@@ -9,12 +9,6 @@
 
 namespace touch
 {
-  void Touch::init()
-  {
-    M5.Touch.setFlickThresh(3);
-    M5.Touch.setHoldThresh(300);
-  }
-
   void Touch::touch_begin(m5::touch_detail_t t)
   {
     if (Keyboard.current_key != nullptr)
@@ -83,55 +77,6 @@ namespace touch
       Keyboard.current_key->action();
     }
     Keyboard.current_key = nullptr;
-  }
-
-  void Touch::input()
-  {
-    const auto touches = M5.Touch.getCount();
-    if (!touches)
-    {
-      return;
-    }
-
-    const auto t = M5.Touch.getDetail();
-    if (prev_state != t.state)
-    {
-      prev_state = t.state;
-
-      switch (t.state)
-      {
-      case m5::touch_begin:
-      case m5::flick_begin:
-      {
-        ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::touch_begin ? "touch_begin" : "flick_begin", t.state, t.x, t.y);
-        touch_begin(t);
-        break;
-      }
-      case m5::hold_begin:
-      {
-        ESP_LOGD(TOUCH_TAG, "event hold_begin: %d (%d,%d)", t.state, t.x, t.y);
-        hold_begin(t);
-        break;
-      }
-      case m5::touch_end:
-      case m5::none:
-      {
-        ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::touch_end ? "touch_end" : "none", t.state, t.x, t.y);
-        touch_end(t);
-        break;
-      }
-      case m5::flick_end:
-      case m5::drag_end:
-      {
-        ESP_LOGD(TOUCH_TAG, "event %s: %d (%d,%d)", t.state == m5::flick_end ? "flick_end" : "drag_end", t.state, t.x, t.y);
-        flick_end(t);
-        break;
-      }
-      default:
-        ESP_LOGD(TOUCH_TAG, "event other: %d (%d,%d)", t.state, t.x, t.y);
-        break;
-      }
-    }
   }
 }
 
