@@ -8,7 +8,6 @@
 #include "display.hpp"
 #include "menu.hpp"
 #include "event.hpp"
-#include "button.hpp"
 
 #define MAIN_TAG "MAIN"
 
