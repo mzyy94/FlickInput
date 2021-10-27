@@ -126,7 +126,7 @@ void unregister_touch_void_events()
 void register_status_update()
 {
   esp_event_handler_register_with(
-      loop_handle, STATUS_CHANGE_EVENT, ESP_EVENT_ANY_ID, draw_header, nullptr);
+      loop_handle, STATUS_CHANGE_EVENT, ESP_EVENT_ANY_ID, draw_statusbar, nullptr);
 }
 
 void shutdown()

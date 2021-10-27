@@ -25,9 +25,9 @@ void draw_ble_icon(bool connected)
   M5.Display.drawLine(16, 18, 8, 10, color);
 }
 
-void draw_header(void *, const char *, int event_id, void *event_data)
+void draw_statusbar(void *, const char *, int event_id, void *event_data)
 {
-  ESP_LOGD(DISPLAY_TAG, "Drawing header event_id=%d", event_id);
+  ESP_LOGD(DISPLAY_TAG, "Drawing statusbar event_id=%d", event_id);
   char text[20];
   static bool ble_connected = false;
   static int32_t bat = 0;
@@ -56,7 +56,7 @@ void draw_header(void *, const char *, int event_id, void *event_data)
   M5.Display.endWrite();
 }
 
-void draw_logo(bool inverse)
+void draw_logo(bool inverse = false)
 {
   ESP_LOGD(DISPLAY_TAG, "Drawing logo inverse=%d", inverse);
   M5.Display.startWrite();
@@ -66,9 +66,4 @@ void draw_logo(bool inverse)
   M5.Display.fillRect(0, 50, M5.Display.width(), 200, inverse ? TFT_DARKGRAY : TFT_LIGHTGRAY);
   M5.Display.drawCenterString("FlickInput", 270, 150, &fonts::lgfxJapanGothicP_40);
   M5.Display.endWrite();
-}
-
-void draw_logo()
-{
-  draw_logo(false);
 }
