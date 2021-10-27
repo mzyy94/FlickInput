@@ -4,6 +4,7 @@
 #include <esp_event_base.h>
 #include <esp_timer.h>
 #include <esp_log.h>
+#include <freertos/event_groups.h>
 
 ESP_EVENT_DECLARE_BASE(STATUS_CHANGE_EVENT);
 ESP_EVENT_DECLARE_BASE(BUTTON_PRESS_EVENT);
@@ -11,9 +12,9 @@ ESP_EVENT_DECLARE_BASE(TOUCH_EVENT);
 
 enum status_event_t
 {
+  STATUS_EVENT_UPDATE_ONLY_REFRESH,
   STATUS_EVENT_UPDATE_BLE_STATE,
   STATUS_EVENT_UPDATE_BATTERY_LEVEL,
-  STATUS_EVENT_UPDATE_ONLY_REFRESH,
 };
 
 enum button_event_t
@@ -34,7 +35,13 @@ enum touch_event_t
   TOUCH_EVENT_FLICK_END,
 };
 
+enum event_bit_t
+{
+  EVENT_BIT_UPDATE_STATUSBAR = 1 << 0,
+};
+
 extern esp_event_loop_handle_t loop_handle;
+extern EventGroupHandle_t event_group;
 
 void init_event();
 

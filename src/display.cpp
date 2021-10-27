@@ -35,10 +35,12 @@ void draw_statusbar(void *, const char *, int event_id, void *event_data)
   if (event_id == STATUS_EVENT_UPDATE_BLE_STATE)
   {
     memcpy(&ble_connected, event_data, sizeof(bool));
+    return;
   }
   if (event_id == STATUS_EVENT_UPDATE_BATTERY_LEVEL)
   {
     memcpy(&bat, event_data, sizeof(int32_t));
+    return;
   }
 
   M5.Display.startWrite();

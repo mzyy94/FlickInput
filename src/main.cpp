@@ -207,9 +207,18 @@ void draw_status_bar(bool update_battery)
     esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BATTERY_LEVEL, &bat, sizeof(bat), 0);
     ESP_LOGI(MAIN_TAG, "Battery status updated = %d%%", bat);
   }
-  else
+
+  xEventGroupSetBits(event_group, EVENT_BIT_UPDATE_STATUSBAR);
+}
+
+void handle_display_event_bit()
+{
+  uint32_t bits = xEventGroupWaitBits(event_group, EVENT_BIT_UPDATE_STATUSBAR, true, false, 0);
+
+  if (bits & EVENT_BIT_UPDATE_STATUSBAR)
   {
-    esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_ONLY_REFRESH, nullptr, 0, 0);
+    ESP_LOGD(MAIN_TAG, "Draw statusbar");
+    draw_statusbar(nullptr, nullptr, STATUS_EVENT_UPDATE_ONLY_REFRESH, nullptr);
   }
 }
 
@@ -244,6 +253,7 @@ void main_task(void *)
 
     M5.update();
     update_device_event();
+    handle_display_event_bit();
   }
   vTaskDelete(nullptr);
 }
