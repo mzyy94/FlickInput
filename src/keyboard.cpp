@@ -94,15 +94,12 @@ namespace kbd
 
   void Keyboard::draw()
   {
-    M5.Display.startWrite();
     M5.Display.setTextSize(1);
     M5.Display.fillRect(0, 460, M5.Display.width(), 500, TFT_WHITE);
     for (auto &btn : key_buttons)
     {
       btn.draw();
     }
-
-    M5.Display.endWrite();
   }
 
   void Keyboard::draw_input_text(std::string text)
@@ -191,7 +188,7 @@ namespace kbd
     }
     if (need_refresh)
     {
-      draw();
+      xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
       need_refresh = false;
     }
     current_key = nullptr;

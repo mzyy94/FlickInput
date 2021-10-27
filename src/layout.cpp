@@ -35,7 +35,7 @@ void layout_hiragana_keybard()
   Keyboard.key_buttons[i++].set_keys("わ", KEYKANA_WA, KEYKANA_WO, KEYKANA_NN, KEYKANA_DASH);
   Keyboard.key_buttons[i++].set_keys("、。?!", KEYKANA_TOUTEN, KEYKANA_KUTEN, KEYKANA_QUESTION, KEYKANA_EXCL_MARK);
 
-  Keyboard.draw();
+  xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
 }
 
 void layout_hiragana_modified_keybard()
@@ -61,7 +61,7 @@ void layout_hiragana_modified_keybard()
   Keyboard.key_buttons[i++].set_keys("");
   Keyboard.key_buttons[i++].set_keys("@#$%", KEYKANA_ATMARK, KEYKANA_NUM_SIGN, KEYKANA_DOLLAR, KEYKANA_PERCENT);
 
-  Keyboard.draw();
+  xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
 }
 
 void layout_roman_kana_keybard()
@@ -87,7 +87,7 @@ void layout_roman_kana_keybard()
   Keyboard.key_buttons[i++].set_keys("わ", KEYROMAN_WA, KEYROMAN_WO, KEYROMAN_NN, KEYROMAN_DASH);
   Keyboard.key_buttons[i++].set_keys("、。?!", KEYROMAN_TOUTEN, KEYROMAN_KUTEN, KEYROMAN_QUESTION, KEYROMAN_EXCL_MARK);
 
-  Keyboard.draw();
+  xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
 }
 
 void layout_roman_modified_keybard()
@@ -113,7 +113,7 @@ void layout_roman_modified_keybard()
   Keyboard.key_buttons[i++].set_keys("");
   Keyboard.key_buttons[i++].set_keys("@#$%", KEYROMAN_ATMARK, KEYROMAN_NUM_SIGN, KEYROMAN_DOLLAR, KEYROMAN_PERCENT);
 
-  Keyboard.draw();
+  xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
 }
 
 void layout_alphabet_keybard()
@@ -139,7 +139,7 @@ void layout_alphabet_keybard()
   Keyboard.key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
   Keyboard.key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
 
-  Keyboard.draw();
+  xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
 }
 
 void layout_lower_alphabet_keybard()
@@ -165,7 +165,7 @@ void layout_lower_alphabet_keybard()
   Keyboard.key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
   Keyboard.key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
 
-  Keyboard.draw();
+  xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
 }
 
 void layout_number_keybard()
@@ -191,5 +191,5 @@ void layout_number_keybard()
   Keyboard.key_buttons[i++].set_keys("0", KEY_0);
   Keyboard.key_buttons[i++].set_keys(".,-/", KEY_DOT, KEY_COMMA, KEY_MINUS, KEY_FWD_SLASH);
 
-  Keyboard.draw();
+  xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
 }

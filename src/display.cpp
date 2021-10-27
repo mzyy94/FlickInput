@@ -1,6 +1,7 @@
 #include <M5Unified.h>
 #include <esp_log.h>
 #include "event.hpp"
+#include "keyboard.hpp"
 
 #define DISPLAY_TAG "DISPLAY"
 
@@ -43,7 +44,6 @@ void draw_statusbar(void *, const char *, int event_id, void *event_data)
     return;
   }
 
-  M5.Display.startWrite();
   M5.Display.fillRect(0, 0, M5.Display.width(), 48, TFT_WHITE);
   M5.Display.setTextSize(1);
   snprintf(text, 20, "%3d%%", bat);
@@ -55,17 +55,48 @@ void draw_statusbar(void *, const char *, int event_id, void *event_data)
   M5.Display.drawRoundRect(484, 2, 50, 24, 3, TFT_BLACK);
   M5.Display.fillRoundRect(534, 10, 3, 8, 1, TFT_BLACK);
   M5.Display.fillRect(486, 4, 46 * bat / 100, 20, TFT_BLACK);
-  M5.Display.endWrite();
 }
 
 void draw_logo(bool inverse = false)
 {
   ESP_LOGD(DISPLAY_TAG, "Drawing logo inverse=%d", inverse);
-  M5.Display.startWrite();
-  M5.Display.clearDisplay(TFT_WHITE);
   M5.Display.setTextColor(inverse ? TFT_WHITE : TFT_BLACK, inverse ? TFT_DARKGRAY : TFT_LIGHTGRAY);
   M5.Display.setTextSize(2);
   M5.Display.fillRect(0, 50, M5.Display.width(), 200, inverse ? TFT_DARKGRAY : TFT_LIGHTGRAY);
   M5.Display.drawCenterString("FlickInput", 270, 150, &fonts::lgfxJapanGothicP_40);
+}
+
+void update_display()
+{
+  uint32_t bits = xEventGroupWaitBits(event_group, 0b11111, true, false, 0);
+
+  if (bits == 0)
+  {
+    return;
+  }
+
+  M5.Display.startWrite();
+
+  if (bits & EVENT_BIT_CLEAR_DISPLAY)
+  {
+    ESP_LOGD(DISPLAY_TAG, "Clear display");
+    M5.Display.clearDisplay(TFT_WHITE);
+  }
+  if (bits & EVENT_BIT_DRAW_STATUSBAR)
+  {
+    ESP_LOGD(DISPLAY_TAG, "Draw statusbar");
+    draw_statusbar(nullptr, nullptr, STATUS_EVENT_UPDATE_ONLY_REFRESH, nullptr);
+  }
+  if (bits & EVENT_BIT_DRAW_LOGO)
+  {
+    ESP_LOGD(DISPLAY_TAG, "Draw logo");
+    draw_logo();
+  }
+  if (bits & EVENT_BIT_DRAW_KEYBOARD)
+  {
+    ESP_LOGD(DISPLAY_TAG, "Draw keyboard");
+    Keyboard.draw();
+  }
+
   M5.Display.endWrite();
 }

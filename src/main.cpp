@@ -167,10 +167,8 @@ void refresh_display()
     unregister_touch_void_events();
     register_touch_events();
   }
-  M5.Display.clearDisplay(TFT_WHITE);
-  Keyboard.draw();
-  draw_status_bar(false);
-  ESP_LOGI(MAIN_TAG, "Display refreshed");
+  xEventGroupSetBits(event_group, EVENT_BIT_CLEAR_DISPLAY | EVENT_BIT_DRAW_STATUSBAR | EVENT_BIT_DRAW_KEYBOARD);
+  ESP_LOGI(MAIN_TAG, "Display refresh");
 }
 
 void init_menu()
@@ -208,18 +206,7 @@ void draw_status_bar(bool update_battery)
     ESP_LOGI(MAIN_TAG, "Battery status updated = %d%%", bat);
   }
 
-  xEventGroupSetBits(event_group, EVENT_BIT_UPDATE_STATUSBAR);
-}
-
-void handle_display_event_bit()
-{
-  uint32_t bits = xEventGroupWaitBits(event_group, EVENT_BIT_UPDATE_STATUSBAR, true, false, 0);
-
-  if (bits & EVENT_BIT_UPDATE_STATUSBAR)
-  {
-    ESP_LOGD(MAIN_TAG, "Draw statusbar");
-    draw_statusbar(nullptr, nullptr, STATUS_EVENT_UPDATE_ONLY_REFRESH, nullptr);
-  }
+  xEventGroupSetBits(event_group, EVENT_BIT_DRAW_STATUSBAR);
 }
 
 void main_task(void *)
@@ -237,7 +224,7 @@ void main_task(void *)
   init_menu();
 
   // 3. Draw logo, keyboard and status bar
-  draw_logo();
+  xEventGroupSetBits(event_group, EVENT_BIT_CLEAR_DISPLAY | EVENT_BIT_DRAW_LOGO);
   Keyboard.draw_next_layout();
   draw_status_bar(true);
 
@@ -253,7 +240,7 @@ void main_task(void *)
 
     M5.update();
     update_device_event();
-    handle_display_event_bit();
+    update_display();
   }
   vTaskDelete(nullptr);
 }
