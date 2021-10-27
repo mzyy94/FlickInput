@@ -30,7 +30,7 @@ void layout_hiragana_keybard()
   Keyboard.key_buttons[i++].set_keys("や", KEYKANA_YA, KEYKANA_KAKKO, KEYKANA_YU, KEYKANA_KAKKO_TOJI, KEYKANA_YO);
   Keyboard.key_buttons[i++].set_keys("ら", KEYKANA_RA, KEYKANA_RI, KEYKANA_RU, KEYKANA_RE, KEYKANA_RO);
   Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
-  Keyboard.key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
+  Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
   Keyboard.key_buttons[i++].set_action("小゛゜", layout_hiragana_modified_keybard);
   Keyboard.key_buttons[i++].set_keys("わ", KEYKANA_WA, KEYKANA_WO, KEYKANA_NN, KEYKANA_DASH);
   Keyboard.key_buttons[i++].set_keys("、。?!", KEYKANA_TOUTEN, KEYKANA_KUTEN, KEYKANA_QUESTION, KEYKANA_EXCL_MARK);
@@ -56,7 +56,7 @@ void layout_hiragana_modified_keybard()
   Keyboard.key_buttons[i++].set_action("ゃ", layout_hiragana_keybard, KEYKANA_XYA, KEYKANA_LEFT_PAREN, KEYKANA_XYU, KEYKANA_RIGHT_PAREN, KEYKANA_XYO);
   Keyboard.key_buttons[i++].set_keys("");
   Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
-  Keyboard.key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
+  Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
   Keyboard.key_buttons[i++].set_action("あいう", layout_hiragana_keybard);
   Keyboard.key_buttons[i++].set_keys("");
   Keyboard.key_buttons[i++].set_keys("@#$%", KEYKANA_ATMARK, KEYKANA_NUM_SIGN, KEYKANA_DOLLAR, KEYKANA_PERCENT);
@@ -82,7 +82,7 @@ void layout_roman_kana_keybard()
   Keyboard.key_buttons[i++].set_keys("や", KEYROMAN_YA, KEYROMAN_KAKKO, KEYROMAN_YU, KEYROMAN_KAKKO_TOJI, KEYROMAN_YO);
   Keyboard.key_buttons[i++].set_keys("ら", KEYROMAN_RA, KEYROMAN_RI, KEYROMAN_RU, KEYROMAN_RE, KEYROMAN_RO);
   Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
-  Keyboard.key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
+  Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
   Keyboard.key_buttons[i++].set_action("小゛゜", layout_roman_modified_keybard);
   Keyboard.key_buttons[i++].set_keys("わ", KEYROMAN_WA, KEYROMAN_WO, KEYROMAN_NN, KEYROMAN_DASH);
   Keyboard.key_buttons[i++].set_keys("、。?!", KEYROMAN_TOUTEN, KEYROMAN_KUTEN, KEYROMAN_QUESTION, KEYROMAN_EXCL_MARK);
@@ -108,7 +108,7 @@ void layout_roman_modified_keybard()
   Keyboard.key_buttons[i++].set_action("ゃ", layout_roman_kana_keybard, KEYROMAN_XYA, KEYROMAN_LEFT_PAREN, KEYROMAN_XYU, KEYROMAN_RIGHT_PAREN, KEYROMAN_XYO);
   Keyboard.key_buttons[i++].set_keys("");
   Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
-  Keyboard.key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
+  Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
   Keyboard.key_buttons[i++].set_action("あいう", layout_roman_kana_keybard);
   Keyboard.key_buttons[i++].set_keys("");
   Keyboard.key_buttons[i++].set_keys("@#$%", KEYROMAN_ATMARK, KEYROMAN_NUM_SIGN, KEYROMAN_DOLLAR, KEYROMAN_PERCENT);
@@ -134,7 +134,7 @@ void layout_alphabet_keybard()
   Keyboard.key_buttons[i++].set_keys("TUV", KEY_T, KEY_U, KEY_V);
   Keyboard.key_buttons[i++].set_keys("WXYZ", KEY_W, KEY_X, KEY_Y, KEY_Z);
   Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
-  Keyboard.key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
+  Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
   Keyboard.key_buttons[i++].set_action("a/A", layout_lower_alphabet_keybard);
   Keyboard.key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
   Keyboard.key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
@@ -160,7 +160,7 @@ void layout_lower_alphabet_keybard()
   Keyboard.key_buttons[i++].set_keys("tuv", KEY_t, KEY_u, KEY_v);
   Keyboard.key_buttons[i++].set_keys("wxyz", KEY_w, KEY_x, KEY_y, KEY_z);
   Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
-  Keyboard.key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
+  Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
   Keyboard.key_buttons[i++].set_action("a/A", layout_alphabet_keybard);
   Keyboard.key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
   Keyboard.key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
@@ -186,7 +186,7 @@ void layout_number_keybard()
   Keyboard.key_buttons[i++].set_keys("8", KEY_8);
   Keyboard.key_buttons[i++].set_keys("9", KEY_9);
   Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
-  Keyboard.key_buttons[i++].set_keys("⇔", KEY_CHANGE_INPUT_MAC);
+  Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
   Keyboard.key_buttons[i++].set_keys("()[]", KEY_LEFT_PAREN, KEY_RIGHT_PAREN, KEY_LEFT_BRKT, KEY_RIGHT_BRKT);
   Keyboard.key_buttons[i++].set_keys("0", KEY_0);
   Keyboard.key_buttons[i++].set_keys(".,-/", KEY_DOT, KEY_COMMA, KEY_MINUS, KEY_FWD_SLASH);
