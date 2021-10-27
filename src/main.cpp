@@ -27,12 +27,10 @@ void init_nvs()
   ESP_ERROR_CHECK(ret);
 }
 
-void refresh_display();
 void register_side_button_events();
 void unregister_side_button_events();
 void register_touch_void_events();
 void unregister_touch_events();
-void draw_status_bar(bool);
 
 void open_menu_handler(void *, esp_event_base_t, int32_t, void *)
 {
@@ -197,14 +195,11 @@ void register_events()
   register_touch_events();
 }
 
-void draw_status_bar(bool update_battery)
+void update_battery_status(void * = nullptr)
 {
-  if (update_battery)
-  {
-    auto bat = M5.Power.getBatteryLevel();
-    esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BATTERY_LEVEL, &bat, sizeof(bat), 0);
-    ESP_LOGI(MAIN_TAG, "Battery status updated = %d%%", bat);
-  }
+  auto bat = M5.Power.getBatteryLevel();
+  esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BATTERY_LEVEL, &bat, sizeof(bat), 0);
+  ESP_LOGI(MAIN_TAG, "Battery status updated = %d%%", bat);
 
   xEventGroupSetBits(event_group, EVENT_BIT_DRAW_STATUSBAR);
 }
@@ -224,12 +219,12 @@ void main_task(void *)
   init_menu();
 
   // 3. Draw logo, keyboard and status bar
-  xEventGroupSetBits(event_group, EVENT_BIT_CLEAR_DISPLAY | EVENT_BIT_DRAW_LOGO);
+  xEventGroupSetBits(event_group, EVENT_BIT_CLEAR_DISPLAY | EVENT_BIT_DRAW_LOGO | EVENT_BIT_DRAW_STATUSBAR);
   Keyboard.draw_next_layout();
-  draw_status_bar(true);
 
   // 4. Set battery status update interval loop
-  dispatch_every(3 * 60 * 1000, draw_status_bar, true);
+  update_battery_status();
+  dispatch_every(3 * 60 * 1000, update_battery_status, (void *)nullptr);
 
   // 5. Start ble connection
   start_ble_hid();
