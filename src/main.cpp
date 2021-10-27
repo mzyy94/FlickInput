@@ -129,9 +129,13 @@ void register_status_update()
 
 void shutdown()
 {
+  M5.Display.startWrite();
+  M5.Display.clearDisplay(TFT_WHITE);
+  draw_statusbar();
   draw_logo(true);
+  Keyboard.draw();
+  M5.Display.endWrite();
   ESP_LOGI(MAIN_TAG, "Shutting down...");
-  vTaskDelay(500 / portTICK_RATE_MS);
   M5.Power.powerOff();
 }
 

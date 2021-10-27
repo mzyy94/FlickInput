@@ -26,7 +26,7 @@ void draw_ble_icon(bool connected)
   M5.Display.drawLine(16, 18, 8, 10, color);
 }
 
-void draw_statusbar(void *, const char *, int event_id, void *event_data)
+void draw_statusbar(void * = nullptr, const char * = nullptr, int event_id = STATUS_EVENT_UPDATE_ONLY_REFRESH, void *event_data = nullptr)
 {
   ESP_LOGD(DISPLAY_TAG, "Drawing statusbar event_id=%d", event_id);
   char text[20];
@@ -85,7 +85,7 @@ void update_display()
   if (bits & EVENT_BIT_DRAW_STATUSBAR)
   {
     ESP_LOGD(DISPLAY_TAG, "Draw statusbar");
-    draw_statusbar(nullptr, nullptr, STATUS_EVENT_UPDATE_ONLY_REFRESH, nullptr);
+    draw_statusbar();
   }
   if (bits & EVENT_BIT_DRAW_LOGO)
   {
