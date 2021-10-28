@@ -29,13 +29,15 @@ namespace kbd
   void Keyboard::set_input_method(input_method_t method, keyboard_layout_t layout, platform_os_t os)
   {
     layouts.clear();
-    next_layout = 0;
 
-    switch (method)
+    layouts.push_back(new Layout("ABC", layout == keyboard_layout_us ? layout_us_lower_alphabet_keybard : layout_jis_lower_alphabet_keybard, KEY_EISU_INPUT));
+
+    if (method == input_method_roman)
     {
-    case input_method_default:
-    case input_method_kana:
-      layouts.push_back(new Layout("ABC", layout == keyboard_layout_jis ? layout_jis_lower_alphabet_keybard : layout_us_lower_alphabet_keybard, KEY_EISU_INPUT));
+      layouts.push_back(new Layout("あいう", layout_roman_kana_keybard, KEY_KANA_INPUT));
+    }
+    else
+    {
       if (os == platform_os_mac)
       {
         layouts.push_back(new Layout("あいう", layout == keyboard_layout_jis ? layout_jis_mac_kana_keybard : layout_us_mac_kana_keybard, KEY_KANA_INPUT));
@@ -44,14 +46,9 @@ namespace kbd
       {
         layouts.push_back(new Layout("あいう", layout_jis_win_kana_keybard, KEY_KANA_INPUT));
       }
-      layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
-      break;
-    case input_method_roman:
-      layouts.push_back(new Layout("ABC", layout == keyboard_layout_jis ? layout_jis_lower_alphabet_keybard : layout_us_lower_alphabet_keybard, KEY_EISU_INPUT));
-      layouts.push_back(new Layout("あいう", layout_roman_kana_keybard, KEY_KANA_INPUT));
-      layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
-      break;
     }
+
+    layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
   }
 
   void Keyboard::init()

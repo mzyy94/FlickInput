@@ -122,7 +122,7 @@ static const key_input_t KEY_JIS_NUM_SIGN = SINGLE_KEY("#", HID_KEY_3, SHIFT_KEY
 static const key_input_t KEY_JIS_DOLLAR = SINGLE_KEY("$", HID_KEY_4, SHIFT_KEY);
 static const key_input_t KEY_JIS_PERCENT = SINGLE_KEY("%", HID_KEY_5, SHIFT_KEY);
 static const key_input_t KEY_JIS_AMPERSAND = SINGLE_KEY("&", HID_KEY_6, SHIFT_KEY);
-static const key_input_t KEY_JIS_SGL_QUOTE = SINGLE_KEY("'", HID_KEY_7, 0);
+static const key_input_t KEY_JIS_SGL_QUOTE = SINGLE_KEY("'", HID_KEY_7, SHIFT_KEY);
 static const key_input_t KEY_JIS_LEFT_PAREN = SINGLE_KEY("(", HID_KEY_8, SHIFT_KEY);
 static const key_input_t KEY_JIS_RIGHT_PAREN = SINGLE_KEY(")", HID_KEY_9, SHIFT_KEY);
 
@@ -352,7 +352,7 @@ static const key_input_t KEYJISKANAWIN_AMPERSAND = MULTI_KEY2("＆", HID_KEY_6, 
 static const key_input_t KEYJISKANAWIN_SGL_QUOTE = MULTI_KEY2("’", HID_KEY_7, HID_KEY_F9, SHIFT_KEY);
 static const key_input_t KEYJISKANAWIN_LEFT_PAREN = MULTI_KEY2("（", HID_KEY_8, HID_KEY_F9, SHIFT_KEY);
 static const key_input_t KEYJISKANAWIN_RIGHT_PAREN = MULTI_KEY2("）", HID_KEY_9, HID_KEY_F9, SHIFT_KEY);
-static const key_input_t KEYJISKANAWIN_ATMARK = MULTI_KEY2("＠", HID_KEY_LEFT_BRKT, HID_KEY_F9, SHIFT_KEY);
+static const key_input_t KEYJISKANAWIN_ATMARK = MULTI_KEY2("＠", HID_KEY_LEFT_BRKT, HID_KEY_F9, 0);
 
 // US Kana Input
 static const key_input_t KEYUSKANA_A = SINGLE_KEY("あ", HID_KEY_3, 0);
