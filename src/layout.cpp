@@ -12,6 +12,58 @@ void draw_next_keyboard()
   Keyboard.draw_next_layout();
 }
 
+void layout_jis_hiragana_keybard()
+{
+  size_t i = 0;
+  Keyboard.key_buttons[i++].set_repeatable_keys("→", KEY_RIGHT_ARROW);
+  Keyboard.key_buttons[i++].set_keys("あ", KEYJISKANA_A, KEYJISKANA_I, KEYJISKANA_U, KEYJISKANA_E, KEYJISKANA_O);
+  Keyboard.key_buttons[i++].set_keys("か", KEYJISKANA_KA, KEYJISKANA_KI, KEYJISKANA_KU, KEYJISKANA_KE, KEYJISKANA_KO);
+  Keyboard.key_buttons[i++].set_keys("さ", KEYJISKANA_SA, KEYJISKANA_SI, KEYJISKANA_SU, KEYJISKANA_SE, KEYJISKANA_SO);
+  Keyboard.key_buttons[i++].set_repeatable_keys("<x", KEY_DELETE);
+  Keyboard.key_buttons[i++].set_repeatable_keys("←", KEY_LEFT_ARROW);
+  Keyboard.key_buttons[i++].set_keys("た", KEYJISKANA_TA, KEYJISKANA_TI, KEYJISKANA_TU, KEYJISKANA_TE, KEYJISKANA_TO);
+  Keyboard.key_buttons[i++].set_keys("な", KEYJISKANA_NA, KEYJISKANA_NI, KEYJISKANA_NU, KEYJISKANA_NE, KEYJISKANA_NO);
+  Keyboard.key_buttons[i++].set_keys("は", KEYJISKANA_HA, KEYJISKANA_HI, KEYJISKANA_HU, KEYJISKANA_HE, KEYJISKANA_HO);
+  Keyboard.key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
+  Keyboard.key_buttons[i++].set_action(layouts[next_layout]->icon, draw_next_keyboard, layouts[next_layout]->key);
+  Keyboard.key_buttons[i++].set_keys("ま", KEYJISKANA_MA, KEYJISKANA_MI, KEYJISKANA_MU, KEYJISKANA_ME, KEYJISKANA_MO);
+  Keyboard.key_buttons[i++].set_keys("や", KEYJISKANA_YA, KEYJISKANA_KAKKO, KEYJISKANA_YU, KEYJISKANA_KAKKO_TOJI, KEYJISKANA_YO);
+  Keyboard.key_buttons[i++].set_keys("ら", KEYJISKANA_RA, KEYJISKANA_RI, KEYJISKANA_RU, KEYJISKANA_RE, KEYJISKANA_RO);
+  Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
+  Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
+  Keyboard.key_buttons[i++].set_action("小゛゜", layout_jis_hiragana_modified_keybard);
+  Keyboard.key_buttons[i++].set_keys("わ", KEYJISKANA_WA, KEYJISKANA_WO, KEYJISKANA_NN, KEYJISKANA_DASH);
+  Keyboard.key_buttons[i++].set_keys("、。?!", KEYJISKANA_TOUTEN, KEYJISKANA_KUTEN, KEYJISKANA_QUESTION, KEYJISKANA_EXCL_MARK);
+
+  xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
+}
+
+void layout_jis_hiragana_modified_keybard()
+{
+  size_t i = 0;
+  Keyboard.key_buttons[i++].set_repeatable_keys("→", KEY_RIGHT_ARROW);
+  Keyboard.key_buttons[i++].set_action("ぁ", layout_jis_hiragana_keybard, KEYJISKANA_XA, KEYJISKANA_XI, KEYJISKANA_XU, KEYJISKANA_XE, KEYJISKANA_XO);
+  Keyboard.key_buttons[i++].set_action("が", layout_jis_hiragana_keybard, KEYJISKANA_GA, KEYJISKANA_GI, KEYJISKANA_GU, KEYJISKANA_GE, KEYJISKANA_GO);
+  Keyboard.key_buttons[i++].set_action("ざ", layout_jis_hiragana_keybard, KEYJISKANA_ZA, KEYJISKANA_ZI, KEYJISKANA_ZU, KEYJISKANA_ZE, KEYJISKANA_ZO);
+  Keyboard.key_buttons[i++].set_repeatable_keys("<x", KEY_DELETE);
+  Keyboard.key_buttons[i++].set_repeatable_keys("←", KEY_LEFT_ARROW);
+  Keyboard.key_buttons[i++].set_action("だ", layout_jis_hiragana_keybard, KEYJISKANA_DA, KEYJISKANA_DI, KEYJISKANA_DU, KEYJISKANA_DE, KEYJISKANA_DO);
+  Keyboard.key_buttons[i++].set_action("っ", layout_jis_hiragana_keybard, KEYJISKANA_XTU);
+  Keyboard.key_buttons[i++].set_action("ば", layout_jis_hiragana_keybard, KEYJISKANA_BA, KEYJISKANA_BI, KEYJISKANA_BU, KEYJISKANA_BE, KEYJISKANA_BO);
+  Keyboard.key_buttons[i++].set_repeatable_keys("空白", KEY_SPACEBAR);
+  Keyboard.key_buttons[i++].set_action(layouts[next_layout]->icon, draw_next_keyboard, layouts[next_layout]->key);
+  Keyboard.key_buttons[i++].set_action("ぱ", layout_jis_hiragana_keybard, KEYJISKANA_PA, KEYJISKANA_PI, KEYJISKANA_PU, KEYJISKANA_PE, KEYJISKANA_PO);
+  Keyboard.key_buttons[i++].set_action("ゃ", layout_jis_hiragana_keybard, KEYJISKANA_XYA, KEYJISKANA_LEFT_PAREN, KEYJISKANA_XYU, KEYJISKANA_RIGHT_PAREN, KEYJISKANA_XYO);
+  Keyboard.key_buttons[i++].set_keys("");
+  Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
+  Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
+  Keyboard.key_buttons[i++].set_action("あいう", layout_jis_hiragana_keybard);
+  Keyboard.key_buttons[i++].set_keys("");
+  Keyboard.key_buttons[i++].set_keys("@#$%", KEYJISKANA_ATMARK, KEYJISKANA_NUM_SIGN, KEYJISKANA_DOLLAR, KEYJISKANA_PERCENT);
+
+  xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
+}
+
 void layout_us_hiragana_keybard()
 {
   size_t i = 0;

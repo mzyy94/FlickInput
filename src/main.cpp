@@ -147,13 +147,17 @@ void change_input_method()
   switch (input_method)
   {
   case keyboard_input_method_not_available:
+  case keyboard_input_method_jis_kana:
+    Keyboard.save_input_method_setting(keyboard_input_method_us_kana);
+    Menu.editItemLabel(0, "入力方法: USかな");
+    break;
   case keyboard_input_method_us_kana:
     Keyboard.save_input_method_setting(keyboard_input_method_us_roman);
     Menu.editItemLabel(0, "入力方法: USローマ字");
     break;
   case keyboard_input_method_us_roman:
-    Keyboard.save_input_method_setting(keyboard_input_method_us_kana);
-    Menu.editItemLabel(0, "入力方法: USかな");
+    Keyboard.save_input_method_setting(keyboard_input_method_jis_kana);
+    Menu.editItemLabel(0, "入力方法: JISかな");
     break;
   }
   Keyboard.set_input_method();
@@ -180,6 +184,9 @@ void init_menu()
   switch (input_method)
   {
   case keyboard_input_method_not_available:
+  case keyboard_input_method_jis_kana:
+    Menu.addItem("入力方法: JISかな", change_input_method);
+    break;
   case keyboard_input_method_us_kana:
     Menu.addItem("入力方法: USかな", change_input_method);
     break;

@@ -19,6 +19,8 @@ struct Layout
 extern std::vector<Layout *> layouts;
 extern size_t next_layout;
 
+void layout_jis_hiragana_keybard();
+void layout_jis_hiragana_modified_keybard();
 void layout_us_hiragana_keybard();
 void layout_us_hiragana_modified_keybard();
 void layout_roman_kana_keybard();

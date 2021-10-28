@@ -6,6 +6,7 @@
 enum input_method_t
 {
   keyboard_input_method_not_available = 0,
+  keyboard_input_method_jis_kana,
   keyboard_input_method_us_kana,
   keyboard_input_method_us_roman,
 };
