@@ -28,6 +28,7 @@ namespace kbd
 
   void Keyboard::set_input_method(input_method_t method, keyboard_layout_t layout, platform_os_t os)
   {
+    this->os = os;
     layouts.clear();
 
     layouts.push_back(new Layout("ABC", layout == keyboard_layout_us ? layout_us_lower_alphabet_keybard : layout_jis_lower_alphabet_keybard, KEY_EISU_INPUT));
@@ -38,14 +39,7 @@ namespace kbd
     }
     else
     {
-      if (os == platform_os_mac)
-      {
-        layouts.push_back(new Layout("あいう", layout == keyboard_layout_jis ? layout_jis_mac_kana_keybard : layout_us_mac_kana_keybard, KEY_KANA_INPUT));
-      }
-      else
-      {
-        layouts.push_back(new Layout("あいう", layout_jis_win_kana_keybard, KEY_KANA_INPUT));
-      }
+      layouts.push_back(new Layout("あいう", layout == keyboard_layout_jis ? layout_jis_kana_keybard : layout_us_kana_keybard, KEY_KANA_INPUT));
     }
 
     layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
@@ -98,7 +92,15 @@ namespace kbd
     {
       draw_input_text(input->text);
     }
-    send_key(input->keycode, input->modifier);
+    if ((input->modifier & ALT_KEY) && os == platform_os_win)
+    {
+      send_key(input->keycode, input->modifier ^ ALT_KEY);
+      send_key(HID_KEY_F9, 0);
+    }
+    else
+    {
+      send_key(input->keycode, input->modifier);
+    }
     if (input->second_keycode != 0)
     {
       send_key(input->second_keycode, 0);

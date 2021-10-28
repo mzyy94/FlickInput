@@ -26,6 +26,7 @@ namespace kbd
   private:
     bool need_refresh = false;
     esp_timer_handle_t hold_input = nullptr;
+    platform_os_t os;
 
     void draw_input_text(std::string text);
   };
