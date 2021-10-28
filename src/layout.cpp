@@ -172,7 +172,7 @@ void layout_alphabet_keybard()
 {
   size_t i = 0;
   Keyboard.key_buttons[i++].set_repeatable_keys("→", KEY_RIGHT_ARROW);
-  Keyboard.key_buttons[i++].set_keys("@#/&_", KEY_ATMARK, KEY_NUM_SIGN, KEY_FWD_SLASH, KEY_AMPERSAND, KEY_UNDERSCORE);
+  Keyboard.key_buttons[i++].set_keys("@#/&_", KEY_US_ATMARK, KEY_US_NUM_SIGN, KEY_US_FWD_SLASH, KEY_US_AMPERSAND, KEY_US_UNDERSCORE);
   Keyboard.key_buttons[i++].set_keys("ABC", KEY_A, KEY_B, KEY_C);
   Keyboard.key_buttons[i++].set_keys("DEF", KEY_D, KEY_E, KEY_F);
   Keyboard.key_buttons[i++].set_repeatable_keys("<x", KEY_DELETE);
@@ -188,8 +188,8 @@ void layout_alphabet_keybard()
   Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
   Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
   Keyboard.key_buttons[i++].set_action("a/A", layout_lower_alphabet_keybard);
-  Keyboard.key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
-  Keyboard.key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
+  Keyboard.key_buttons[i++].set_keys("'\"()", KEY_US_SGL_QUOTE, KEY_US_DBL_QUOTE, KEY_US_LEFT_PAREN, KEY_US_RIGHT_PAREN);
+  Keyboard.key_buttons[i++].set_keys(".,?!", KEY_US_DOT, KEY_US_COMMA, KEY_US_QUESTION, KEY_US_EXCL_MARK);
 
   xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
 }
@@ -198,7 +198,7 @@ void layout_lower_alphabet_keybard()
 {
   size_t i = 0;
   Keyboard.key_buttons[i++].set_repeatable_keys("→", KEY_RIGHT_ARROW);
-  Keyboard.key_buttons[i++].set_keys("@#/&_", KEY_ATMARK, KEY_NUM_SIGN, KEY_FWD_SLASH, KEY_AMPERSAND, KEY_UNDERSCORE);
+  Keyboard.key_buttons[i++].set_keys("@#/&_", KEY_US_ATMARK, KEY_US_NUM_SIGN, KEY_US_FWD_SLASH, KEY_US_AMPERSAND, KEY_US_UNDERSCORE);
   Keyboard.key_buttons[i++].set_keys("abc", KEY_a, KEY_b, KEY_c);
   Keyboard.key_buttons[i++].set_keys("def", KEY_d, KEY_e, KEY_f);
   Keyboard.key_buttons[i++].set_repeatable_keys("<x", KEY_DELETE);
@@ -214,8 +214,8 @@ void layout_lower_alphabet_keybard()
   Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
   Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
   Keyboard.key_buttons[i++].set_action("a/A", layout_alphabet_keybard);
-  Keyboard.key_buttons[i++].set_keys("'\"()", KEY_SGL_QUOTE, KEY_DBL_QUOTE, KEY_LEFT_PAREN, KEY_RIGHT_PAREN);
-  Keyboard.key_buttons[i++].set_keys(".,?!", KEY_DOT, KEY_COMMA, KEY_QUESTION, KEY_EXCL_MARK);
+  Keyboard.key_buttons[i++].set_keys("'\"()", KEY_US_SGL_QUOTE, KEY_US_DBL_QUOTE, KEY_US_LEFT_PAREN, KEY_US_RIGHT_PAREN);
+  Keyboard.key_buttons[i++].set_keys(".,?!", KEY_US_DOT, KEY_US_COMMA, KEY_US_QUESTION, KEY_US_EXCL_MARK);
 
   xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
 }
@@ -239,9 +239,9 @@ void layout_number_keybard()
   Keyboard.key_buttons[i++].set_keys("9", KEY_9);
   Keyboard.key_buttons[i++].set_repeatable_keys("改行", KEY_ENTER);
   Keyboard.key_buttons[i++].set_keys("Esc", KEY_ESCAPE);
-  Keyboard.key_buttons[i++].set_keys("()[]", KEY_LEFT_PAREN, KEY_RIGHT_PAREN, KEY_LEFT_BRKT, KEY_RIGHT_BRKT);
+  Keyboard.key_buttons[i++].set_keys("()[]", KEY_US_LEFT_PAREN, KEY_US_RIGHT_PAREN, KEY_US_LEFT_BRKT, KEY_US_RIGHT_BRKT);
   Keyboard.key_buttons[i++].set_keys("0", KEY_0);
-  Keyboard.key_buttons[i++].set_keys(".,-/", KEY_DOT, KEY_COMMA, KEY_MINUS, KEY_FWD_SLASH);
+  Keyboard.key_buttons[i++].set_keys(".,-/", KEY_US_DOT, KEY_US_COMMA, KEY_US_MINUS, KEY_US_FWD_SLASH);
 
   xEventGroupSetBits(event_group, EVENT_BIT_DRAW_KEYBOARD);
 }
