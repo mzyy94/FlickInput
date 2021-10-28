@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <esp_log.h>
-#include <nvs.h>
 
 #include "keyboard.hpp"
 #include "key_button.hpp"
@@ -27,52 +26,20 @@ namespace kbd
     layout_func();
   }
 
-  input_method_t Keyboard::load_input_method_setting()
+  void Keyboard::set_input_method(input_method_t method, keyboard_layout_t layout, platform_os_t os)
   {
-    nvs_handle_t handle;
-    int32_t input_method = keyboard_input_method_not_available;
-    nvs_open("settings", NVS_READONLY, &handle);
-    esp_err_t err = nvs_get_i32(handle, "input_method", &input_method);
-    if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND)
-    {
-      ESP_LOGE(KEYBOARD_TAG, "%s unexpected error: %d", __func__, err);
-    }
-    nvs_close(handle);
-    return static_cast<input_method_t>(input_method);
-  }
-
-  void Keyboard::save_input_method_setting(input_method_t input_method)
-  {
-    nvs_handle_t handle;
-    nvs_open("settings", NVS_READWRITE, &handle);
-    esp_err_t err = nvs_set_i32(handle, "input_method", input_method);
-    if (err != ESP_OK)
-    {
-      ESP_LOGE(KEYBOARD_TAG, "%s unexpected error: %d", __func__, err);
-    }
-    nvs_close(handle);
-  }
-
-  void Keyboard::set_input_method()
-  {
-    input_method_t input_method = load_input_method_setting();
     layouts.clear();
     next_layout = 0;
 
-    switch (input_method)
+    switch (method)
     {
-    case keyboard_input_method_not_available:
-    case keyboard_input_method_jis_kana:
+    case input_method_default:
+    case input_method_kana:
       layouts.push_back(new Layout("ABC", layout_lower_alphabet_keybard, KEY_EISU_INPUT));
-      layouts.push_back(new Layout("あいう", layout_jis_hiragana_keybard, KEY_KANA_INPUT));
+      layouts.push_back(new Layout("あいう", layout == keyboard_layout_jis ? layout_jis_hiragana_keybard : layout_us_hiragana_keybard, KEY_KANA_INPUT));
       layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
       break;
-    case keyboard_input_method_us_kana:
-      layouts.push_back(new Layout("ABC", layout_lower_alphabet_keybard, KEY_EISU_INPUT));
-      layouts.push_back(new Layout("あいう", layout_us_hiragana_keybard, KEY_KANA_INPUT));
-      layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
-      break;
-    case keyboard_input_method_us_roman:
+    case input_method_roman:
       layouts.push_back(new Layout("ABC", layout_lower_alphabet_keybard, KEY_EISU_INPUT));
       layouts.push_back(new Layout("あいう", layout_roman_kana_keybard, KEY_KANA_INPUT));
       layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
@@ -82,8 +49,6 @@ namespace kbd
 
   void Keyboard::init()
   {
-    set_input_method();
-
     const int32_t x = 10, y = 560, w = 96, h = 78, pad = 10;
 
     for (size_t j = 0; j < 5; j++)

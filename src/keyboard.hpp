@@ -2,14 +2,7 @@
 #include <M5Unified.h>
 #include "key_button.hpp"
 #include "event.hpp"
-
-enum input_method_t
-{
-  keyboard_input_method_not_available = 0,
-  keyboard_input_method_jis_kana,
-  keyboard_input_method_us_kana,
-  keyboard_input_method_us_roman,
-};
+#include "settings.hpp"
 
 namespace kbd
 {
@@ -18,9 +11,7 @@ namespace kbd
     std::array<struct key_button, 19> key_buttons;
     struct key_button *current_key;
 
-    input_method_t load_input_method_setting();
-    void save_input_method_setting(input_method_t input_method);
-    void set_input_method();
+    void set_input_method(input_method_t, keyboard_layout_t, platform_os_t);
     void draw_next_layout();
     void init();
     void draw();

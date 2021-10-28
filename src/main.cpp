@@ -7,8 +7,11 @@
 #include "display.hpp"
 #include "menu.hpp"
 #include "event.hpp"
+#include "settings.hpp"
 
 #define MAIN_TAG "MAIN"
+
+settings::Settings Settings;
 
 void init_m5paper()
 {
@@ -142,25 +145,21 @@ void shutdown()
 void change_input_method()
 {
   Menu.close();
-  input_method_t input_method = Keyboard.load_input_method_setting();
+  const auto input_method = Settings.input_method();
 
   switch (input_method)
   {
-  case keyboard_input_method_not_available:
-  case keyboard_input_method_jis_kana:
-    Keyboard.save_input_method_setting(keyboard_input_method_us_kana);
-    Menu.editItemLabel(0, "入力方法: USかな");
+  case input_method_default:
+  case input_method_kana:
+    Settings.input_method(input_method_roman);
+    Menu.editItemLabel(0, "入力方法: ローマ字");
     break;
-  case keyboard_input_method_us_kana:
-    Keyboard.save_input_method_setting(keyboard_input_method_us_roman);
-    Menu.editItemLabel(0, "入力方法: USローマ字");
-    break;
-  case keyboard_input_method_us_roman:
-    Keyboard.save_input_method_setting(keyboard_input_method_jis_kana);
-    Menu.editItemLabel(0, "入力方法: JISかな");
+  case input_method_roman:
+    Settings.input_method(input_method_kana);
+    Menu.editItemLabel(0, "入力方法: かな");
     break;
   }
-  Keyboard.set_input_method();
+  Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
   Menu.open();
 }
 
@@ -179,19 +178,14 @@ void refresh_display()
 
 void init_menu()
 {
-  input_method_t input_method = Keyboard.load_input_method_setting();
-
-  switch (input_method)
+  switch (Settings.input_method())
   {
-  case keyboard_input_method_not_available:
-  case keyboard_input_method_jis_kana:
-    Menu.addItem("入力方法: JISかな", change_input_method);
+  case input_method_default:
+  case input_method_kana:
+    Menu.addItem("入力方法: かな", change_input_method);
     break;
-  case keyboard_input_method_us_kana:
-    Menu.addItem("入力方法: USかな", change_input_method);
-    break;
-  case keyboard_input_method_us_roman:
-    Menu.addItem("入力方法: USローマ字", change_input_method);
+  case input_method_roman:
+    Menu.addItem("入力方法: ローマ字", change_input_method);
     break;
   }
 
@@ -229,15 +223,19 @@ void main_task(void *)
   Keyboard.init();
   init_menu();
 
-  // 3. Draw logo, keyboard and status bar
+  // 3. Load settings and apply
+  Settings.load();
+  Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
+
+  // 4. Draw logo, keyboard and status bar
   xEventGroupSetBits(event_group, EVENT_BIT_CLEAR_DISPLAY | EVENT_BIT_DRAW_LOGO | EVENT_BIT_DRAW_STATUSBAR);
   Keyboard.draw_next_layout();
 
-  // 4. Set battery status update interval loop
+  // 5. Set battery status update interval loop
   update_battery_status();
   dispatch_every(3 * 60 * 1000, update_battery_status, (void *)nullptr);
 
-  // 5. Start ble connection
+  // 6. Start ble connection
   start_ble_hid();
 
   for (;;)
