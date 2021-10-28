@@ -33,17 +33,16 @@ namespace kbd
     this->os = os;
     layouts.clear();
 
-    layouts.push_back(new Layout("ABC", layout == keyboard_layout_us ? layout_us_lower_alphabet_keybard : layout_jis_lower_alphabet_keybard, KEY_EISU_INPUT));
-
     if (method == input_method_roman)
     {
       layouts.push_back(new Layout("あいう", layout_roman_kana_keybard, KEY_KANA_INPUT));
     }
     else
     {
-      layouts.push_back(new Layout("あいう", layout == keyboard_layout_jis ? layout_jis_kana_keybard : layout_us_kana_keybard, KEY_KANA_INPUT));
+      layouts.push_back(new Layout("あいう", layout == keyboard_layout_us ? layout_us_kana_keybard : layout_jis_kana_keybard, KEY_KANA_INPUT));
     }
 
+    layouts.push_back(new Layout("ABC", layout == keyboard_layout_us ? layout_us_lower_alphabet_keybard : layout_jis_lower_alphabet_keybard, KEY_EISU_INPUT));
     layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
   }
 
