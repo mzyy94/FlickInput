@@ -212,6 +212,45 @@ void refresh_display()
   ESP_LOGI(MAIN_TAG, "Display refresh");
 }
 
+#if ENABLE_INPUT_TEST_MODE
+#include <algorithm>
+#include "layout.hpp"
+
+void input_test()
+{
+  for (size_t i = 0; i < 19; i++)
+  {
+    auto btn = Keyboard.key_buttons[i];
+    if (btn.repeat || btn.keys.size() == 0)
+    {
+      continue;
+    }
+    if (btn.keys[0].keycode == HID_KEY_LANG1 || btn.keys[0].keycode == HID_KEY_LANG2)
+    {
+      continue;
+    }
+
+    for (auto &key : btn.keys)
+    {
+      if (key.keycode == HID_KEY_ESCAPE)
+      {
+        continue;
+      }
+      send_key(key.keycode, key.modifier);
+      if (key.second_keycode != 0)
+      {
+        send_key(key.second_keycode, 0);
+      }
+      if (key.third_keycode != 0)
+      {
+        send_key(key.third_keycode, 0);
+      }
+      vTaskDelay(20 / portTICK_RATE_MS);
+    }
+  }
+}
+#endif
+
 void init_menu()
 {
   switch (Settings.input_method())
@@ -246,6 +285,10 @@ void init_menu()
     Menu.addItem("OS: Mac", change_platform_os);
     break;
   }
+
+#if ENABLE_INPUT_TEST_MODE
+  Menu.addItem("START INPUT TEST", input_test);
+#endif
 
   Menu.addItem("シャットダウン", shutdown);
   Menu.addItem("閉じる", refresh_display);
