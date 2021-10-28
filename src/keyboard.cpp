@@ -35,12 +35,19 @@ namespace kbd
     {
     case input_method_default:
     case input_method_kana:
-      layouts.push_back(new Layout("ABC", layout_lower_alphabet_keybard, KEY_EISU_INPUT));
-      layouts.push_back(new Layout("あいう", layout == keyboard_layout_jis ? layout_jis_hiragana_keybard : layout_us_hiragana_keybard, KEY_KANA_INPUT));
+      layouts.push_back(new Layout("ABC", layout == keyboard_layout_jis ? layout_jis_lower_alphabet_keybard : layout_us_lower_alphabet_keybard, KEY_EISU_INPUT));
+      if (os == platform_os_mac)
+      {
+        layouts.push_back(new Layout("あいう", layout == keyboard_layout_jis ? layout_jis_mac_kana_keybard : layout_us_mac_kana_keybard, KEY_KANA_INPUT));
+      }
+      else
+      {
+        layouts.push_back(new Layout("あいう", layout_jis_win_kana_keybard, KEY_KANA_INPUT));
+      }
       layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
       break;
     case input_method_roman:
-      layouts.push_back(new Layout("ABC", layout_lower_alphabet_keybard, KEY_EISU_INPUT));
+      layouts.push_back(new Layout("ABC", layout == keyboard_layout_jis ? layout_jis_lower_alphabet_keybard : layout_us_lower_alphabet_keybard, KEY_EISU_INPUT));
       layouts.push_back(new Layout("あいう", layout_roman_kana_keybard, KEY_KANA_INPUT));
       layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
       break;
@@ -97,11 +104,11 @@ namespace kbd
     send_key(input->keycode, input->modifier);
     if (input->second_keycode != 0)
     {
-      send_key(input->second_keycode, input->modifier);
+      send_key(input->second_keycode, 0);
     }
     if (input->third_keycode != 0)
     {
-      send_key(input->third_keycode, input->modifier);
+      send_key(input->third_keycode, 0);
     }
   }
 
