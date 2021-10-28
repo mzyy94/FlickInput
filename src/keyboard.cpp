@@ -26,11 +26,16 @@ namespace kbd
     return layout_index + 1;
   }
 
+  void Keyboard::draw_layout()
+  {
+    const auto layout_func = layouts[layout_index]->layout_function;
+    layout_func();
+  }
+
   void Keyboard::draw_next_layout()
   {
     layout_index = next_layout_index();
-    const auto layout_func = layouts[layout_index]->layout_function;
-    layout_func();
+    draw_layout();
   }
 
   void Keyboard::set_input_method(input_method_t method, keyboard_layout_t layout, platform_os_t os)

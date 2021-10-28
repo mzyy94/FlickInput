@@ -210,6 +210,7 @@ void refresh_display()
     unregister_touch_void_events();
     register_touch_events();
   }
+  Keyboard.draw_layout();
   xEventGroupSetBits(event_group, EVENT_BIT_CLEAR_DISPLAY | EVENT_BIT_DRAW_STATUSBAR | EVENT_BIT_DRAW_KEYBOARD);
   ESP_LOGI(MAIN_TAG, "Display refresh");
 }
@@ -332,7 +333,7 @@ void main_task(void *)
 
   // 4. Draw logo, keyboard and status bar
   xEventGroupSetBits(event_group, EVENT_BIT_CLEAR_DISPLAY | EVENT_BIT_DRAW_LOGO | EVENT_BIT_DRAW_STATUSBAR);
-  Keyboard.draw_next_layout();
+  Keyboard.draw_layout();
 
   // 5. Set battery status update interval loop
   update_battery_status();

@@ -14,6 +14,7 @@ namespace kbd
     struct key_button *current_key;
 
     void set_input_method(input_method_t, keyboard_layout_t, platform_os_t);
+    void draw_layout();
     void draw_next_layout();
     void init();
     void draw();
