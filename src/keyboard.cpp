@@ -64,7 +64,7 @@ namespace kbd
     case keyboard_input_method_not_available:
     case keyboard_input_method_us_kana:
       layouts.push_back(new Layout("ABC", layout_lower_alphabet_keybard, KEY_EISU_INPUT));
-      layouts.push_back(new Layout("あいう", layout_hiragana_keybard, KEY_KANA_INPUT));
+      layouts.push_back(new Layout("あいう", layout_us_hiragana_keybard, KEY_KANA_INPUT));
       layouts.push_back(new Layout("123", layout_number_keybard, KEY_EISU_INPUT));
       break;
     case keyboard_input_method_us_roman:
