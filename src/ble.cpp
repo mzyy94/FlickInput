@@ -137,6 +137,7 @@ static void hidd_event_callback(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *
         ESP_LOGI(BLE_TAG, "ESP_HIDD_EVENT_BLE_DISCONNECT");
         esp_ble_gap_start_advertising(&hidd_adv_params);
         esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BLE_STATE, &sec_conn, sizeof(bool), 0);
+        xEventGroupSetBits(event_group, EVENT_BIT_DRAW_STATUSBAR);
         break;
     }
     case ESP_HIDD_EVENT_BLE_VENDOR_REPORT_WRITE_EVT:
@@ -178,6 +179,7 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
             ESP_LOGE(BLE_TAG, "fail reason = 0x%x", param->ble_security.auth_cmpl.fail_reason);
         }
         esp_event_post_to(loop_handle, STATUS_CHANGE_EVENT, STATUS_EVENT_UPDATE_BLE_STATE, &sec_conn, sizeof(bool), 0);
+        xEventGroupSetBits(event_group, EVENT_BIT_DRAW_STATUSBAR);
         break;
     default:
         break;
