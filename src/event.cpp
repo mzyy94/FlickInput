@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: Apache-2.0
+
 #include <esp_event.h>
 #include <esp_event_base.h>
 #include <freertos/portmacro.h>

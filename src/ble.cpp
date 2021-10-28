@@ -1,8 +1,5 @@
-/* This example code is in the Public Domain (or CC0 licensed, at your option.)
-   Unless required by applicable law or agreed to in writing, this software is
-   distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
+// SPDX-License-Identifier: Apache-2.0
+// Original (Public Domain): https://github.com/espressif/esp-idf/blob/b310c062cd25f249e00dd03dd27baed783921630/examples/bluetooth/bluedroid/ble/ble_hid_device_demo/main/ble_hidd_demo_main.c
 
 #include <stdio.h>
 #include <stdlib.h>
