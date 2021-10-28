@@ -19,7 +19,6 @@ struct Layout
 };
 
 extern std::vector<Layout *> layouts;
-extern size_t next_layout;
 
 void layout_jis_kana_keybard();
 void layout_jis_kana_mod_keybard();

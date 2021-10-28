@@ -17,14 +17,19 @@ namespace kbd
     keyboard->input_key_button(center, false);
   }
 
+  size_t Keyboard::next_layout_index()
+  {
+    if (layout_index + 1 >= layouts.size())
+    {
+      return 0;
+    }
+    return layout_index + 1;
+  }
+
   void Keyboard::draw_next_layout()
   {
-    const auto layout_func = layouts[next_layout]->layout_function;
-    next_layout++;
-    if (next_layout >= layouts.size())
-    {
-      next_layout = 0;
-    }
+    layout_index = next_layout_index();
+    const auto layout_func = layouts[layout_index]->layout_function;
     layout_func();
   }
 

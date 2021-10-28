@@ -25,10 +25,13 @@ namespace kbd
     void touch_end(m5::touch_detail_t *t);
     void flick_end(m5::touch_detail_t *t);
 
+    size_t next_layout_index();
+
   private:
     bool need_refresh = false;
     esp_timer_handle_t hold_input = nullptr;
     platform_os_t os;
+    size_t layout_index = 0;
 
     void draw_input_text(std::string text);
   };
