@@ -180,6 +180,25 @@ void change_keyboard_layout()
   Menu.open();
 }
 
+void change_platform_os()
+{
+  Menu.close();
+  switch (Settings.platform_os())
+  {
+  case platform_os_default:
+  case platform_os_win:
+    Settings.platform_os(platform_os_mac);
+    Menu.editItemLabel(2, "OS: Mac");
+    break;
+  case platform_os_mac:
+    Settings.platform_os(platform_os_win);
+    Menu.editItemLabel(2, "OS: Windows");
+    break;
+  }
+  Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
+  Menu.open();
+}
+
 void refresh_display()
 {
   if (Menu.opened)
@@ -214,6 +233,17 @@ void init_menu()
     break;
   case keyboard_layout_us:
     Menu.addItem("レイアウト: US配列", change_keyboard_layout);
+    break;
+  }
+
+  switch (Settings.platform_os())
+  {
+  case platform_os_default:
+  case platform_os_win:
+    Menu.addItem("OS: Windows", change_platform_os);
+    break;
+  case platform_os_mac:
+    Menu.addItem("OS: Mac", change_platform_os);
     break;
   }
 
