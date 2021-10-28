@@ -11,6 +11,9 @@ typedef struct key_input
   uint8_t third_keycode;
 } key_input_t;
 
+#define SHIFT_KEY 2
+#define ALT_KEY 4
+
 #define SINGLE_KEY(label, keycode, modifier) \
   {                                          \
     label, modifier, keycode, 0, 0           \
@@ -27,78 +30,78 @@ typedef struct key_input
   }
 
 static const key_input_t KEY_a = SINGLE_KEY("a", HID_KEY_A, 0);
-static const key_input_t KEY_A = SINGLE_KEY("A", HID_KEY_A, 2);
+static const key_input_t KEY_A = SINGLE_KEY("A", HID_KEY_A, SHIFT_KEY);
 static const key_input_t KEY_b = SINGLE_KEY("b", HID_KEY_B, 0);
-static const key_input_t KEY_B = SINGLE_KEY("B", HID_KEY_B, 2);
+static const key_input_t KEY_B = SINGLE_KEY("B", HID_KEY_B, SHIFT_KEY);
 static const key_input_t KEY_c = SINGLE_KEY("c", HID_KEY_C, 0);
-static const key_input_t KEY_C = SINGLE_KEY("C", HID_KEY_C, 2);
+static const key_input_t KEY_C = SINGLE_KEY("C", HID_KEY_C, SHIFT_KEY);
 static const key_input_t KEY_d = SINGLE_KEY("d", HID_KEY_D, 0);
-static const key_input_t KEY_D = SINGLE_KEY("D", HID_KEY_D, 2);
+static const key_input_t KEY_D = SINGLE_KEY("D", HID_KEY_D, SHIFT_KEY);
 static const key_input_t KEY_e = SINGLE_KEY("e", HID_KEY_E, 0);
-static const key_input_t KEY_E = SINGLE_KEY("E", HID_KEY_E, 2);
+static const key_input_t KEY_E = SINGLE_KEY("E", HID_KEY_E, SHIFT_KEY);
 static const key_input_t KEY_f = SINGLE_KEY("f", HID_KEY_F, 0);
-static const key_input_t KEY_F = SINGLE_KEY("F", HID_KEY_F, 2);
+static const key_input_t KEY_F = SINGLE_KEY("F", HID_KEY_F, SHIFT_KEY);
 static const key_input_t KEY_g = SINGLE_KEY("g", HID_KEY_G, 0);
-static const key_input_t KEY_G = SINGLE_KEY("G", HID_KEY_G, 2);
+static const key_input_t KEY_G = SINGLE_KEY("G", HID_KEY_G, SHIFT_KEY);
 static const key_input_t KEY_h = SINGLE_KEY("h", HID_KEY_H, 0);
-static const key_input_t KEY_H = SINGLE_KEY("H", HID_KEY_H, 2);
+static const key_input_t KEY_H = SINGLE_KEY("H", HID_KEY_H, SHIFT_KEY);
 static const key_input_t KEY_i = SINGLE_KEY("i", HID_KEY_I, 0);
-static const key_input_t KEY_I = SINGLE_KEY("I", HID_KEY_I, 2);
+static const key_input_t KEY_I = SINGLE_KEY("I", HID_KEY_I, SHIFT_KEY);
 static const key_input_t KEY_j = SINGLE_KEY("j", HID_KEY_J, 0);
-static const key_input_t KEY_J = SINGLE_KEY("J", HID_KEY_J, 2);
+static const key_input_t KEY_J = SINGLE_KEY("J", HID_KEY_J, SHIFT_KEY);
 static const key_input_t KEY_k = SINGLE_KEY("k", HID_KEY_K, 0);
-static const key_input_t KEY_K = SINGLE_KEY("K", HID_KEY_K, 2);
+static const key_input_t KEY_K = SINGLE_KEY("K", HID_KEY_K, SHIFT_KEY);
 static const key_input_t KEY_l = SINGLE_KEY("l", HID_KEY_L, 0);
-static const key_input_t KEY_L = SINGLE_KEY("L", HID_KEY_L, 2);
+static const key_input_t KEY_L = SINGLE_KEY("L", HID_KEY_L, SHIFT_KEY);
 static const key_input_t KEY_m = SINGLE_KEY("m", HID_KEY_M, 0);
-static const key_input_t KEY_M = SINGLE_KEY("M", HID_KEY_M, 2);
+static const key_input_t KEY_M = SINGLE_KEY("M", HID_KEY_M, SHIFT_KEY);
 static const key_input_t KEY_n = SINGLE_KEY("n", HID_KEY_N, 0);
-static const key_input_t KEY_N = SINGLE_KEY("N", HID_KEY_N, 2);
+static const key_input_t KEY_N = SINGLE_KEY("N", HID_KEY_N, SHIFT_KEY);
 static const key_input_t KEY_o = SINGLE_KEY("o", HID_KEY_O, 0);
-static const key_input_t KEY_O = SINGLE_KEY("O", HID_KEY_O, 2);
+static const key_input_t KEY_O = SINGLE_KEY("O", HID_KEY_O, SHIFT_KEY);
 static const key_input_t KEY_p = SINGLE_KEY("p", HID_KEY_P, 0);
-static const key_input_t KEY_P = SINGLE_KEY("p", HID_KEY_P, 2);
+static const key_input_t KEY_P = SINGLE_KEY("p", HID_KEY_P, SHIFT_KEY);
 static const key_input_t KEY_q = SINGLE_KEY("q", HID_KEY_Q, 0);
-static const key_input_t KEY_Q = SINGLE_KEY("Q", HID_KEY_Q, 2);
+static const key_input_t KEY_Q = SINGLE_KEY("Q", HID_KEY_Q, SHIFT_KEY);
 static const key_input_t KEY_r = SINGLE_KEY("r", HID_KEY_R, 0);
-static const key_input_t KEY_R = SINGLE_KEY("R", HID_KEY_R, 2);
+static const key_input_t KEY_R = SINGLE_KEY("R", HID_KEY_R, SHIFT_KEY);
 static const key_input_t KEY_s = SINGLE_KEY("s", HID_KEY_S, 0);
-static const key_input_t KEY_S = SINGLE_KEY("S", HID_KEY_S, 2);
+static const key_input_t KEY_S = SINGLE_KEY("S", HID_KEY_S, SHIFT_KEY);
 static const key_input_t KEY_t = SINGLE_KEY("t", HID_KEY_T, 0);
-static const key_input_t KEY_T = SINGLE_KEY("T", HID_KEY_T, 2);
+static const key_input_t KEY_T = SINGLE_KEY("T", HID_KEY_T, SHIFT_KEY);
 static const key_input_t KEY_u = SINGLE_KEY("u", HID_KEY_U, 0);
-static const key_input_t KEY_U = SINGLE_KEY("U", HID_KEY_U, 2);
+static const key_input_t KEY_U = SINGLE_KEY("U", HID_KEY_U, SHIFT_KEY);
 static const key_input_t KEY_v = SINGLE_KEY("v", HID_KEY_V, 0);
-static const key_input_t KEY_V = SINGLE_KEY("V", HID_KEY_V, 2);
+static const key_input_t KEY_V = SINGLE_KEY("V", HID_KEY_V, SHIFT_KEY);
 static const key_input_t KEY_w = SINGLE_KEY("w", HID_KEY_W, 0);
-static const key_input_t KEY_W = SINGLE_KEY("W", HID_KEY_W, 2);
+static const key_input_t KEY_W = SINGLE_KEY("W", HID_KEY_W, SHIFT_KEY);
 static const key_input_t KEY_x = SINGLE_KEY("x", HID_KEY_X, 0);
-static const key_input_t KEY_X = SINGLE_KEY("X", HID_KEY_X, 2);
+static const key_input_t KEY_X = SINGLE_KEY("X", HID_KEY_X, SHIFT_KEY);
 static const key_input_t KEY_y = SINGLE_KEY("y", HID_KEY_Y, 0);
-static const key_input_t KEY_Y = SINGLE_KEY("Y", HID_KEY_Y, 2);
+static const key_input_t KEY_Y = SINGLE_KEY("Y", HID_KEY_Y, SHIFT_KEY);
 static const key_input_t KEY_z = SINGLE_KEY("z", HID_KEY_Z, 0);
-static const key_input_t KEY_Z = SINGLE_KEY("Z", HID_KEY_Z, 2);
+static const key_input_t KEY_Z = SINGLE_KEY("Z", HID_KEY_Z, SHIFT_KEY);
 
 static const key_input_t KEY_1 = SINGLE_KEY("1", HID_KEY_1, 0);
-static const key_input_t KEY_EXCL_MARK = SINGLE_KEY("!", HID_KEY_1, 2);
+static const key_input_t KEY_EXCL_MARK = SINGLE_KEY("!", HID_KEY_1, SHIFT_KEY);
 static const key_input_t KEY_2 = SINGLE_KEY("2", HID_KEY_2, 0);
-static const key_input_t KEY_ATMARK = SINGLE_KEY("@", HID_KEY_2, 2);
+static const key_input_t KEY_ATMARK = SINGLE_KEY("@", HID_KEY_2, SHIFT_KEY);
 static const key_input_t KEY_3 = SINGLE_KEY("3", HID_KEY_3, 0);
-static const key_input_t KEY_NUM_SIGN = SINGLE_KEY("#", HID_KEY_3, 2);
+static const key_input_t KEY_NUM_SIGN = SINGLE_KEY("#", HID_KEY_3, SHIFT_KEY);
 static const key_input_t KEY_4 = SINGLE_KEY("4", HID_KEY_4, 0);
-static const key_input_t KEY_DOLLAR = SINGLE_KEY("$", HID_KEY_4, 2);
+static const key_input_t KEY_DOLLAR = SINGLE_KEY("$", HID_KEY_4, SHIFT_KEY);
 static const key_input_t KEY_5 = SINGLE_KEY("5", HID_KEY_5, 0);
-static const key_input_t KEY_PERCENT = SINGLE_KEY("%", HID_KEY_5, 2);
+static const key_input_t KEY_PERCENT = SINGLE_KEY("%", HID_KEY_5, SHIFT_KEY);
 static const key_input_t KEY_6 = SINGLE_KEY("6", HID_KEY_6, 0);
-static const key_input_t KEY_CARET = SINGLE_KEY("^", HID_KEY_6, 2);
+static const key_input_t KEY_CARET = SINGLE_KEY("^", HID_KEY_6, SHIFT_KEY);
 static const key_input_t KEY_7 = SINGLE_KEY("7", HID_KEY_7, 0);
-static const key_input_t KEY_AMPERSAND = SINGLE_KEY("&", HID_KEY_7, 2);
+static const key_input_t KEY_AMPERSAND = SINGLE_KEY("&", HID_KEY_7, SHIFT_KEY);
 static const key_input_t KEY_8 = SINGLE_KEY("8", HID_KEY_8, 0);
-static const key_input_t KEY_ASTERISK = SINGLE_KEY("*", HID_KEY_8, 2);
+static const key_input_t KEY_ASTERISK = SINGLE_KEY("*", HID_KEY_8, SHIFT_KEY);
 static const key_input_t KEY_9 = SINGLE_KEY("9", HID_KEY_9, 0);
-static const key_input_t KEY_LEFT_PAREN = SINGLE_KEY("(", HID_KEY_9, 2);
+static const key_input_t KEY_LEFT_PAREN = SINGLE_KEY("(", HID_KEY_9, SHIFT_KEY);
 static const key_input_t KEY_0 = SINGLE_KEY("0", HID_KEY_0, 0);
-static const key_input_t KEY_RIGHT_PAREN = SINGLE_KEY(")", HID_KEY_0, 2);
+static const key_input_t KEY_RIGHT_PAREN = SINGLE_KEY(")", HID_KEY_0, SHIFT_KEY);
 
 static const key_input_t KEY_RETURN = SINGLE_KEY("Enter", HID_KEY_RETURN, 0);
 static const key_input_t KEY_ESCAPE = SINGLE_KEY("Escape", HID_KEY_ESCAPE, 0);
@@ -107,27 +110,27 @@ static const key_input_t KEY_TAB = SINGLE_KEY("Tab", HID_KEY_TAB, 0);
 static const key_input_t KEY_SPACEBAR = SINGLE_KEY("Spacebar", HID_KEY_SPACEBAR, 0);
 
 static const key_input_t KEY_MINUS = SINGLE_KEY("-", HID_KEY_MINUS, 0);
-static const key_input_t KEY_UNDERSCORE = SINGLE_KEY("_", HID_KEY_MINUS, 2);
+static const key_input_t KEY_UNDERSCORE = SINGLE_KEY("_", HID_KEY_MINUS, SHIFT_KEY);
 static const key_input_t KEY_EQUAL = SINGLE_KEY("=", HID_KEY_EQUAL, 0);
-static const key_input_t KEY_PLUS = SINGLE_KEY("+", HID_KEY_EQUAL, 2);
+static const key_input_t KEY_PLUS = SINGLE_KEY("+", HID_KEY_EQUAL, SHIFT_KEY);
 static const key_input_t KEY_LEFT_BRKT = SINGLE_KEY("[", HID_KEY_LEFT_BRKT, 0);
-static const key_input_t KEY_LEFT_BRACE = SINGLE_KEY("{", HID_KEY_LEFT_BRKT, 2);
+static const key_input_t KEY_LEFT_BRACE = SINGLE_KEY("{", HID_KEY_LEFT_BRKT, SHIFT_KEY);
 static const key_input_t KEY_RIGHT_BRKT = SINGLE_KEY("]", HID_KEY_RIGHT_BRKT, 0);
-static const key_input_t KEY_RIGHT_BRACE = SINGLE_KEY("}", HID_KEY_RIGHT_BRKT, 2);
+static const key_input_t KEY_RIGHT_BRACE = SINGLE_KEY("}", HID_KEY_RIGHT_BRKT, SHIFT_KEY);
 static const key_input_t KEY_BACK_SLASH = SINGLE_KEY("\\", HID_KEY_BACK_SLASH, 0);
-static const key_input_t KEY_VERT_BAR = SINGLE_KEY("|", HID_KEY_BACK_SLASH, 2);
+static const key_input_t KEY_VERT_BAR = SINGLE_KEY("|", HID_KEY_BACK_SLASH, SHIFT_KEY);
 static const key_input_t KEY_SEMI_COLON = SINGLE_KEY(";", HID_KEY_SEMI_COLON, 0);
-static const key_input_t KEY_COLON = SINGLE_KEY(":", HID_KEY_SEMI_COLON, 2);
+static const key_input_t KEY_COLON = SINGLE_KEY(":", HID_KEY_SEMI_COLON, SHIFT_KEY);
 static const key_input_t KEY_SGL_QUOTE = SINGLE_KEY("'", HID_KEY_SGL_QUOTE, 0);
-static const key_input_t KEY_DBL_QUOTE = SINGLE_KEY("\"", HID_KEY_SGL_QUOTE, 2);
+static const key_input_t KEY_DBL_QUOTE = SINGLE_KEY("\"", HID_KEY_SGL_QUOTE, SHIFT_KEY);
 static const key_input_t KEY_GRV_ACCENT = SINGLE_KEY("`", HID_KEY_GRV_ACCENT, 0);
-static const key_input_t KEY_TILDE = SINGLE_KEY("~", HID_KEY_GRV_ACCENT, 2);
+static const key_input_t KEY_TILDE = SINGLE_KEY("~", HID_KEY_GRV_ACCENT, SHIFT_KEY);
 static const key_input_t KEY_COMMA = SINGLE_KEY(",", HID_KEY_COMMA, 0);
-static const key_input_t KEY_LESS_THAN = SINGLE_KEY("<", HID_KEY_COMMA, 2);
+static const key_input_t KEY_LESS_THAN = SINGLE_KEY("<", HID_KEY_COMMA, SHIFT_KEY);
 static const key_input_t KEY_DOT = SINGLE_KEY(".", HID_KEY_DOT, 0);
-static const key_input_t KEY_MORE_THAN = SINGLE_KEY(">", HID_KEY_DOT, 2);
+static const key_input_t KEY_MORE_THAN = SINGLE_KEY(">", HID_KEY_DOT, SHIFT_KEY);
 static const key_input_t KEY_FWD_SLASH = SINGLE_KEY("/", HID_KEY_FWD_SLASH, 0);
-static const key_input_t KEY_QUESTION = SINGLE_KEY("?", HID_KEY_FWD_SLASH, 2);
+static const key_input_t KEY_QUESTION = SINGLE_KEY("?", HID_KEY_FWD_SLASH, SHIFT_KEY);
 
 static const key_input_t KEY_CAPS_LOCK = SINGLE_KEY("Caps Lock", HID_KEY_CAPS_LOCK, 0);
 static const key_input_t KEY_F1 = SINGLE_KEY("F1", HID_KEY_F1, 0);
@@ -190,11 +193,11 @@ static const key_input_t KEYJISKANA_U = SINGLE_KEY("う", HID_KEY_4, 0);
 static const key_input_t KEYJISKANA_E = SINGLE_KEY("え", HID_KEY_5, 0);
 static const key_input_t KEYJISKANA_O = SINGLE_KEY("お", HID_KEY_6, 0);
 
-static const key_input_t KEYJISKANA_XA = SINGLE_KEY("ぁ", HID_KEY_3, 2);
-static const key_input_t KEYJISKANA_XI = SINGLE_KEY("ぃ", HID_KEY_E, 2);
-static const key_input_t KEYJISKANA_XU = SINGLE_KEY("ぅ", HID_KEY_4, 2);
-static const key_input_t KEYJISKANA_XE = SINGLE_KEY("ぇ", HID_KEY_5, 2);
-static const key_input_t KEYJISKANA_XO = SINGLE_KEY("ぉ", HID_KEY_6, 2);
+static const key_input_t KEYJISKANA_XA = SINGLE_KEY("ぁ", HID_KEY_3, SHIFT_KEY);
+static const key_input_t KEYJISKANA_XI = SINGLE_KEY("ぃ", HID_KEY_E, SHIFT_KEY);
+static const key_input_t KEYJISKANA_XU = SINGLE_KEY("ぅ", HID_KEY_4, SHIFT_KEY);
+static const key_input_t KEYJISKANA_XE = SINGLE_KEY("ぇ", HID_KEY_5, SHIFT_KEY);
+static const key_input_t KEYJISKANA_XO = SINGLE_KEY("ぉ", HID_KEY_6, SHIFT_KEY);
 
 static const key_input_t KEYJISKANA_KA = SINGLE_KEY("か", HID_KEY_T, 0);
 static const key_input_t KEYJISKANA_KI = SINGLE_KEY("き", HID_KEY_G, 0);
@@ -232,7 +235,7 @@ static const key_input_t KEYJISKANA_DU = MULTI_KEY2("づ", HID_KEY_Z, HID_KEY_LE
 static const key_input_t KEYJISKANA_DE = MULTI_KEY2("で", HID_KEY_W, HID_KEY_LEFT_BRKT, 0);
 static const key_input_t KEYJISKANA_DO = MULTI_KEY2("ど", HID_KEY_S, HID_KEY_LEFT_BRKT, 0);
 
-static const key_input_t KEYJISKANA_XTU = SINGLE_KEY("っ", HID_KEY_Z, 2);
+static const key_input_t KEYJISKANA_XTU = SINGLE_KEY("っ", HID_KEY_Z, SHIFT_KEY);
 
 static const key_input_t KEYJISKANA_NA = SINGLE_KEY("な", HID_KEY_U, 0);
 static const key_input_t KEYJISKANA_NI = SINGLE_KEY("に", HID_KEY_I, 0);
@@ -268,9 +271,9 @@ static const key_input_t KEYJISKANA_YA = SINGLE_KEY("や", HID_KEY_7, 0);
 static const key_input_t KEYJISKANA_YU = SINGLE_KEY("ゆ", HID_KEY_8, 0);
 static const key_input_t KEYJISKANA_YO = SINGLE_KEY("よ", HID_KEY_9, 0);
 
-static const key_input_t KEYJISKANA_XYA = SINGLE_KEY("ゃ", HID_KEY_7, 2);
-static const key_input_t KEYJISKANA_XYU = SINGLE_KEY("ゅ", HID_KEY_8, 2);
-static const key_input_t KEYJISKANA_XYO = SINGLE_KEY("ょ", HID_KEY_9, 2);
+static const key_input_t KEYJISKANA_XYA = SINGLE_KEY("ゃ", HID_KEY_7, SHIFT_KEY);
+static const key_input_t KEYJISKANA_XYU = SINGLE_KEY("ゅ", HID_KEY_8, SHIFT_KEY);
+static const key_input_t KEYJISKANA_XYO = SINGLE_KEY("ょ", HID_KEY_9, SHIFT_KEY);
 
 static const key_input_t KEYJISKANA_RA = SINGLE_KEY("ら", HID_KEY_O, 0);
 static const key_input_t KEYJISKANA_RI = SINGLE_KEY("り", HID_KEY_L, 0);
@@ -279,31 +282,31 @@ static const key_input_t KEYJISKANA_RE = SINGLE_KEY("れ", HID_KEY_SEMI_COLON, 0
 static const key_input_t KEYJISKANA_RO = SINGLE_KEY("ろ", HID_KEY_INT1, 0);
 
 static const key_input_t KEYJISKANA_WA = SINGLE_KEY("わ", HID_KEY_0, 0);
-static const key_input_t KEYJISKANA_WO = SINGLE_KEY("を", HID_KEY_0, 2);
+static const key_input_t KEYJISKANA_WO = SINGLE_KEY("を", HID_KEY_0, SHIFT_KEY);
 static const key_input_t KEYJISKANA_NN = SINGLE_KEY("ん", HID_KEY_Y, 0);
 
 static const key_input_t KEYJISKANA_DAKUTEN = SINGLE_KEY("゛", HID_KEY_LEFT_BRKT, 0);
 static const key_input_t KEYJISKANA_HAN_DAKUTEN = SINGLE_KEY("゜", HID_KEY_RIGHT_BRKT, 0);
-static const key_input_t KEYJISKANA_KAKKO_TOJI = SINGLE_KEY("」", HID_KEY_BACK_SLASH, 2);
-static const key_input_t KEYJISKANA_KAKKO = SINGLE_KEY("「", HID_KEY_RIGHT_BRKT, 2);
+static const key_input_t KEYJISKANA_KAKKO_TOJI = SINGLE_KEY("」", HID_KEY_BACK_SLASH, SHIFT_KEY);
+static const key_input_t KEYJISKANA_KAKKO = SINGLE_KEY("「", HID_KEY_RIGHT_BRKT, SHIFT_KEY);
 static const key_input_t KEYJISKANA_BACKQUOTE = SINGLE_KEY("｀", HID_KEY_GRV_ACCENT, 0);
-static const key_input_t KEYJISKANA_NAMI_DASH = SINGLE_KEY("〜", HID_KEY_EQUAL, 6);
-static const key_input_t KEYJISKANA_DASH = SINGLE_KEY("ー", HID_KEY_INT3, 2);
-static const key_input_t KEYJISKANA_TOUTEN = SINGLE_KEY("、", HID_KEY_COMMA, 2);
-static const key_input_t KEYJISKANA_KUTEN = SINGLE_KEY("。", HID_KEY_DOT, 2);
-static const key_input_t KEYJISKANA_NAKAGURO = SINGLE_KEY("・", HID_KEY_FWD_SLASH, 2);
-static const key_input_t KEYJISKANA_QUESTION = SINGLE_KEY("？", HID_KEY_FWD_SLASH, 6);
+static const key_input_t KEYJISKANA_NAMI_DASH = SINGLE_KEY("〜", HID_KEY_EQUAL, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYJISKANA_DASH = SINGLE_KEY("ー", HID_KEY_INT3, SHIFT_KEY);
+static const key_input_t KEYJISKANA_TOUTEN = SINGLE_KEY("、", HID_KEY_COMMA, SHIFT_KEY);
+static const key_input_t KEYJISKANA_KUTEN = SINGLE_KEY("。", HID_KEY_DOT, SHIFT_KEY);
+static const key_input_t KEYJISKANA_NAKAGURO = SINGLE_KEY("・", HID_KEY_FWD_SLASH, SHIFT_KEY);
+static const key_input_t KEYJISKANA_QUESTION = SINGLE_KEY("？", HID_KEY_FWD_SLASH, SHIFT_KEY | ALT_KEY);
 
-static const key_input_t KEYJISKANA_EXCL_MARK = SINGLE_KEY("！", HID_KEY_1, 6);
-static const key_input_t KEYJISKANA_DBL_QUOTE = SINGLE_KEY("＂", HID_KEY_2, 6);
-static const key_input_t KEYJISKANA_NUM_SIGN = SINGLE_KEY("＃", HID_KEY_3, 6);
-static const key_input_t KEYJISKANA_DOLLAR = SINGLE_KEY("＄", HID_KEY_4, 6);
-static const key_input_t KEYJISKANA_PERCENT = SINGLE_KEY("％", HID_KEY_5, 6);
-static const key_input_t KEYJISKANA_AMPERSAND = SINGLE_KEY("＆", HID_KEY_6, 6);
-static const key_input_t KEYJISKANA_SGL_QUOTE = SINGLE_KEY("’", HID_KEY_7, 6);
-static const key_input_t KEYJISKANA_LEFT_PAREN = SINGLE_KEY("（", HID_KEY_8, 6);
-static const key_input_t KEYJISKANA_RIGHT_PAREN = SINGLE_KEY("）", HID_KEY_9, 6);
-static const key_input_t KEYJISKANA_ATMARK = SINGLE_KEY("＠", HID_KEY_LEFT_BRKT, 6);
+static const key_input_t KEYJISKANA_EXCL_MARK = SINGLE_KEY("！", HID_KEY_1, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYJISKANA_DBL_QUOTE = SINGLE_KEY("＂", HID_KEY_2, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYJISKANA_NUM_SIGN = SINGLE_KEY("＃", HID_KEY_3, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYJISKANA_DOLLAR = SINGLE_KEY("＄", HID_KEY_4, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYJISKANA_PERCENT = SINGLE_KEY("％", HID_KEY_5, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYJISKANA_AMPERSAND = SINGLE_KEY("＆", HID_KEY_6, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYJISKANA_SGL_QUOTE = SINGLE_KEY("’", HID_KEY_7, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYJISKANA_LEFT_PAREN = SINGLE_KEY("（", HID_KEY_8, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYJISKANA_RIGHT_PAREN = SINGLE_KEY("）", HID_KEY_9, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYJISKANA_ATMARK = SINGLE_KEY("＠", HID_KEY_LEFT_BRKT, SHIFT_KEY | ALT_KEY);
 
 // US Kana Input
 static const key_input_t KEYUSKANA_A = SINGLE_KEY("あ", HID_KEY_3, 0);
@@ -312,11 +315,11 @@ static const key_input_t KEYUSKANA_U = SINGLE_KEY("う", HID_KEY_4, 0);
 static const key_input_t KEYUSKANA_E = SINGLE_KEY("え", HID_KEY_5, 0);
 static const key_input_t KEYUSKANA_O = SINGLE_KEY("お", HID_KEY_6, 0);
 
-static const key_input_t KEYUSKANA_XA = SINGLE_KEY("ぁ", HID_KEY_3, 2);
-static const key_input_t KEYUSKANA_XI = SINGLE_KEY("ぃ", HID_KEY_E, 2);
-static const key_input_t KEYUSKANA_XU = SINGLE_KEY("ぅ", HID_KEY_4, 2);
-static const key_input_t KEYUSKANA_XE = SINGLE_KEY("ぇ", HID_KEY_5, 2);
-static const key_input_t KEYUSKANA_XO = SINGLE_KEY("ぉ", HID_KEY_6, 2);
+static const key_input_t KEYUSKANA_XA = SINGLE_KEY("ぁ", HID_KEY_3, SHIFT_KEY);
+static const key_input_t KEYUSKANA_XI = SINGLE_KEY("ぃ", HID_KEY_E, SHIFT_KEY);
+static const key_input_t KEYUSKANA_XU = SINGLE_KEY("ぅ", HID_KEY_4, SHIFT_KEY);
+static const key_input_t KEYUSKANA_XE = SINGLE_KEY("ぇ", HID_KEY_5, SHIFT_KEY);
+static const key_input_t KEYUSKANA_XO = SINGLE_KEY("ぉ", HID_KEY_6, SHIFT_KEY);
 
 static const key_input_t KEYUSKANA_KA = SINGLE_KEY("か", HID_KEY_T, 0);
 static const key_input_t KEYUSKANA_KI = SINGLE_KEY("き", HID_KEY_G, 0);
@@ -354,7 +357,7 @@ static const key_input_t KEYUSKANA_DU = MULTI_KEY2("づ", HID_KEY_Z, HID_KEY_LEF
 static const key_input_t KEYUSKANA_DE = MULTI_KEY2("で", HID_KEY_W, HID_KEY_LEFT_BRKT, 0);
 static const key_input_t KEYUSKANA_DO = MULTI_KEY2("ど", HID_KEY_S, HID_KEY_LEFT_BRKT, 0);
 
-static const key_input_t KEYUSKANA_XTU = SINGLE_KEY("っ", HID_KEY_Z, 2);
+static const key_input_t KEYUSKANA_XTU = SINGLE_KEY("っ", HID_KEY_Z, SHIFT_KEY);
 
 static const key_input_t KEYUSKANA_NA = SINGLE_KEY("な", HID_KEY_U, 0);
 static const key_input_t KEYUSKANA_NI = SINGLE_KEY("に", HID_KEY_I, 0);
@@ -390,42 +393,42 @@ static const key_input_t KEYUSKANA_YA = SINGLE_KEY("や", HID_KEY_7, 0);
 static const key_input_t KEYUSKANA_YU = SINGLE_KEY("ゆ", HID_KEY_8, 0);
 static const key_input_t KEYUSKANA_YO = SINGLE_KEY("よ", HID_KEY_9, 0);
 
-static const key_input_t KEYUSKANA_XYA = SINGLE_KEY("ゃ", HID_KEY_7, 2);
-static const key_input_t KEYUSKANA_XYU = SINGLE_KEY("ゅ", HID_KEY_8, 2);
-static const key_input_t KEYUSKANA_XYO = SINGLE_KEY("ょ", HID_KEY_9, 2);
+static const key_input_t KEYUSKANA_XYA = SINGLE_KEY("ゃ", HID_KEY_7, SHIFT_KEY);
+static const key_input_t KEYUSKANA_XYU = SINGLE_KEY("ゅ", HID_KEY_8, SHIFT_KEY);
+static const key_input_t KEYUSKANA_XYO = SINGLE_KEY("ょ", HID_KEY_9, SHIFT_KEY);
 
 static const key_input_t KEYUSKANA_RA = SINGLE_KEY("ら", HID_KEY_O, 0);
 static const key_input_t KEYUSKANA_RI = SINGLE_KEY("り", HID_KEY_L, 0);
 static const key_input_t KEYUSKANA_RU = SINGLE_KEY("る", HID_KEY_DOT, 0);
 static const key_input_t KEYUSKANA_RE = SINGLE_KEY("れ", HID_KEY_SEMI_COLON, 0);
-static const key_input_t KEYUSKANA_RO = SINGLE_KEY("ろ", HID_KEY_SGL_QUOTE, 2);
+static const key_input_t KEYUSKANA_RO = SINGLE_KEY("ろ", HID_KEY_SGL_QUOTE, SHIFT_KEY);
 
 static const key_input_t KEYUSKANA_WA = SINGLE_KEY("わ", HID_KEY_0, 0);
-static const key_input_t KEYUSKANA_WO = SINGLE_KEY("を", HID_KEY_0, 2);
+static const key_input_t KEYUSKANA_WO = SINGLE_KEY("を", HID_KEY_0, SHIFT_KEY);
 static const key_input_t KEYUSKANA_NN = SINGLE_KEY("ん", HID_KEY_Y, 0);
 
 static const key_input_t KEYUSKANA_DAKUTEN = SINGLE_KEY("゛", HID_KEY_LEFT_BRKT, 0);
 static const key_input_t KEYUSKANA_HAN_DAKUTEN = SINGLE_KEY("゜", HID_KEY_EQUAL, 0);
-static const key_input_t KEYUSKANA_KAKKO_TOJI = SINGLE_KEY("」", HID_KEY_LEFT_BRKT, 2);
-static const key_input_t KEYUSKANA_KAKKO = SINGLE_KEY("「", HID_KEY_EQUAL, 2);
+static const key_input_t KEYUSKANA_KAKKO_TOJI = SINGLE_KEY("」", HID_KEY_LEFT_BRKT, SHIFT_KEY);
+static const key_input_t KEYUSKANA_KAKKO = SINGLE_KEY("「", HID_KEY_EQUAL, SHIFT_KEY);
 static const key_input_t KEYUSKANA_BACKQUOTE = SINGLE_KEY("｀", HID_KEY_GRV_ACCENT, 0);
-static const key_input_t KEYUSKANA_NAMI_DASH = SINGLE_KEY("〜", HID_KEY_GRV_ACCENT, 2);
-static const key_input_t KEYUSKANA_DASH = SINGLE_KEY("ー", HID_KEY_RIGHT_BRKT, 2);
-static const key_input_t KEYUSKANA_TOUTEN = SINGLE_KEY("、", HID_KEY_COMMA, 2);
-static const key_input_t KEYUSKANA_KUTEN = SINGLE_KEY("。", HID_KEY_DOT, 2);
-static const key_input_t KEYUSKANA_NAKAGURO = SINGLE_KEY("・", HID_KEY_FWD_SLASH, 2);
-static const key_input_t KEYUSKANA_QUESTION = SINGLE_KEY("？", HID_KEY_FWD_SLASH, 6);
+static const key_input_t KEYUSKANA_NAMI_DASH = SINGLE_KEY("〜", HID_KEY_GRV_ACCENT, SHIFT_KEY);
+static const key_input_t KEYUSKANA_DASH = SINGLE_KEY("ー", HID_KEY_RIGHT_BRKT, SHIFT_KEY);
+static const key_input_t KEYUSKANA_TOUTEN = SINGLE_KEY("、", HID_KEY_COMMA, SHIFT_KEY);
+static const key_input_t KEYUSKANA_KUTEN = SINGLE_KEY("。", HID_KEY_DOT, SHIFT_KEY);
+static const key_input_t KEYUSKANA_NAKAGURO = SINGLE_KEY("・", HID_KEY_FWD_SLASH, SHIFT_KEY);
+static const key_input_t KEYUSKANA_QUESTION = SINGLE_KEY("？", HID_KEY_FWD_SLASH, SHIFT_KEY | ALT_KEY);
 
-static const key_input_t KEYUSKANA_EXCL_MARK = SINGLE_KEY("！", HID_KEY_1, 6);
-static const key_input_t KEYUSKANA_ATMARK = SINGLE_KEY("＠", HID_KEY_2, 6);
-static const key_input_t KEYUSKANA_NUM_SIGN = SINGLE_KEY("＃", HID_KEY_3, 6);
-static const key_input_t KEYUSKANA_DOLLAR = SINGLE_KEY("＄", HID_KEY_4, 6);
-static const key_input_t KEYUSKANA_PERCENT = SINGLE_KEY("％", HID_KEY_5, 6);
-static const key_input_t KEYUSKANA_CARET = SINGLE_KEY("＾", HID_KEY_6, 6);
-static const key_input_t KEYUSKANA_AMPERSAND = SINGLE_KEY("＆", HID_KEY_7, 6);
-static const key_input_t KEYUSKANA_ASTERISK = SINGLE_KEY("＊", HID_KEY_8, 6);
-static const key_input_t KEYUSKANA_LEFT_PAREN = SINGLE_KEY("（", HID_KEY_9, 6);
-static const key_input_t KEYUSKANA_RIGHT_PAREN = SINGLE_KEY("）", HID_KEY_0, 6);
+static const key_input_t KEYUSKANA_EXCL_MARK = SINGLE_KEY("！", HID_KEY_1, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYUSKANA_ATMARK = SINGLE_KEY("＠", HID_KEY_2, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYUSKANA_NUM_SIGN = SINGLE_KEY("＃", HID_KEY_3, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYUSKANA_DOLLAR = SINGLE_KEY("＄", HID_KEY_4, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYUSKANA_PERCENT = SINGLE_KEY("％", HID_KEY_5, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYUSKANA_CARET = SINGLE_KEY("＾", HID_KEY_6, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYUSKANA_AMPERSAND = SINGLE_KEY("＆", HID_KEY_7, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYUSKANA_ASTERISK = SINGLE_KEY("＊", HID_KEY_8, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYUSKANA_LEFT_PAREN = SINGLE_KEY("（", HID_KEY_9, SHIFT_KEY | ALT_KEY);
+static const key_input_t KEYUSKANA_RIGHT_PAREN = SINGLE_KEY("）", HID_KEY_0, SHIFT_KEY | ALT_KEY);
 
 // Input method keys
 #define HID_KEY_LANG1 0x90 // Kana
@@ -535,20 +538,20 @@ static const key_input_t KEYROMAN_NN = MULTI_KEY2("ん", HID_KEY_N, HID_KEY_N, 0
 static const key_input_t KEYROMAN_KAKKO_TOJI = SINGLE_KEY("」", HID_KEY_RIGHT_BRKT, 0);
 static const key_input_t KEYROMAN_KAKKO = SINGLE_KEY("「", HID_KEY_LEFT_BRKT, 0);
 static const key_input_t KEYROMAN_BACKQUOTE = SINGLE_KEY("｀", HID_KEY_GRV_ACCENT, 0);
-static const key_input_t KEYROMAN_NAMI_DASH = SINGLE_KEY("〜", HID_KEY_GRV_ACCENT, 2);
+static const key_input_t KEYROMAN_NAMI_DASH = SINGLE_KEY("〜", HID_KEY_GRV_ACCENT, SHIFT_KEY);
 static const key_input_t KEYROMAN_DASH = SINGLE_KEY("ー", HID_KEY_MINUS, 0);
 static const key_input_t KEYROMAN_TOUTEN = SINGLE_KEY("、", HID_KEY_COMMA, 0);
 static const key_input_t KEYROMAN_KUTEN = SINGLE_KEY("。", HID_KEY_DOT, 0);
 static const key_input_t KEYROMAN_NAKAGURO = SINGLE_KEY("・", HID_KEY_FWD_SLASH, 0);
-static const key_input_t KEYROMAN_QUESTION = SINGLE_KEY("？", HID_KEY_FWD_SLASH, 2);
+static const key_input_t KEYROMAN_QUESTION = SINGLE_KEY("？", HID_KEY_FWD_SLASH, SHIFT_KEY);
 
-static const key_input_t KEYROMAN_EXCL_MARK = SINGLE_KEY("！", HID_KEY_1, 2);
-static const key_input_t KEYROMAN_ATMARK = SINGLE_KEY("＠", HID_KEY_2, 2);
-static const key_input_t KEYROMAN_NUM_SIGN = SINGLE_KEY("＃", HID_KEY_3, 2);
-static const key_input_t KEYROMAN_DOLLAR = SINGLE_KEY("＄", HID_KEY_4, 2);
-static const key_input_t KEYROMAN_PERCENT = SINGLE_KEY("％", HID_KEY_5, 2);
-static const key_input_t KEYROMAN_CARET = SINGLE_KEY("＾", HID_KEY_6, 2);
-static const key_input_t KEYROMAN_AMPERSAND = SINGLE_KEY("＆", HID_KEY_7, 2);
-static const key_input_t KEYROMAN_ASTERISK = SINGLE_KEY("＊", HID_KEY_8, 2);
-static const key_input_t KEYROMAN_LEFT_PAREN = SINGLE_KEY("（", HID_KEY_9, 2);
-static const key_input_t KEYROMAN_RIGHT_PAREN = SINGLE_KEY("）", HID_KEY_0, 2);
+static const key_input_t KEYROMAN_EXCL_MARK = SINGLE_KEY("！", HID_KEY_1, SHIFT_KEY);
+static const key_input_t KEYROMAN_ATMARK = SINGLE_KEY("＠", HID_KEY_2, SHIFT_KEY);
+static const key_input_t KEYROMAN_NUM_SIGN = SINGLE_KEY("＃", HID_KEY_3, SHIFT_KEY);
+static const key_input_t KEYROMAN_DOLLAR = SINGLE_KEY("＄", HID_KEY_4, SHIFT_KEY);
+static const key_input_t KEYROMAN_PERCENT = SINGLE_KEY("％", HID_KEY_5, SHIFT_KEY);
+static const key_input_t KEYROMAN_CARET = SINGLE_KEY("＾", HID_KEY_6, SHIFT_KEY);
+static const key_input_t KEYROMAN_AMPERSAND = SINGLE_KEY("＆", HID_KEY_7, SHIFT_KEY);
+static const key_input_t KEYROMAN_ASTERISK = SINGLE_KEY("＊", HID_KEY_8, SHIFT_KEY);
+static const key_input_t KEYROMAN_LEFT_PAREN = SINGLE_KEY("（", HID_KEY_9, SHIFT_KEY);
+static const key_input_t KEYROMAN_RIGHT_PAREN = SINGLE_KEY("）", HID_KEY_0, SHIFT_KEY);
