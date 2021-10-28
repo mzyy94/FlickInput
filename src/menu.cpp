@@ -23,7 +23,7 @@ namespace menu
     auto *m = (menu::Menu *)event_handler_arg;
     if (!m->active)
       return;
-    m->updateCursor(event_id == BUTTON_EVENT_PRESSED_A ? -1 : 1);
+    m->updateCursor(event_id == BUTTON_EVENT_PRESSED_A ? m->size() - 1 : 1);
   }
 
   static void select_item(void *event_handler_arg,
@@ -137,7 +137,7 @@ namespace menu
     unregisterCursorMove();
     active = false;
     opened = false;
-    cursor_index = -1;
+    cursor_index = 0;
   }
 
   void Menu::registerCursorMove()
