@@ -145,9 +145,7 @@ void shutdown()
 void change_input_method()
 {
   Menu.close();
-  const auto input_method = Settings.input_method();
-
-  switch (input_method)
+  switch (Settings.input_method())
   {
   case input_method_default:
   case input_method_kana:
@@ -157,6 +155,25 @@ void change_input_method()
   case input_method_roman:
     Settings.input_method(input_method_kana);
     Menu.editItemLabel(0, "入力方法: かな");
+    break;
+  }
+  Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
+  Menu.open();
+}
+
+void change_keyboard_layout()
+{
+  Menu.close();
+  switch (Settings.keyboard_layout())
+  {
+  case keyboard_layout_default:
+  case keyboard_layout_jis:
+    Settings.keyboard_layout(keyboard_layout_us);
+    Menu.editItemLabel(1, "レイアウト: US配列");
+    break;
+  case keyboard_layout_us:
+    Settings.keyboard_layout(keyboard_layout_jis);
+    Menu.editItemLabel(1, "レイアウト: 日本語配列");
     break;
   }
   Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
@@ -186,6 +203,17 @@ void init_menu()
     break;
   case input_method_roman:
     Menu.addItem("入力方法: ローマ字", change_input_method);
+    break;
+  }
+
+  switch (Settings.keyboard_layout())
+  {
+  case keyboard_layout_default:
+  case keyboard_layout_jis:
+    Menu.addItem("レイアウト: 日本語配列", change_keyboard_layout);
+    break;
+  case keyboard_layout_us:
+    Menu.addItem("レイアウト: US配列", change_keyboard_layout);
     break;
   }
 
