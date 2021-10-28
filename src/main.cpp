@@ -277,12 +277,12 @@ void main_task(void *)
   init_event();
   register_events();
 
-  // 2. Initialize instances
-  Keyboard.init();
+  // 2. Load settings and init menu
+  Settings.load();
   init_menu();
 
-  // 3. Load settings and apply
-  Settings.load();
+  // 3. Init keyboard and apply settings
+  Keyboard.init();
   Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
 
   // 4. Draw logo, keyboard and status bar

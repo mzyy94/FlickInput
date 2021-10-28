@@ -53,6 +53,8 @@ namespace settings
         nvs_close(handle);
         return 0;
       }
+      ESP_LOGD(SETTINGS_TAG, "Set %s nvs value completed: %d", key, value);
+
       nvs_close(handle);
       return value;
     }
@@ -92,6 +94,7 @@ namespace settings
       {
         ESP_LOGE(SETTINGS_TAG, "Get platform_os nvs value failed: %d", err);
       }
+      ESP_LOGI(SETTINGS_TAG, "Load nvs values finished");
 
       nvs_close(handle);
     }
