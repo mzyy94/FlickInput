@@ -40,6 +40,7 @@ namespace settings
     uint8_t layout;
     uint8_t os;
     uint8_t orientation;
+    uint8_t developer;
     uint8_t save(const char *key, uint8_t value)
     {
       nvs_handle_t handle;
@@ -159,6 +160,7 @@ namespace settings
       get_value(handle, "keyboard_layout", &layout);
       get_value(handle, "platform_os", &os);
       get_value(handle, "orientation", &orientation);
+      get_value(handle, "developer_mode", &developer);
       ESP_LOGI(SETTINGS_TAG, "Load nvs values finished");
 
       nvs_close(handle);
@@ -179,5 +181,8 @@ namespace settings
     void device_orientation(device_orientation_t new_orientation) { orientation = save("orientation", new_orientation); };
     device_orientation_t device_orientation() { return static_cast<device_orientation_t>(orientation); };
     const char *device_orientation_label() { return orientation ? "画面の向き: 上下反転" : "画面の向き: 通常"; };
+
+    void developer_mode(bool enable) { developer = save("developer_mode", enable ? 1 : 0); };
+    bool developer_mode() { return static_cast<bool>(developer); };
   };
 }
