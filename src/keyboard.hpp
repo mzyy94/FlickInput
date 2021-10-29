@@ -28,6 +28,8 @@ namespace kbd
 
     size_t next_layout_index();
 
+    void input_test();
+
   private:
     bool need_refresh = false;
     esp_timer_handle_t hold_input = nullptr;

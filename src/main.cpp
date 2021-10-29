@@ -177,6 +177,13 @@ void change_device_orientation()
   needs_restart = !needs_restart;
 }
 
+#if ENABLE_INPUT_TEST_MODE
+void input_test()
+{
+  Keyboard.input_test();
+}
+#endif
+
 void close_menu()
 {
   if (needs_restart)
@@ -195,45 +202,6 @@ void close_menu()
   xEventGroupSetBits(event_group, EVENT_BIT_CLEAR_DISPLAY | EVENT_BIT_DRAW_STATUSBAR | EVENT_BIT_DRAW_KEYBOARD);
   ESP_LOGI(MAIN_TAG, "Display refresh");
 }
-
-#if ENABLE_INPUT_TEST_MODE
-#include <algorithm>
-#include "layout.hpp"
-
-void input_test()
-{
-  for (size_t i = 0; i < 19; i++)
-  {
-    auto btn = Keyboard.key_buttons[i];
-    if (btn.repeat || btn.keys.size() == 0)
-    {
-      continue;
-    }
-    if (btn.keys[0].keycode == HID_KEY_LANG1 || btn.keys[0].keycode == HID_KEY_LANG2)
-    {
-      continue;
-    }
-
-    for (auto &key : btn.keys)
-    {
-      if (key.keycode == HID_KEY_ESCAPE)
-      {
-        continue;
-      }
-      send_key(key.keycode, key.modifier);
-      if (key.second_keycode != 0)
-      {
-        send_key(key.second_keycode, 0);
-      }
-      if (key.third_keycode != 0)
-      {
-        send_key(key.third_keycode, 0);
-      }
-      vTaskDelay(20 / portTICK_RATE_MS);
-    }
-  }
-}
-#endif
 
 void init_menu()
 {
