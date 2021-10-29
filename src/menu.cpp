@@ -23,7 +23,8 @@ namespace menu
     auto *m = (menu::Menu *)event_handler_arg;
     if (!m->active)
       return;
-    m->updateCursor(event_id == BUTTON_EVENT_PRESSED_A ? m->size() - 1 : 1);
+    const auto upside_down = (M5.Display.getRotation() == 2);
+    m->updateCursor((event_id == BUTTON_EVENT_PRESSED_A) ^ upside_down ? m->size() - 1 : 1);
   }
 
   static void select_item(void *event_handler_arg,

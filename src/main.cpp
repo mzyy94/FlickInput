@@ -14,11 +14,15 @@
 #define MAIN_TAG "MAIN"
 
 settings::Settings Settings;
+bool needs_restart = false;
 
-void init_m5paper()
+void init_display()
 {
-  M5.begin();
   M5.Display.setEpdMode(epd_mode_t::epd_fast);
+  if (Settings.device_orientation() == device_orientation_upside_down)
+  {
+    M5.Display.setRotation(2);
+  }
 }
 
 void init_nvs()
@@ -48,14 +52,15 @@ void open_menu_handler(void *, esp_event_base_t, int32_t, void *)
 void send_cursor_key_handler(void *, esp_event_base_t, int32_t event_id, void *)
 {
   ESP_LOGD(MAIN_TAG, "send_cursor_key_handler called: %d", event_id);
+  const auto upside_down = (M5.Display.getRotation() == 2);
   switch (event_id)
   {
   case BUTTON_EVENT_PRESSED_A:
-    return send_key(HID_KEY_UP_ARROW, 0);
+    return send_key(upside_down ? HID_KEY_DOWN_ARROW : HID_KEY_UP_ARROW, 0);
   case BUTTON_EVENT_PRESSED_B:
     return send_key(HID_KEY_RETURN, 0);
   case BUTTON_EVENT_PRESSED_C:
-    return send_key(HID_KEY_DOWN_ARROW, 0);
+    return send_key(upside_down ? HID_KEY_UP_ARROW : HID_KEY_DOWN_ARROW, 0);
   }
 }
 
@@ -195,8 +200,30 @@ void change_platform_os()
   Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
 }
 
-void refresh_display()
+void change_device_orientation()
 {
+  switch (Settings.device_orientation())
+  {
+  case device_orientation_default:
+  case device_orientation_normal:
+    Settings.device_orientation(device_orientation_upside_down);
+    Menu.editItemLabel(3, "画面の向き: 上下反転");
+    break;
+  case device_orientation_upside_down:
+    Settings.device_orientation(device_orientation_normal);
+    Menu.editItemLabel(3, "画面の向き: 通常");
+    break;
+  }
+  needs_restart = !needs_restart;
+}
+
+void close_menu()
+{
+  if (needs_restart)
+  {
+    esp_restart();
+    return;
+  }
   if (Menu.opened)
   {
     Menu.close();
@@ -283,12 +310,23 @@ void init_menu()
     break;
   }
 
+  switch (Settings.device_orientation())
+  {
+  case device_orientation_default:
+  case device_orientation_normal:
+    Menu.addItem("画面の向き: 通常", change_device_orientation);
+    break;
+  case device_orientation_upside_down:
+    Menu.addItem("画面の向き: 上下反転", change_device_orientation);
+    break;
+  }
+
 #if ENABLE_INPUT_TEST_MODE
   Menu.addItem("START INPUT TEST", input_test);
 #endif
 
   Menu.addItem("シャットダウン", shutdown);
-  Menu.addItem("閉じる", refresh_display);
+  Menu.addItem("閉じる", close_menu);
 }
 
 void register_events()
@@ -310,16 +348,17 @@ void update_battery_status(void * = nullptr)
 void main_task(void *)
 {
   // 0. Initialize device
-  init_m5paper();
+  M5.begin();
   init_nvs();
 
   // 1. Initialize event loop
   init_event();
   register_events();
 
-  // 2. Load settings and init menu
+  // 2. Load settings and init menu & display
   Settings.load();
   init_menu();
+  init_display();
 
   // 3. Init keyboard and apply settings
   Keyboard.init();
