@@ -24,7 +24,7 @@ namespace menu
     if (!m->active)
       return;
     const auto upside_down = (M5.Display.getRotation() == 2);
-    m->updateCursor((event_id == BUTTON_EVENT_PRESSED_A) ^ upside_down ? m->size() - 1 : 1);
+    m->updateCursor((event_id == BUTTON_EVENT_PRESSED_A) ^ upside_down ? -1 : 1);
   }
 
   static void select_item(void *event_handler_arg,
@@ -51,18 +51,14 @@ namespace menu
     const uint32_t top = (M5.Display.height() - height) / 2;
 
     M5.Display.startWrite();
+    M5.Display.fillRect(left, top, width, height, TFT_WHITE);
     M5.Display.setTextColor(TFT_BLACK, TFT_WHITE);
     M5.Display.setTextSize(1);
-    M5.Display.fillRect(left, top, width, height, TFT_WHITE);
-    M5.Display.drawRect(left, top, width, height, TFT_BLACK);
     for (size_t i = 0; i < labels.size(); i++)
     {
-      M5.Display.drawString(
-          labels[i].c_str(),
-          left + line_height,
-          padding + top + i * line_height,
-          &fonts::lgfxJapanGothicP_40);
+      M5.Display.drawString(labels[i].c_str(), left + line_height, padding + top + i * line_height, &fonts::lgfxJapanGothicP_40);
     }
+    M5.Display.drawRect(left, top, width, height, TFT_BLACK);
     M5.Display.endWrite();
   }
 
@@ -90,7 +86,14 @@ namespace menu
 
   void Menu::updateCursor(int32_t diff)
   {
-    cursor_index += diff;
+    if (diff < 0)
+    {
+      cursor_index += labels.size() + diff;
+    }
+    else
+    {
+      cursor_index += diff;
+    }
     cursor_index %= labels.size();
     drawCursor();
   }
@@ -112,8 +115,10 @@ namespace menu
     if (index < labels.size())
     {
       labels[index] = std::string(text);
+      M5.Display.startWrite();
       drawItems();
       drawCursor();
+      M5.Display.endWrite();
     }
   }
 
@@ -128,8 +133,10 @@ namespace menu
     registerCursorMove();
     opened = true;
     cursor_index = 0;
+    M5.Display.startWrite();
     drawItems();
     drawCursor();
+    M5.Display.endWrite();
 
     // Wait to set active state until rendering completed
     dispatch_after(100, set_active, this);
