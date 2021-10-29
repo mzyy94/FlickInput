@@ -41,6 +41,7 @@ enum touch_event_t
 #define EVENT_BIT_DRAW_STATUSBAR (1 << 1)
 #define EVENT_BIT_DRAW_LOGO (1 << 2)
 #define EVENT_BIT_DRAW_KEYBOARD (1 << 3)
+#define EVENT_BIT_DRAW_MENU (1 << 4)
 
 extern esp_event_loop_handle_t loop_handle;
 extern EventGroupHandle_t event_group;

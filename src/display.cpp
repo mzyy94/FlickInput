@@ -4,6 +4,7 @@
 #include <esp_log.h>
 #include "event.hpp"
 #include "keyboard.hpp"
+#include "menu.hpp"
 
 #define DISPLAY_TAG "DISPLAY"
 
@@ -98,6 +99,11 @@ void update_display()
   {
     ESP_LOGD(DISPLAY_TAG, "Draw keyboard");
     Keyboard.draw();
+  }
+  if (bits & EVENT_BIT_DRAW_MENU)
+  {
+    ESP_LOGD(DISPLAY_TAG, "Draw Menu");
+    Menu.draw();
   }
 
   M5.Display.endWrite();

@@ -30,6 +30,7 @@ namespace menu
 
     void open();
     void close();
+    void draw();
     void updateCursor(int32_t diff);
     void execute() const;
 

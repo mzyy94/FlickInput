@@ -115,10 +115,7 @@ namespace menu
     if (index < labels.size())
     {
       labels[index] = std::string(text);
-      M5.Display.startWrite();
-      drawItems();
-      drawCursor();
-      M5.Display.endWrite();
+      xEventGroupSetBits(event_group, EVENT_BIT_DRAW_MENU);
     }
   }
 
@@ -133,6 +130,11 @@ namespace menu
     registerCursorMove();
     opened = true;
     cursor_index = 0;
+    xEventGroupSetBits(event_group, EVENT_BIT_DRAW_MENU);
+  }
+
+  void Menu::draw()
+  {
     M5.Display.startWrite();
     drawItems();
     drawCursor();
