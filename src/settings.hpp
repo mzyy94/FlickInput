@@ -166,14 +166,18 @@ namespace settings
 
     void input_method(input_method_t new_method) { method = save("input_method", new_method); };
     input_method_t input_method() { return static_cast<input_method_t>(method); };
+    const char *input_method_label() { return method ? "入力方法: ローマ字" : "入力方法: かな"; };
 
     void keyboard_layout(keyboard_layout_t new_layout) { layout = save("keyboard_layout", new_layout); };
     keyboard_layout_t keyboard_layout() { return static_cast<keyboard_layout_t>(layout); };
+    const char *keyboard_layout_label() { return layout ? "レイアウト: US配列" : "レイアウト: 日本語配列"; };
 
     void platform_os(platform_os_t new_os) { os = save("platform_os", new_os); };
     platform_os_t platform_os() { return static_cast<platform_os_t>(os); };
+    const char *platform_os_label() { return os ? "OS: Mac" : "OS: Windows"; };
 
     void device_orientation(device_orientation_t new_orientation) { orientation = save("orientation", new_orientation); };
     device_orientation_t device_orientation() { return static_cast<device_orientation_t>(orientation); };
+    const char *device_orientation_label() { return orientation ? "画面の向き: 上下反転" : "画面の向き: 通常"; };
   };
 }

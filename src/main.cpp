@@ -151,65 +151,29 @@ void shutdown()
 
 void change_input_method()
 {
-  switch (Settings.input_method())
-  {
-  case input_method_kana:
-    Settings.input_method(input_method_roman);
-    Menu.editItemLabel(0, "入力方法: ローマ字");
-    break;
-  case input_method_roman:
-    Settings.input_method(input_method_kana);
-    Menu.editItemLabel(0, "入力方法: かな");
-    break;
-  }
+  Settings.input_method(Settings.input_method() == input_method_kana ? input_method_roman : input_method_kana);
+  Menu.editItemLabel(0, Settings.input_method_label());
   Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
 }
 
 void change_keyboard_layout()
 {
-  switch (Settings.keyboard_layout())
-  {
-  case keyboard_layout_jis:
-    Settings.keyboard_layout(keyboard_layout_us);
-    Menu.editItemLabel(1, "レイアウト: US配列");
-    break;
-  case keyboard_layout_us:
-    Settings.keyboard_layout(keyboard_layout_jis);
-    Menu.editItemLabel(1, "レイアウト: 日本語配列");
-    break;
-  }
+  Settings.keyboard_layout(Settings.keyboard_layout() == keyboard_layout_jis ? keyboard_layout_us : keyboard_layout_jis);
+  Menu.editItemLabel(1, Settings.keyboard_layout_label());
   Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
 }
 
 void change_platform_os()
 {
-  switch (Settings.platform_os())
-  {
-  case platform_os_win:
-    Settings.platform_os(platform_os_mac);
-    Menu.editItemLabel(2, "OS: Mac");
-    break;
-  case platform_os_mac:
-    Settings.platform_os(platform_os_win);
-    Menu.editItemLabel(2, "OS: Windows");
-    break;
-  }
+  Settings.platform_os(Settings.platform_os() == platform_os_win ? platform_os_mac : platform_os_win);
+  Menu.editItemLabel(2, Settings.platform_os_label());
   Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
 }
 
 void change_device_orientation()
 {
-  switch (Settings.device_orientation())
-  {
-  case device_orientation_normal:
-    Settings.device_orientation(device_orientation_upside_down);
-    Menu.editItemLabel(3, "画面の向き: 上下反転");
-    break;
-  case device_orientation_upside_down:
-    Settings.device_orientation(device_orientation_normal);
-    Menu.editItemLabel(3, "画面の向き: 通常");
-    break;
-  }
+  Settings.device_orientation(Settings.device_orientation() == device_orientation_normal ? device_orientation_upside_down : device_orientation_normal);
+  Menu.editItemLabel(3, Settings.device_orientation_label());
   needs_restart = !needs_restart;
 }
 
@@ -273,45 +237,10 @@ void input_test()
 
 void init_menu()
 {
-  switch (Settings.input_method())
-  {
-  case input_method_kana:
-    Menu.addItem("入力方法: かな", change_input_method);
-    break;
-  case input_method_roman:
-    Menu.addItem("入力方法: ローマ字", change_input_method);
-    break;
-  }
-
-  switch (Settings.keyboard_layout())
-  {
-  case keyboard_layout_jis:
-    Menu.addItem("レイアウト: 日本語配列", change_keyboard_layout);
-    break;
-  case keyboard_layout_us:
-    Menu.addItem("レイアウト: US配列", change_keyboard_layout);
-    break;
-  }
-
-  switch (Settings.platform_os())
-  {
-  case platform_os_win:
-    Menu.addItem("OS: Windows", change_platform_os);
-    break;
-  case platform_os_mac:
-    Menu.addItem("OS: Mac", change_platform_os);
-    break;
-  }
-
-  switch (Settings.device_orientation())
-  {
-  case device_orientation_normal:
-    Menu.addItem("画面の向き: 通常", change_device_orientation);
-    break;
-  case device_orientation_upside_down:
-    Menu.addItem("画面の向き: 上下反転", change_device_orientation);
-    break;
-  }
+  Menu.addItem(Settings.input_method_label(), change_input_method);
+  Menu.addItem(Settings.keyboard_layout_label(), change_keyboard_layout);
+  Menu.addItem(Settings.platform_os_label(), change_platform_os);
+  Menu.addItem(Settings.device_orientation_label(), change_device_orientation);
 
 #if ENABLE_INPUT_TEST_MODE
   Menu.addItem("START INPUT TEST", input_test);
