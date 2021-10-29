@@ -177,12 +177,25 @@ void change_device_orientation()
   needs_restart = !needs_restart;
 }
 
-#if ENABLE_INPUT_TEST_MODE
 void input_test()
 {
   Keyboard.input_test();
 }
-#endif
+
+void init_menu();
+
+void enter_developer_mode()
+{
+  static uint8_t count = 0;
+  count++;
+  if (count >= 5)
+  {
+    Settings.developer_mode(!Settings.developer_mode());
+    init_menu();
+    xEventGroupSetBits(event_group, EVENT_BIT_CLEAR_DISPLAY | EVENT_BIT_DRAW_STATUSBAR | EVENT_BIT_DRAW_KEYBOARD | EVENT_BIT_DRAW_MENU);
+    count = 0;
+  }
+}
 
 void close_menu()
 {
@@ -205,14 +218,21 @@ void close_menu()
 
 void init_menu()
 {
+  Menu.clearItems();
   Menu.addItem(Settings.input_method_label(), change_input_method);
   Menu.addItem(Settings.keyboard_layout_label(), change_keyboard_layout);
   Menu.addItem(Settings.platform_os_label(), change_platform_os);
   Menu.addItem(Settings.device_orientation_label(), change_device_orientation);
 
-#if ENABLE_INPUT_TEST_MODE
-  Menu.addItem("START INPUT TEST", input_test);
-#endif
+  if (Settings.developer_mode())
+  {
+    Menu.addItem("開発者モード: " VERSION, enter_developer_mode);
+    Menu.addItem("START INPUT TEST", input_test);
+  }
+  else
+  {
+    Menu.addItem("バージョン: " VERSION, enter_developer_mode);
+  }
 
   Menu.addItem("シャットダウン", shutdown);
   Menu.addItem("閉じる", close_menu);
