@@ -153,7 +153,6 @@ void change_input_method()
 {
   switch (Settings.input_method())
   {
-  case input_method_default:
   case input_method_kana:
     Settings.input_method(input_method_roman);
     Menu.editItemLabel(0, "入力方法: ローマ字");
@@ -170,7 +169,6 @@ void change_keyboard_layout()
 {
   switch (Settings.keyboard_layout())
   {
-  case keyboard_layout_default:
   case keyboard_layout_jis:
     Settings.keyboard_layout(keyboard_layout_us);
     Menu.editItemLabel(1, "レイアウト: US配列");
@@ -187,7 +185,6 @@ void change_platform_os()
 {
   switch (Settings.platform_os())
   {
-  case platform_os_default:
   case platform_os_win:
     Settings.platform_os(platform_os_mac);
     Menu.editItemLabel(2, "OS: Mac");
@@ -204,7 +201,6 @@ void change_device_orientation()
 {
   switch (Settings.device_orientation())
   {
-  case device_orientation_default:
   case device_orientation_normal:
     Settings.device_orientation(device_orientation_upside_down);
     Menu.editItemLabel(3, "画面の向き: 上下反転");
@@ -279,7 +275,6 @@ void init_menu()
 {
   switch (Settings.input_method())
   {
-  case input_method_default:
   case input_method_kana:
     Menu.addItem("入力方法: かな", change_input_method);
     break;
@@ -290,7 +285,6 @@ void init_menu()
 
   switch (Settings.keyboard_layout())
   {
-  case keyboard_layout_default:
   case keyboard_layout_jis:
     Menu.addItem("レイアウト: 日本語配列", change_keyboard_layout);
     break;
@@ -301,7 +295,6 @@ void init_menu()
 
   switch (Settings.platform_os())
   {
-  case platform_os_default:
   case platform_os_win:
     Menu.addItem("OS: Windows", change_platform_os);
     break;
@@ -312,7 +305,6 @@ void init_menu()
 
   switch (Settings.device_orientation())
   {
-  case device_orientation_default:
   case device_orientation_normal:
     Menu.addItem("画面の向き: 通常", change_device_orientation);
     break;

@@ -3,33 +3,30 @@
 #pragma once
 #include <nvs.h>
 #include <esp_log.h>
+#include <algorithm>
 
 #define SETTINGS_TAG "SETTINGS"
 
 enum input_method_t
 {
-  input_method_default = 0,
   input_method_kana,
   input_method_roman,
 };
 
 enum keyboard_layout_t
 {
-  keyboard_layout_default = 0,
   keyboard_layout_jis,
   keyboard_layout_us,
 };
 
 enum platform_os_t
 {
-  platform_os_default = 0,
   platform_os_win,
   platform_os_mac,
 };
 
 enum device_orientation_t
 {
-  device_orientation_default = 0,
   device_orientation_normal,
   device_orientation_upside_down,
 };
@@ -39,11 +36,11 @@ namespace settings
   struct Settings
   {
   private:
-    int32_t method;
-    int32_t layout;
-    int32_t os;
-    int32_t orientation;
-    int32_t save(const char *key, int32_t value)
+    uint8_t method;
+    uint8_t layout;
+    uint8_t os;
+    uint8_t orientation;
+    uint8_t save(const char *key, uint8_t value)
     {
       nvs_handle_t handle;
       esp_err_t err;
@@ -56,7 +53,7 @@ namespace settings
         return 0;
       }
 
-      err = nvs_set_i32(handle, key, value);
+      err = nvs_set_u8(handle, key, value);
       if (err != ESP_OK)
       {
         ESP_LOGE(SETTINGS_TAG, "Set %s nvs value failed: %d", key, err);
@@ -65,8 +62,79 @@ namespace settings
       }
       ESP_LOGD(SETTINGS_TAG, "Set %s nvs value completed: %d", key, value);
 
+      nvs_commit(handle);
       nvs_close(handle);
       return value;
+    }
+
+    void get_value(nvs_handle_t handle, const char *key, int32_t *value)
+    {
+      esp_err_t err = nvs_get_i32(handle, key, value);
+      if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND)
+      {
+        ESP_LOGE(SETTINGS_TAG, "Get %s nvs value failed: %d", key, err);
+      }
+    }
+
+    void get_value(nvs_handle_t handle, const char *key, uint8_t *value)
+    {
+      esp_err_t err = nvs_get_u8(handle, key, value);
+      if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND)
+      {
+        ESP_LOGE(SETTINGS_TAG, "Get %s nvs value failed: %d", key, err);
+      }
+    }
+
+    void migrate(nvs_handle_t *handle, uint32_t version)
+    {
+      if (version != 1)
+      {
+        std::vector<std::string> keys{
+            "input_method",
+            "keyboard_layout",
+            "platform_os",
+            "orientation",
+        };
+        int32_t value;
+        esp_err_t err;
+
+        nvs_close(*handle);
+        err = nvs_open("settings", NVS_READWRITE, handle);
+        if (err != ESP_OK)
+        {
+          ESP_LOGE(SETTINGS_TAG, "nvs_open failed: %d", err);
+          nvs_close(*handle);
+          return;
+        }
+        for (auto &key : keys)
+        {
+          err = nvs_get_i32(*handle, key.c_str(), &value);
+          if (err != ESP_OK)
+          {
+            ESP_LOGE(SETTINGS_TAG, "Old %s nvs value is not available: %d", key.c_str(), err);
+            continue;
+          }
+          nvs_erase_key(*handle, key.c_str());
+          err = nvs_set_u8(*handle, key.c_str(), static_cast<uint8_t>(value - 1));
+          if (err != ESP_OK)
+          {
+            ESP_LOGE(SETTINGS_TAG, "Set new %s nvs value failed: %d", key.c_str(), err);
+            nvs_close(*handle);
+            return;
+          }
+        }
+
+        err = nvs_set_i32(*handle, "config_version", 1);
+        if (err != ESP_OK)
+        {
+          ESP_LOGE(SETTINGS_TAG, "Set config_version failed: %d", err);
+          nvs_close(*handle);
+          return;
+        }
+
+        nvs_commit(*handle);
+        ESP_LOGI(SETTINGS_TAG, "Migrate settings completed: %d", value);
+      }
     }
 
   public:
@@ -74,11 +142,7 @@ namespace settings
     {
       esp_err_t err;
       nvs_handle_t handle;
-
-      method = input_method_default;
-      layout = keyboard_layout_default;
-      os = platform_os_default;
-      orientation = device_orientation_default;
+      int32_t version;
 
       err = nvs_open("settings", NVS_READONLY, &handle);
       if (err != ESP_OK)
@@ -88,29 +152,13 @@ namespace settings
         return;
       }
 
-      err = nvs_get_i32(handle, "input_method", &method);
-      if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND)
-      {
-        ESP_LOGE(SETTINGS_TAG, "Get input_method nvs value failed: %d", err);
-      }
+      get_value(handle, "config_version", &version);
+      migrate(&handle, version);
 
-      err = nvs_get_i32(handle, "keyboard_layout", &layout);
-      if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND)
-      {
-        ESP_LOGE(SETTINGS_TAG, "Get keyboard_layout nvs value failed: %d", err);
-      }
-
-      err = nvs_get_i32(handle, "platform_os", &os);
-      if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND)
-      {
-        ESP_LOGE(SETTINGS_TAG, "Get platform_os nvs value failed: %d", err);
-      }
-
-      err = nvs_get_i32(handle, "orientation", &orientation);
-      if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND)
-      {
-        ESP_LOGE(SETTINGS_TAG, "Get orientation nvs value failed: %d", err);
-      }
+      get_value(handle, "input_method", &method);
+      get_value(handle, "keyboard_layout", &layout);
+      get_value(handle, "platform_os", &os);
+      get_value(handle, "orientation", &orientation);
       ESP_LOGI(SETTINGS_TAG, "Load nvs values finished");
 
       nvs_close(handle);
