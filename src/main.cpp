@@ -146,7 +146,6 @@ void shutdown()
 
 void change_input_method()
 {
-  Menu.close();
   switch (Settings.input_method())
   {
   case input_method_default:
@@ -160,12 +159,10 @@ void change_input_method()
     break;
   }
   Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
-  Menu.open();
 }
 
 void change_keyboard_layout()
 {
-  Menu.close();
   switch (Settings.keyboard_layout())
   {
   case keyboard_layout_default:
@@ -179,12 +176,10 @@ void change_keyboard_layout()
     break;
   }
   Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
-  Menu.open();
 }
 
 void change_platform_os()
 {
-  Menu.close();
   switch (Settings.platform_os())
   {
   case platform_os_default:
@@ -198,7 +193,6 @@ void change_platform_os()
     break;
   }
   Keyboard.set_input_method(Settings.input_method(), Settings.keyboard_layout(), Settings.platform_os());
-  Menu.open();
 }
 
 void refresh_display()

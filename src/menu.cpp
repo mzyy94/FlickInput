@@ -111,6 +111,8 @@ namespace menu
     if (index < labels.size())
     {
       labels[index] = std::string(text);
+      drawItems();
+      drawCursor();
     }
   }
 
