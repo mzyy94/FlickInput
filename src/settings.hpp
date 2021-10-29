@@ -27,6 +27,13 @@ enum platform_os_t
   platform_os_mac,
 };
 
+enum device_orientation_t
+{
+  device_orientation_default = 0,
+  device_orientation_normal,
+  device_orientation_upside_down,
+};
+
 namespace settings
 {
   struct Settings
@@ -35,6 +42,7 @@ namespace settings
     int32_t method;
     int32_t layout;
     int32_t os;
+    int32_t orientation;
     int32_t save(const char *key, int32_t value)
     {
       nvs_handle_t handle;
@@ -70,6 +78,7 @@ namespace settings
       method = input_method_default;
       layout = keyboard_layout_default;
       os = platform_os_default;
+      orientation = device_orientation_default;
 
       err = nvs_open("settings", NVS_READONLY, &handle);
       if (err != ESP_OK)
@@ -96,6 +105,12 @@ namespace settings
       {
         ESP_LOGE(SETTINGS_TAG, "Get platform_os nvs value failed: %d", err);
       }
+
+      err = nvs_get_i32(handle, "orientation", &orientation);
+      if (err != ESP_OK && err != ESP_ERR_NVS_NOT_FOUND)
+      {
+        ESP_LOGE(SETTINGS_TAG, "Get orientation nvs value failed: %d", err);
+      }
       ESP_LOGI(SETTINGS_TAG, "Load nvs values finished");
 
       nvs_close(handle);
@@ -109,5 +124,8 @@ namespace settings
 
     void platform_os(platform_os_t new_os) { os = save("platform_os", new_os); };
     platform_os_t platform_os() { return static_cast<platform_os_t>(os); };
+
+    void device_orientation(device_orientation_t new_orientation) { orientation = save("orientation", new_orientation); };
+    device_orientation_t device_orientation() { return static_cast<device_orientation_t>(orientation); };
   };
 }
