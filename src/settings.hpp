@@ -31,6 +31,16 @@ enum device_orientation_t
   device_orientation_upside_down,
 };
 
+enum sleep_timer_t
+{
+  sleep_timer_none,
+  sleep_timer_5min,
+  sleep_timer_10min,
+  sleep_timer_15min,
+  sleep_timer_30min,
+  sleep_timer_60min,
+};
+
 namespace settings
 {
   struct Settings
@@ -41,6 +51,7 @@ namespace settings
     uint8_t os;
     uint8_t orientation;
     uint8_t developer;
+    uint8_t sleep;
     uint8_t save(const char *key, uint8_t value)
     {
       nvs_handle_t handle;
@@ -161,6 +172,7 @@ namespace settings
       get_value(handle, "platform_os", &os);
       get_value(handle, "orientation", &orientation);
       get_value(handle, "developer_mode", &developer);
+      get_value(handle, "sleep_timer", &sleep);
       ESP_LOGI(SETTINGS_TAG, "Load nvs values finished");
 
       nvs_close(handle);
@@ -184,5 +196,26 @@ namespace settings
 
     void developer_mode(bool enable) { developer = save("developer_mode", enable ? 1 : 0); };
     bool developer_mode() { return static_cast<bool>(developer); };
+
+    void sleep_timer(sleep_timer_t new_sleep) { sleep = save("sleep_timer", new_sleep); };
+    sleep_timer_t sleep_timer() { return static_cast<sleep_timer_t>(sleep); };
+    const char *sleep_timer_label()
+    {
+      switch (sleep)
+      {
+      case sleep_timer_none:
+        return "自動スリープ: なし";
+      case sleep_timer_5min:
+        return "自動スリープ: 5分後";
+      case sleep_timer_10min:
+        return "自動スリープ: 10分後";
+      case sleep_timer_15min:
+        return "自動スリープ: 5分後";
+      case sleep_timer_30min:
+        return "自動スリープ: 30分後";
+      case sleep_timer_60min:
+        return "自動スリープ: 1時間後";
+      }
+    };
   };
 }
