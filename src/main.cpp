@@ -178,6 +178,17 @@ void change_device_orientation()
   needs_restart = !needs_restart;
 }
 
+void change_sleep_timer()
+{
+  auto new_setting = Settings.sleep_timer() + 1;
+  if (new_setting >= sleep_timer_max)
+  {
+    new_setting = sleep_timer_none;
+  }
+  Settings.sleep_timer(static_cast<sleep_timer_t>(new_setting));
+  Menu.editItemLabel(4, Settings.sleep_timer_label());
+}
+
 void input_test()
 {
   Keyboard.input_test();
@@ -222,6 +233,7 @@ void init_menu()
   Menu.addItem(Settings.keyboard_layout_label(), change_keyboard_layout);
   Menu.addItem(Settings.platform_os_label(), change_platform_os);
   Menu.addItem(Settings.device_orientation_label(), change_device_orientation);
+  Menu.addItem(Settings.sleep_timer_label(), change_sleep_timer);
 
   if (Settings.developer_mode())
   {

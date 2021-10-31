@@ -39,6 +39,7 @@ enum sleep_timer_t
   sleep_timer_15min,
   sleep_timer_30min,
   sleep_timer_60min,
+  sleep_timer_max,
 };
 
 namespace settings
@@ -203,7 +204,7 @@ namespace settings
     {
       switch (sleep)
       {
-      case sleep_timer_none:
+      default:
         return "自動スリープ: なし";
       case sleep_timer_5min:
         return "自動スリープ: 5分後";
