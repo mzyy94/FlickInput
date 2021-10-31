@@ -3,6 +3,7 @@
 #include <M5Unified.h>
 #include <esp_log.h>
 #include <nvs_flash.h>
+#include <esp_sleep.h>
 
 #include "keyboard.hpp"
 #include "ble.hpp"
@@ -300,6 +301,12 @@ void update_battery_status(void * = nullptr)
 
 void main_task(void *)
 {
+  // -1. Restart when device woke up from deep sleep to avoid e-paper rendering issue
+  if (esp_sleep_get_wakeup_cause() == ESP_SLEEP_WAKEUP_EXT0)
+  {
+    esp_restart();
+  }
+
   // 0. Initialize device
   M5.begin();
   init_nvs();
