@@ -31,15 +31,15 @@ enum device_orientation_t
   device_orientation_upside_down,
 };
 
-enum sleep_timer_t
+enum poweroff_timer_t
 {
-  sleep_timer_none,
-  sleep_timer_5min,
-  sleep_timer_10min,
-  sleep_timer_15min,
-  sleep_timer_30min,
-  sleep_timer_60min,
-  sleep_timer_max,
+  poweroff_timer_none,
+  poweroff_timer_5min,
+  poweroff_timer_10min,
+  poweroff_timer_15min,
+  poweroff_timer_30min,
+  poweroff_timer_60min,
+  poweroff_timer_max,
 };
 
 namespace settings
@@ -52,7 +52,7 @@ namespace settings
     uint8_t os;
     uint8_t orientation;
     uint8_t developer;
-    uint8_t sleep;
+    uint8_t poweroff;
     uint8_t save(const char *key, uint8_t value)
     {
       nvs_handle_t handle;
@@ -173,7 +173,7 @@ namespace settings
       get_value(handle, "platform_os", &os);
       get_value(handle, "orientation", &orientation);
       get_value(handle, "developer_mode", &developer);
-      get_value(handle, "sleep_timer", &sleep);
+      get_value(handle, "poweroff_timer", &poweroff);
       ESP_LOGI(SETTINGS_TAG, "Load nvs values finished");
 
       nvs_close(handle);
@@ -198,24 +198,24 @@ namespace settings
     void developer_mode(bool enable) { developer = save("developer_mode", enable ? 1 : 0); };
     bool developer_mode() { return static_cast<bool>(developer); };
 
-    void sleep_timer(sleep_timer_t new_sleep) { sleep = save("sleep_timer", new_sleep); };
-    sleep_timer_t sleep_timer() { return static_cast<sleep_timer_t>(sleep); };
-    const char *sleep_timer_label()
+    void poweroff_timer(poweroff_timer_t new_poweroff) { poweroff = save("poweroff_timer", new_poweroff); };
+    poweroff_timer_t poweroff_timer() { return static_cast<poweroff_timer_t>(poweroff); };
+    const char *poweroff_timer_label()
     {
-      switch (sleep)
+      switch (poweroff)
       {
       default:
-        return "自動スリープ: なし";
-      case sleep_timer_5min:
-        return "自動スリープ: 5分後";
-      case sleep_timer_10min:
-        return "自動スリープ: 10分後";
-      case sleep_timer_15min:
-        return "自動スリープ: 5分後";
-      case sleep_timer_30min:
-        return "自動スリープ: 30分後";
-      case sleep_timer_60min:
-        return "自動スリープ: 1時間後";
+        return "自動電源オフ: なし";
+      case poweroff_timer_5min:
+        return "自動電源オフ: 5分後";
+      case poweroff_timer_10min:
+        return "自動電源オフ: 10分後";
+      case poweroff_timer_15min:
+        return "自動電源オフ: 15分後";
+      case poweroff_timer_30min:
+        return "自動電源オフ: 30分後";
+      case poweroff_timer_60min:
+        return "自動電源オフ: 1時間後";
       }
     };
   };

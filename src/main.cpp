@@ -3,7 +3,6 @@
 #include <M5Unified.h>
 #include <esp_log.h>
 #include <nvs_flash.h>
-#include <esp_sleep.h>
 
 #include "keyboard.hpp"
 #include "ble.hpp"
@@ -80,10 +79,12 @@ void touch_event_handler(void *, esp_event_base_t, int32_t event_id, void *event
   }
 }
 
-void sleep_counter(void *reset = nullptr, esp_event_base_t base = nullptr, int32_t event_id = 0, void *event_data = nullptr)
+void shutdown();
+
+void poweroff_counter(void *reset = nullptr, esp_event_base_t base = nullptr, int32_t event_id = 0, void *event_data = nullptr)
 {
   static uint64_t count = 0;
-  if (reset || Settings.sleep_timer() == sleep_timer_none)
+  if (reset || Settings.poweroff_timer() == poweroff_timer_none)
   {
     count = 0;
     return;
@@ -91,21 +92,21 @@ void sleep_counter(void *reset = nullptr, esp_event_base_t base = nullptr, int32
   count++;
 
   uint64_t limit = 0;
-  switch (Settings.sleep_timer())
+  switch (Settings.poweroff_timer())
   {
-  case sleep_timer_5min:
+  case poweroff_timer_5min:
     limit = 5 * 60 * 1000 / LOOP_INTERVAL;
     break;
-  case sleep_timer_10min:
+  case poweroff_timer_10min:
     limit = 10 * 60 * 1000 / LOOP_INTERVAL;
     break;
-  case sleep_timer_15min:
+  case poweroff_timer_15min:
     limit = 15 * 60 * 1000 / LOOP_INTERVAL;
     break;
-  case sleep_timer_30min:
+  case poweroff_timer_30min:
     limit = 30 * 60 * 1000 / LOOP_INTERVAL;
     break;
-  case sleep_timer_60min:
+  case poweroff_timer_60min:
     limit = 60 * 60 * 1000 / LOOP_INTERVAL;
     break;
   default:
@@ -114,8 +115,7 @@ void sleep_counter(void *reset = nullptr, esp_event_base_t base = nullptr, int32
   }
   if (count > limit)
   {
-    ESP_LOGI(MAIN_TAG, "Enter deepSleep...");
-    M5.Power.deepSleep();
+    shutdown();
   }
 }
 
@@ -155,14 +155,14 @@ void unregister_touch_events()
   ESP_LOGI(MAIN_TAG, "Touch events unregistered");
 }
 
-void register_sleep_timer_events()
+void register_poweroff_timer_events()
 {
   bool reset = true;
-  register_touch_all(sleep_counter, reinterpret_cast<void *>(reset));
-  register_button_pressed(A, sleep_counter, reinterpret_cast<void *>(reset));
-  register_button_pressed(B, sleep_counter, reinterpret_cast<void *>(reset));
-  register_button_pressed(C, sleep_counter, reinterpret_cast<void *>(reset));
-  ESP_LOGI(MAIN_TAG, "Sleep timer events registered");
+  register_touch_all(poweroff_counter, reinterpret_cast<void *>(reset));
+  register_button_pressed(A, poweroff_counter, reinterpret_cast<void *>(reset));
+  register_button_pressed(B, poweroff_counter, reinterpret_cast<void *>(reset));
+  register_button_pressed(C, poweroff_counter, reinterpret_cast<void *>(reset));
+  ESP_LOGI(MAIN_TAG, "Auto power-off timer events registered");
 }
 
 void register_status_update()
@@ -212,15 +212,15 @@ void change_device_orientation()
   needs_restart = !needs_restart;
 }
 
-void change_sleep_timer()
+void change_poweroff_timer()
 {
-  auto new_setting = Settings.sleep_timer() + 1;
-  if (new_setting >= sleep_timer_max)
+  auto new_setting = Settings.poweroff_timer() + 1;
+  if (new_setting >= poweroff_timer_max)
   {
-    new_setting = sleep_timer_none;
+    new_setting = poweroff_timer_none;
   }
-  Settings.sleep_timer(static_cast<sleep_timer_t>(new_setting));
-  Menu.editItemLabel(4, Settings.sleep_timer_label());
+  Settings.poweroff_timer(static_cast<poweroff_timer_t>(new_setting));
+  Menu.editItemLabel(4, Settings.poweroff_timer_label());
 }
 
 void input_test()
@@ -266,7 +266,7 @@ void init_menu()
   Menu.addItem(Settings.keyboard_layout_label(), change_keyboard_layout);
   Menu.addItem(Settings.platform_os_label(), change_platform_os);
   Menu.addItem(Settings.device_orientation_label(), change_device_orientation);
-  Menu.addItem(Settings.sleep_timer_label(), change_sleep_timer);
+  Menu.addItem(Settings.poweroff_timer_label(), change_poweroff_timer);
 
   if (Settings.developer_mode())
   {
@@ -287,7 +287,7 @@ void register_events()
   register_side_button_events();
   register_status_update();
   register_touch_events();
-  register_sleep_timer_events();
+  register_poweroff_timer_events();
 }
 
 void update_battery_status(void * = nullptr)
@@ -301,12 +301,6 @@ void update_battery_status(void * = nullptr)
 
 void main_task(void *)
 {
-  // -1. Restart when device woke up from deep sleep to avoid e-paper rendering issue
-  if (esp_sleep_get_wakeup_cause() == ESP_SLEEP_WAKEUP_EXT0)
-  {
-    esp_restart();
-  }
-
   // 0. Initialize device
   M5.begin();
   init_nvs();
@@ -342,7 +336,7 @@ void main_task(void *)
     M5.update();
     update_device_event();
     update_display();
-    sleep_counter();
+    poweroff_counter();
   }
   vTaskDelete(nullptr);
 }
