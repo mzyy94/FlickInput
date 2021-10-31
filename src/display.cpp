@@ -109,3 +109,16 @@ void update_display()
   M5.Display.endWrite();
   M5.Display.waitDisplay();
 }
+
+void draw_standby_display()
+{
+  bool connected = false;
+  M5.Display.startWrite();
+  M5.Display.clearDisplay(TFT_WHITE);
+  draw_statusbar(nullptr, nullptr, STATUS_EVENT_UPDATE_BLE_STATE, reinterpret_cast<void *>(&connected));
+  draw_statusbar();
+  draw_logo(true);
+  Keyboard.draw();
+  M5.Display.endWrite();
+  M5.Display.waitDisplay();
+}

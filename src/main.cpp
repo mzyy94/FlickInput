@@ -173,13 +173,7 @@ void register_status_update()
 
 void shutdown()
 {
-  M5.Display.startWrite();
-  M5.Display.clearDisplay(TFT_WHITE);
-  draw_statusbar();
-  draw_logo(true);
-  Keyboard.draw();
-  M5.Display.endWrite();
-  M5.Display.waitDisplay();
+  draw_standby_display();
   ESP_LOGI(MAIN_TAG, "Shutting down...");
   M5.Power.powerOff();
 }
