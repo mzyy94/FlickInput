@@ -107,4 +107,5 @@ void update_display()
   }
 
   M5.Display.endWrite();
+  M5.Display.waitDisplay();
 }

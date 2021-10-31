@@ -152,6 +152,7 @@ struct key_button
     M5.Display.fillRect(x, y, w, h, TFT_DARKGRAY);
     M5.Display.drawCenterString(keys[0].text.c_str(), x + (w / 2), y + (h / 2) - 12, &fonts::lgfxJapanGothicP_24);
     M5.Display.endWrite();
+    M5.Display.waitDisplay();
   }
 
   bool contains(int x, int y)

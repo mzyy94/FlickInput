@@ -90,6 +90,7 @@ namespace kbd
     M5.Display.fillRect(x - 270, y - 100, M5.Display.width(), 200, TFT_WHITE);
     M5.Display.drawCenterString(text.c_str(), x, y, &fonts::lgfxJapanGothicP_40);
     M5.Display.endWrite();
+    M5.Display.waitDisplay();
   }
 
   void Keyboard::input_key_button(direction_t dir, bool draw_text)

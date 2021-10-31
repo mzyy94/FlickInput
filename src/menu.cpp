@@ -138,6 +138,7 @@ namespace menu
     drawItems();
     drawCursor();
     M5.Display.endWrite();
+    M5.Display.waitDisplay();
 
     // Wait to set active state until rendering completed
     dispatch_after(100, set_active, this);
