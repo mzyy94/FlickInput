@@ -12,6 +12,7 @@
 #include "settings.hpp"
 
 #define MAIN_TAG "MAIN"
+#define LOOP_INTERVAL 20
 
 settings::Settings Settings;
 bool needs_restart = false;
@@ -36,16 +37,13 @@ void init_nvs()
   ESP_ERROR_CHECK(ret);
 }
 
-void register_side_button_events();
 void unregister_side_button_events();
-void register_touch_void_events();
 void unregister_touch_events();
 
 void open_menu_handler(void *, esp_event_base_t, int32_t, void *)
 {
   unregister_side_button_events();
   unregister_touch_events();
-  register_touch_void_events();
   Menu.open();
 }
 
@@ -78,6 +76,45 @@ void touch_event_handler(void *, esp_event_base_t, int32_t event_id, void *event
     return Keyboard.hold_begin(t);
   case TOUCH_EVENT_FLICK_END:
     return Keyboard.flick_end(t);
+  }
+}
+
+void sleep_counter(void *reset = nullptr, esp_event_base_t base = nullptr, int32_t event_id = 0, void *event_data = nullptr)
+{
+  static uint64_t count = 0;
+  if (reset || Settings.sleep_timer() == sleep_timer_none)
+  {
+    count = 0;
+    return;
+  }
+  count++;
+
+  uint64_t limit = 0;
+  switch (Settings.sleep_timer())
+  {
+  case sleep_timer_5min:
+    limit = 5 * 60 * 1000 / LOOP_INTERVAL;
+    break;
+  case sleep_timer_10min:
+    limit = 10 * 60 * 1000 / LOOP_INTERVAL;
+    break;
+  case sleep_timer_15min:
+    limit = 15 * 60 * 1000 / LOOP_INTERVAL;
+    break;
+  case sleep_timer_30min:
+    limit = 30 * 60 * 1000 / LOOP_INTERVAL;
+    break;
+  case sleep_timer_60min:
+    limit = 60 * 60 * 1000 / LOOP_INTERVAL;
+    break;
+  default:
+    count = 0;
+    return;
+  }
+  if (count > limit)
+  {
+    ESP_LOGI(MAIN_TAG, "Enter deepSleep...");
+    M5.Power.deepSleep();
   }
 }
 
@@ -117,18 +154,14 @@ void unregister_touch_events()
   ESP_LOGI(MAIN_TAG, "Touch events unregistered");
 }
 
-void void_event_callback(void *, esp_event_base_t, int32_t, void *) {}
-
-void register_touch_void_events()
+void register_sleep_timer_events()
 {
-  register_touch_all(void_event_callback, nullptr);
-  ESP_LOGI(MAIN_TAG, "Touch void events registered");
-}
-
-void unregister_touch_void_events()
-{
-  unregister_touch_all(void_event_callback);
-  ESP_LOGI(MAIN_TAG, "Touch void events unregistered");
+  bool reset = true;
+  register_touch_all(sleep_counter, reinterpret_cast<void *>(reset));
+  register_button_pressed(A, sleep_counter, reinterpret_cast<void *>(reset));
+  register_button_pressed(B, sleep_counter, reinterpret_cast<void *>(reset));
+  register_button_pressed(C, sleep_counter, reinterpret_cast<void *>(reset));
+  ESP_LOGI(MAIN_TAG, "Sleep timer events registered");
 }
 
 void register_status_update()
@@ -218,7 +251,6 @@ void close_menu()
   }
   Menu.close();
   register_side_button_events();
-  unregister_touch_void_events();
   register_touch_events();
 
   Keyboard.draw_layout();
@@ -254,6 +286,7 @@ void register_events()
   register_side_button_events();
   register_status_update();
   register_touch_events();
+  register_sleep_timer_events();
 }
 
 void update_battery_status(void * = nullptr)
@@ -297,11 +330,12 @@ void main_task(void *)
 
   for (;;)
   {
-    vTaskDelay(20 / portTICK_RATE_MS);
+    vTaskDelay(LOOP_INTERVAL / portTICK_RATE_MS);
 
     M5.update();
     update_device_event();
     update_display();
+    sleep_counter();
   }
   vTaskDelete(nullptr);
 }
