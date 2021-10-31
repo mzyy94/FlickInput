@@ -39,7 +39,7 @@ namespace menu
   }
 
   Menu::Menu()
-      : width(480), line_height(48), opened(false), active(false)
+      : width(480), line_height(48), active(false)
   {
   }
 
@@ -128,7 +128,6 @@ namespace menu
   void Menu::open()
   {
     registerCursorMove();
-    opened = true;
     cursor_index = 0;
     xEventGroupSetBits(event_group, EVENT_BIT_DRAW_MENU);
   }
@@ -148,7 +147,6 @@ namespace menu
   {
     unregisterCursorMove();
     active = false;
-    opened = false;
     cursor_index = 0;
   }
 

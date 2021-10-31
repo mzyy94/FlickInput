@@ -25,7 +25,6 @@ namespace menu
   public:
     Menu();
 
-    bool opened;
     bool active;
 
     void open();

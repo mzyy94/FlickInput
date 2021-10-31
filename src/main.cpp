@@ -204,16 +204,14 @@ void close_menu()
     esp_restart();
     return;
   }
-  if (Menu.opened)
-  {
-    Menu.close();
-    register_side_button_events();
-    unregister_touch_void_events();
-    register_touch_events();
-  }
+  Menu.close();
+  register_side_button_events();
+  unregister_touch_void_events();
+  register_touch_events();
+
   Keyboard.draw_layout();
   xEventGroupSetBits(event_group, EVENT_BIT_CLEAR_DISPLAY | EVENT_BIT_DRAW_STATUSBAR | EVENT_BIT_DRAW_KEYBOARD);
-  ESP_LOGI(MAIN_TAG, "Display refresh");
+  ESP_LOGI(MAIN_TAG, "Menu closed");
 }
 
 void init_menu()
