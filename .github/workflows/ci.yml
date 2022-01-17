@@ -1,6 +1,13 @@
 name: PlatformIO CI
 
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - ".vscode/**"
+      - "**.md"
+      - "**.png"
+      - .gitattributes
+      - .gitignore
 
 jobs:
   build:
